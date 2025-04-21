@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Календарь</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="./css/styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+</head>
+<body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script
+        src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+        crossorigin="anonymous"></script>
+<script type="text/javascript" src="/js/vars.js"></script>
+<script type="text/javascript" src="/js/irregular.js"></script>
+<div class="container-fluid">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-12 col-lg-10">
+            <div class="row justify-content-center">
+                <h4 class="text-center mb-4">Регулярные поставки:</h4>
+            </div>
+            <div class="row align-items-center justify-content-start" id="header">
+                <div class="col-2">
+                    <h4>Вид набора</h4>
+                </div>
+                <div class="col text-center">
+                    <h4 class="text-center"><i class="bi bi-chevron-double-left" onclick="changeDay(-7)"></i><i class="bi bi-chevron-left" onclick="changeDay(-1)"></i><span id="months"></span><i class="bi bi-chevron-right" onclick="changeDay(+1)"></i><i class="bi bi-chevron-double-right" onclick="changeDay(+7)"></i></h4>
+                </div>
+                <div id="cabinet" class="col-2 text-center">
+                    <h5 id="name"></h5>
+                    <button type="button" id="btnLogout" class="btn btn-danger">Выйти</button>
+                </div>
+                <div id="login" class="col-2 text-center hide">
+                    <button type="button" onclick="window.location.href = '/login';" class="btn btn-danger">Авторизоваться</button>
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-3 d-flex flex-column justify-content-center table-header">
+                    <h5>Продуктовый набор</h5>
+                </div>
+                <div class="col table-buttons" id="product">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-3 d-flex flex-column justify-content-center table-header">
+                    <h5>Гигиенический набор</h5>
+                </div>
+                <div class="col table-buttons" id="gigiena">
+                </div>
+            </div>
+            <div class="row align-items-start justify-content-start mt-4 mb-4">
+                <div class="col-4">
+                    <div class="col-12" id="needs-list">
+
+                    </div>
+                    <div id="match-deliver-block" class="col-12 mt-4 hide">
+                        <div class="col-12 mb-4">
+                            <button class="btn" onclick="showMatch()">Подобрать поставку</button>
+                        </div>
+                        <div class="col-12 hide" id="match-deliver">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="rdbType" id="rdbCost" value="cost" checked>
+                                <label class="form-check-label" for="rdbCost">
+                                    По сумме (руб.)
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="rdbType" id="rdbTruck" value="truck">
+                                <label class="form-check-label" for="rdbTruck">
+                                    По количеству фур
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="rdbType" id="rdbGazzeles" value="gazzel">
+                                <label class="form-check-label" for="rdbGazzeles">
+                                    По количеству газелей
+                                </label>
+                            </div>
+                            <div class="col-6 mt-2 mb-3">
+                                <input type="number" class="form-control notes note" id="txtQuantity" placeholder="Введите количество">
+                            </div>
+                            <div class="col-12">
+                                <button class="btn" onclick="matchDeliver()">Рассчитать</button>
+                            </div>
+                            <div class="col-12" id="match-result">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4" id="delivers-list">
+
+                </div>
+                <div class="col-4" id="donors-list">
+
+                </div>
+            </div>
+            <div class="row align-items-center justify-content-center">
+                <div class="col hide">
+                    <p class="text-left">В случае поставки 1 или более номенклатурных позиций бочеем чем на 1 неделю вперед просьба согласовать состав поставки по телефонам:</p>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <h4 class="text-center mb-4">Нерегулярные поставки:</h4>
+            </div>
+
+            <ul class="nav nav-pills justify-content-center">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="#" id="child" onclick="showTab(this);">Детские товары</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" id="things" onclick="showTab(this);">Вещи</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" id="healthcare" onclick="showTab(this);">Здравоохранение</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" id="gkh" onclick="showTab(this);">ЖКХ и ТЭК</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" id="building" onclick="showTab(this);">Строительство</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" id="lumber" onclick="showTab(this);">Пиломатериалы</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" id="others" onclick="showTab(this);">Другое</a>
+                </li>
+            </ul>
+
+            <div class="row justify-content-center mt-4 mb-4" id="tab-body">
+            </div>
+
+        </div>
+    </div>
+</div>
+<script>
+
+    const monthNames = [
+        "Январь", "Февраль", "Март", "Апрель", "Май", "Июнь",
+        "Июль", "Август", "Сентябрь", "Октябрь", "Ноябрь", "Декабрь"
+    ];
+
+    /*const product = new Map([
+        ['flour', 'Мука'],
+        ['meat', 'Конcервы мясные'],
+        ['fish', 'Конcервы рыбные'],
+        ['sweet', 'Консервы сладкие'],
+        ['vegetable', 'Конcервы овощные'],
+        ['groats', 'Крупы'],
+        ['sugar', 'Сахар'],
+        ['pasta', 'Макароны'],
+        ['candy', 'Кондитерка'],
+        ['fastfood', 'Быстрое питание'],
+        ['tea', 'Чай'],
+        ['oil', 'Масло растительное']
+    ]);
+
+    const gigiena = new Map([
+        ['toilet', 'Туалетная бумага'],
+        ['toothbrush', 'Зубная щетка'],
+        ['wipe', 'Влажные салфетки'],
+        ['napkins', 'Средства женской гигиены'],
+        ['shampoo', 'Шампуни/гели'],
+        ['toothpaste', 'Зубная паста'],
+        ['soap', 'Мыло кусковое'],
+        ['razor', 'Бритвенные станки'],
+    ]);
+
+    const types = new Map([
+        ['product', product],
+        ['gigiena', gigiena]
+    ]);*/
+
+    //var begin_day = new Date('2024-10-18');
+    var begin_day = new Date();
+    var open_day;
+
+    $(document).ready(function() {
+
+        getCalendar('product');
+        getCalendar('gigiena');
+        let child = document.getElementById('child');
+        showTab(child);
+
+        $.ajax({
+            type: "POST",
+            url: "/api/sets-api.php",
+            data: {
+                api:"user", act:"auth_check",
+            },
+            xhrFields: {
+                withCredentials: true
+            },
+        }).done(function( result )
+        {
+            //console.log(result);
+            if(result.status=="ok") {
+                $('#cabinet').removeClass('hide');
+                $('#login').addClass('hide');
+                $.ajax({
+                    type: "POST",
+                    url: "./api/sets-api.php",
+                    data: {
+                        api: "user", act: "get_info", userid:result.message
+                    },
+                    xhrFields: {
+                        withCredentials: true
+                    },
+                }).done(function (result) {
+                    //console.log(result);
+                    $('#name').empty();
+                    var name;
+                    if(result.data.response.shortname) {
+                        name = result.data.response.shortname;
+                    } else {
+                        name = result.data.response.contactFio;
+                    }
+                    $('#name').append(name);
+                });
+            } else {
+                $('#cabinet').addClass('hide');
+                $('#login').removeClass('hide');
+            }
+        });
+    });
+
+    document.getElementById("btnLogout").addEventListener('click', e=>{
+        $.ajax({
+            type: "POST",
+            url: "./api/sets-api.php",
+            xhrFields: {
+                withCredentials: true
+            },
+            data: {
+                api:"user", act:"logout"
+            }
+        }).done(function( result )
+        {
+            //console.log(result);
+            if(result.status==="ok") {
+                document.location.href="/login";
+            } else {
+                alert(result.message);
+            }
+        });
+
+    })
+
+    var today = new Date();
+    for (let i = 0; i < 18; i++) {
+        //$("#test").append('<div class="col"><button type="button" class="btn btn-success">'+ i + '</button></div>');
+        let day = addDays(today, i);
+        //let id = day.getDate() + "." + (day.getMonth() + 1);
+        let id = day.toISOString().split('T')[0]
+        //console.log(id);
+        /*if (i>6 && i<12) {
+            $("#product").append('<button type="button" class="btn btn-success" onclick="openDay(this)" id="product|' + id + '"   style="margin:0; width:5.55%; background-color:green;">'+ day.getDate() + '</button>');
+        } else {
+            $("#product").append('<button type="button" class="btn btn-success" onclick="openDay(this)" id="product|' + id + '"   style="margin:0; width:5.55%">'+ day.getDate() + '</button>');
+        }*/
+
+        /*if (i>4 && i<10) {
+            $("#gigiena").append('<button type="button" class="btn btn-success" onclick="openDay(this)" id="gigiena|' + id + '"   style="margin:0; width:5.55%;">'+ day.getDate() + '</button>');
+        } else {
+            $("#gigiena").append('<button type="button" class="btn btn-success" onclick="openDay(this)" id="gigiena|' + id + '"   style="margin:0; width:5.55%">'+ day.getDate() + '</button>');
+        }*/
+    }
+
+    function addDays(date, days) {
+        var result = new Date(date);
+        result.setDate(result.getDate() + days);
+        return result;
+    }
+
+    function openDay(btn) {
+        let id = btn.id.split("|");
+        open_day = id[1];
+        let type = id[0];
+        $.ajax({
+            type: "POST",
+            url: "/api/sets-api.php",
+            xhrFields: {
+                withCredentials: true
+            },
+            data: {
+                api:"donor", act:"get_remain_for_day", date:id[1], type:type
+            }
+        }).done(function( result )
+        {
+            //console.log(result);
+            if(result.status==="ok") {
+                $('#needs-list').empty();
+                $('#needs-list').append("<div class='col-12'><h4>Незакрытая потребность на "+ id[1] +":</h4></div>");
+                types.get(type).forEach(function(value, key) {
+                    //let remain_str = Number(result.data.response[key])>0 ? result.data.response[key] : 0;
+                    let remain_str = result.data.response[key];
+                    $('#needs-list').append("<div class='col-12'><h5>"+ value + " - " + remain_str +"</h5></div>");
+                });
+                $('#needs-list').append('<div class="col-12"><button class="btn" onclick="window.location.href=\'/lk?date='+ id[1] + '\'">Добавить поставку</button></div>');
+                $('#match-deliver-block').removeClass('hide');
+            }
+        });
+        $.ajax({
+            type: "POST",
+            url: "/api/sets-api.php",
+            data: {
+                act:"get_delivers_list", api:"donor", date:id[1]
+            },
+            xhrFields: {
+                withCredentials: true
+            }
+        }).done(function( result )
+        {
+            console.log(result);
+            $('#delivers-list').empty();
+            $('#donors-list').empty();
+            if(result.status==="ok") {
+                var delivers = result.data.response;
+                var delivers_array = JSON.parse(delivers);
+                //console.log(delivers_array);
+                delivers_array.forEach(function(deliver, index) {
+                    if(types.get(deliver['type']).has(deliver['values'])) {
+                        if(!deliver['shortname']) {
+                            deliver['shortname'] = deliver['contactFio'];
+                        }
+                        deliver['values'] = types.get(deliver['type']).get(deliver['values']);
+                    }
+                });
+                //console.log(delivers_array);
+                let prev_index = 0;
+                $('#delivers-list').append('<h4>Список доставок на ' + id[1] + ':</h4>')
+                let donors = [];
+                delivers_array.forEach(function(deliver) {
+                    console.log(donors.indexOf(deliver.shortname));
+                    if(donors.indexOf(deliver.shortname)==-1) {
+                        donors.push(deliver.shortname);
+                    }
+                    if(deliver.deliverid!=prev_index) {
+                        $('#delivers-list').append('<h4 style="cursor:pointer" onclick="showDeliver('+ deliver.deliverid +');">Доставка № '+ deliver.deliverid +'</h4>')
+                        $('#delivers-list').append('<span class="hide" id="deliver' + deliver.deliverid + '"><h4>Поставщик: '+ deliver.shortname +'</h4></span>')
+                    }
+                    prev_index=deliver.deliverid;
+                    $('#deliver'+deliver.deliverid).append('<h5>' + deliver.values + " - " + deliver.quantity + '</h5>');
+                });
+                //console.log(donors);
+                if(donors.length) {
+                    $('#donors-list').append('<h4>Благотворители:</h4>');
+                    donors.forEach(function(donor) {
+                        $('#donors-list').append('<h5>' + donor +'</h5>');
+                    })
+                }
+                /*donors = result.data.response;
+                donors.forEach(function(donor, index) {
+                    $('#donors-list').append('<div onclick="openDonor(this)" id="donor' + index + '" class="col-12"><div class="col-12"><h5 style="cursor:pointer; color:blue">' + donor.form + ' ' + donor.details.split(/\r?\n/)[0] + '</h5></div></div>');
+                });*/
+            } else {
+                $('#delivers-list').append('<h4>Доставок на ' + id[1] + ' не ожидается</h4>')
+            }
+
+        });
+    }
+
+    function getCalendar(type) {
+        $.ajax({
+            type: "POST",
+            url: "/api/sets-api.php",
+            data: {
+                api:"donor", act:"get_calendar", type:type, date:begin_day.toISOString().split('T')[0]
+            },
+            xhrFields: {
+                withCredentials: true
+            },
+        }).done(function( result )
+        {
+            //console.log(result);
+            let months = monthNames[begin_day.getMonth()];
+            for (let i = 0; i < 18; i++) {
+                let day = addDays(begin_day, i);
+                let today = new Date();
+                day.setTime(day.getTime() + 24*60*1000);
+                if(day.getDate()==1 && begin_day.getDate()!=1) {
+                    months = months + "-" + monthNames[day.getMonth()];
+                }
+                let id = day.toISOString().split('T')[0];
+                var remains = result.data.response;
+                //console.log(Number(remains[id]));
+                if(Number(remains[id])<=0.5) {
+                    $("#" + type).append('<button type="button" class="btn btn-success" onclick="openDay(this)" id="'+ type +'|' + id + '"   style="margin:0; width:5.55%; background-color: green;">'+ day.getDate() + '</button>');
+                } else {
+                    $("#" + type).append('<button type="button" class="btn btn-success" onclick="openDay(this)" id="'+ type +'|' + id + '"   style="margin:0; width:5.55%;">' + day.getDate() + '</button>');
+                }
+            }
+            $('#months').empty();
+            $('#months').append(months);
+        });
+    }
+
+    function showDeliver(id)
+    {
+        if($('#deliver' + id).hasClass('hide')) {
+            $('#deliver' + id).removeClass('hide');
+        } else {
+            $('#deliver' + id).addClass('hide');
+        }
+    }
+
+    function changeDay(num) {
+        begin_day = addDays(begin_day, num);
+        $('#product').empty();
+        $('#gigiena').empty();
+        $('#needs-list').empty();
+        $('#delivers-list').empty();
+        $('#donors-list').empty();
+        getCalendar('product');
+        getCalendar('gigiena');
+    }
+
+    function showMatch() {
+        $('#match-deliver').removeClass('hide');
+    }
+
+    function matchDeliver() {
+        let quantity = $('#txtQuantity').val();
+        if(quantity!="") {
+            let type = $('input[name="rdbType"]:checked').val();
+            switch(type) {
+                case "cost":
+                    break;
+                case "gazzel":
+                    type = "pallet";
+                    quantity *= 4;
+                    break;
+                case "truck":
+                    type = "pallet";
+                    quantity *= 33;
+                    break;
+            }
+            $.ajax({
+                type: "POST",
+                url: "/api/sets-api.php",
+                data: {
+                    api:"donor", act:"match_deliver", type:type, quantity:quantity, date:open_day
+                },
+                xhrFields: {
+                    withCredentials: true
+                },
+            }).done(function( result ) {
+                //console.log(result);
+                if(result.status==="ok") {
+                    let matches = result.data.response;
+                    const keys = Object.keys(matches);
+                    $('#match-result').empty();
+                    $('#match-result').append('<h4 class="mt-3 mb-3">Результат подбора:</h4>');
+                    let get_str = "";
+                    let i=1;
+                    keys.forEach((key, index) => {
+                        $('#match-result').append('<h5>' + product.get(key) + " - " + matches[key] + '</h5>');
+                        get_str += "&value" + i + "=" + key + "&quant" + i + "=" + matches[key];
+                        i++;
+                    });
+                    $("#match-result").append('<button class="btn btn-success" onclick="window.location.href=\'/lk?'+ get_str + '\'">Оформить</button>');
+                    console.log(get_str);
+                }
+            });
+        } else {
+            alert('Введите предполагаемое количество!');
+        }
+    }
+
+    function showTab(el) {
+        let activeEl = document.querySelector('.active');
+        if(activeEl) {
+            activeEl.classList.remove('active');
+        }
+        $(el).addClass('active');
+        $('#tab-body').empty();
+        let html = `
+            <div class="col-4">
+                <div class="col d-flex flex-column justify-content-center lk-table-header high-header text-center" style="padding-left:10px">Наименование</div>
+            </div>
+            <div class="col-2">
+                <div class="col d-flex flex-column justify-content-center lk-table-header high-header text-center">Поставка</div>
+            </div>
+            <div class="col-2">
+                <div class="col d-flex flex-column justify-content-center lk-table-header high-header text-center">Потребность</div>
+            </div><div class="w-100 mb-2"></div>`;
+        $('#tab-body').append(html);
+        irregular_operator_check().then((x) => {
+            let disabled = 'disabled';
+            let button = '';
+            if (x) {
+                if (x === 'super' || x === el.id) {
+                    disabled = '';
+                    button = '<div class="col-4"></div><div class="col-2"></div><div class="col-2 text-center">' +
+                        '<button class="btn" onclick="saveNeedsChanges();">Сохранить</button></div><div class="w-100"></div>';
+                }
+            }
+            $.ajax({
+                type: "POST",
+                url: "/api/sets-api.php",
+                data: {
+                    api:"donor", act:"get_irregular_needs", type:el.id
+                },
+                xhrFields: {
+                    withCredentials: true
+                },
+            }).done(function( result ) {
+                if(result.data) {
+                    let needs = result.data.response;
+                    needs.forEach(function (item) {
+                        let html = `
+                        <div class="col-4">
+                            <div class="note lk-notes mb-2" id="div` + item.value + `">` + item.title + `</div>
+                        </div>
+                        <div class="col-2">
+                            <input type="number" class="form-control note lk-notes text-center" id="` + item.value + `">
+                        </div>
+                        <div class="col-2">
+                            <input type="number" class="form-control note lk-notes text-center" ` + disabled + ` value="` + item.total_need + `" id="need_` + item.value + `">
+                        </div>
+                        <div class="w-100"></div>`;
+                        $('#tab-body').append(html);
+                    });
+                    $('#tab-body').append(button);
+                    $('#tab-body').append('<div class="col-3 mt-4"><input type="date" class="form-control" id="txtDate"></div>');
+                    $('#tab-body').append('<div class="w-100"></div>');
+                    $('#tab-body').append('<div class="col-3 mt-4 text-center"><label class="form-label" for="txtContact"><h5>Контактный телефон:</h5></label><input type="text" class="form-control note lk-notes" id="txtContact"></div>');
+                    $('#tab-body').append('<div class="row justify-content-center mt-4 mb-4"><div class="col-4 text-center"><button class="btn" onclick="saveIrregularDeliver(\'' + el.id + '\');">Оформить</button></div></div>');
+                } else {
+                    $('#tab-body').append('<h5 class="mt-4 text-center">Раздел наполняется</h5>');
+                }
+            });
+        });
+    }
+
+    function saveIrregularDeliver(type) {
+        let txtDate = document.getElementById('txtDate').value;
+        let today = new Date();
+        today.setHours(12,0,0,0);
+        if(txtDate) {
+            let saveDate = new Date(txtDate);
+            saveDate.setHours(12,0,0,0);
+            if(saveDate >= today) {
+                let contact = document.getElementById('txtContact').value;
+                if(contact !== '') {
+                    let tab_body = document.querySelector('#tab-body');
+                    let inputs = tab_body.querySelectorAll('input[type="number"]:not([disabled]):not([id*="need_"])');
+                    let delivers = new Map([]);
+                    for (var j = 0, inp_len = inputs.length; j < inp_len; j++) {
+                        if (inputs[j].value != "" & inputs[j].value != '0') {
+                            delivers.set(inputs[j].id, inputs[j].value);
+                        }
+                    }
+                    console.log(delivers);
+                    if(delivers.size !==0) {
+                        $.ajax({
+                            type: "POST",
+                            url: "/api/sets-api.php",
+                            xhrFields: {
+                                withCredentials: true
+                            },
+                            data: {
+                                api:"donor", act:"save_irregular_deliver", delivers:JSON.stringify(delivers, replacer),
+                                contact:contact, date:txtDate, type:type
+                            }
+                        }).done(function( result )
+                        {
+                            console.log(result);
+                            if(result.status==="ok") {
+                                console.log('Успешно');
+                                showTab(document.getElementById(type));
+                            } else {
+                                alert('Произошла ошибка.');
+                            }
+                        });
+                    } else {
+                        alert('Введите данные поставки!');
+                    }
+                } else {
+                    alert('Введите контактный телефон!');
+                }
+            } else {
+                alert('Неправильная дата!');
+            }
+        } else {
+            alert('Выберите дату!');
+        }
+    }
+
+    function saveNeedsChanges() {
+        let tab_body = document.querySelector('#tab-body');
+        let inputs = tab_body.querySelectorAll('input[id*="need_"]');
+        let needs = new Map([]);
+        for (var j = 0, inp_len = inputs.length; j < inp_len; j++) {
+            needs.set(inputs[j].id.replace("need_",""), inputs[j].value);
+        }
+        console.log(needs);
+
+        $.ajax({
+            type: "POST",
+            url: "/api/sets-api.php",
+            xhrFields: {
+                withCredentials: true
+            },
+            data: {
+                api:"operator", act:"save_irregular_needs", needs:JSON.stringify(needs, replacer)
+            }
+        }).done(function( result )
+        {
+            console.log(result);
+            if(result.status==="ok") {
+                console.log('Успешно');
+                //showTab(document.getElementById(type));
+            } else {
+                alert('Произошла ошибка.');
+            }
+        });
+
+    }
+
+</script>
+</body>
+</html>

@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Администрирование</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="../css/styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+</head>
+<body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script
+        src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+        crossorigin="anonymous"></script>
+<script type="text/javascript" src="/js/admin.js"></script>
+<div class="container-fluid mt-4 hide" id="admin">
+    <div id="metrics-list" class="row justify-content-center text-center">
+    </div>
+    <div id="add-metric" class="row justify-content-center">
+        <div class="col-8 col-xl-6">
+            <div class="mt-5 mb-3 text-center">
+                <h4>Добавить метрику</h4>
+            </div>
+            <div class="mb-3 text-center">
+                <label for="txtName" class="form-label"><h5 class="text-center">Название показателя:</h5></label>
+                <input type="text" class="form-control notes note" id="txtName">
+            </div>
+            <div class="row mb-3 align-items-end g-0 text-left">
+                <div class="col-3 align-items-end">
+                    <label for="txtBrown" class=""><h5 class="h-input">Коричневый уровень:</h5></label>
+                </div>
+                <div class="col">
+                    <input type="number" class="form-control notes note" id="txtBrown">
+                </div>
+            </div>
+            <div class="row mb-3 align-items-end g-0 text-left">
+                <div class="col-3 align-items-end">
+                    <label for="txtRed" class=""><h5 class="h-input">Красный уровень:</h5></label>
+                </div>
+                <div class="col">
+                    <input type="number" class="form-control notes note" id="txtRed">
+                </div>
+            </div>
+            <div class="row mb-3 align-items-end g-0 text-left">
+                <div class="col-3 align-items-end">
+                    <label for="txtYellow" class=""><h5 class="h-input">Желтый уровень:</h5></label>
+                </div>
+                <div class="col">
+                    <input type="number" class="form-control notes note" id="txtYellow">
+                </div>
+            </div>
+            <div class="row mb-3 align-items-end g-0 text-left">
+                <div class="col-3 align-items-end">
+                    <label for="txtGreen" class=""><h5 class="h-input">Зеленый уровень:</h5></label>
+                </div>
+                <div class="col">
+                    <input type="number" class="form-control notes note" id="txtGreen">
+                </div>
+            </div>
+            <div class="row mb-3 align-items-end g-0 text-left">
+                <div class="col-3 align-items-end">
+                    <label for="txtMax" class=""><h5 class="h-input">Максимальный уровень:</h5></label>
+                </div>
+                <div class="col">
+                    <input type="number" class="form-control notes note" id="txtMax">
+                </div>
+            </div>
+            <div class="row mb-3 mt-4 align-items-end justify-content-center">
+                <div class="col-3">
+                    <button type="button" id="btnAdd" onclick="addMetric();" class="btn">Добавить</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid text-center mt-4 operator">
+
+</div>
+<script>
+
+    window.addEventListener("load", function(){
+        admin_check().then((x) => {
+            if(x) {
+                $('#admin').removeClass('hide');
+                getList();
+            } else {
+                alert('Раздел предназначен только для администраторов');
+                document.location.href = "/login?back=metrics&dir=admin";
+            }
+        });
+    });
+
+    function addMetric() {
+        const name = document.getElementById('txtName').value;
+        const brown = document.getElementById('txtBrown').value;
+        const red = document.getElementById('txtRed').value;
+        const yellow = document.getElementById('txtYellow').value;
+        const green = document.getElementById('txtGreen').value;
+        const max = document.getElementById('txtMax').value;
+        let array = [Number(brown), Number(red), Number(yellow), Number(green), Number(max)];
+        let sort_array = [...array].sort(function (a, b) { return a - b });
+        const filter_array = array.filter((word) => word > 0);
+        console.log(array);
+        console.log(sort_array);
+        if(name!=="") {
+            if (JSON.stringify(array) === JSON.stringify(filter_array)) {
+                if (JSON.stringify(array) === JSON.stringify(sort_array)) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/api/sets-api.php",
+                        xhrFields: {
+                            withCredentials: true
+                        },
+                        data: {
+                            api: "admin",
+                            act: "add_metric",
+                            name: name,
+                            brown: brown,
+                            red: red,
+                            yellow: yellow,
+                            green: green,
+                            max: max
+                        }
+                    }).done(function (result) {
+                        console.log(result);
+                        if (result.status === "ok") {
+                            alert('Добавлено успешно');
+                            getList();
+                        } else {
+                            alert(result.message);
+                        }
+                    });
+                } else {
+                    alert('Проверьте заполнение, коды должны быть заполнены по возрастающей');
+                }
+            } else {
+                alert('Нужно заполнить все поля');
+            }
+        } else {
+            alert('Заполните наименование');
+        }
+    }
+
+    function getList() {
+        $.ajax({
+            type: "POST",
+            url: "/api/sets-api.php",
+            xhrFields: {
+                withCredentials: true
+            },
+            data: {
+                api: "operator", act: "get_metric_list",
+            }
+        }).done(function (result) {
+            console.log(result);
+            if (result.status === "ok") {
+                $('#metrics-list').empty();
+                $('#metrics-list').append('<div class="col-8"><h4>Метрики</h4></div>')
+                result.data.response.forEach((el) => {
+                    $('#metrics-list').append('<div class="col-8"><h5>'+ el.name +'</h5></div>')
+                });
+            } else {
+                alert(result.message);
+            }
+        });
+    }
+
+</script>
+
+</body>
+</html>

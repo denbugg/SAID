@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+</head>
+<body>
+  <main class="registration-container">
+    <header class="header-registration">
+        <img src="images\logo.svg" alt="Логотип" width="60" height="60" class="me-4">
+      <h1 class="brand-name">SAID-DONE</h1>
+      <nav class="auth-buttons">
+        <a href="login-needer.html" class="login-btn">Войти</a>
+        <a href="register-needer.html" class="register-btn">Зарегистрироваться</a>
+      </nav>
+    </header>
+      
+        <form class="main-content-needer-registration" aria-labelledby="registration-title">
+            <div class="category-select" role="combobox" tabindex="0">
+                <div class="selected-category" onclick="toggleDropdown()">
+                  <span id="selectedCategoryText">Выберите категорию</span>
+                  <img id="dropdownIcon" src="images\Down1.png" alt="Стрелка вниз" width="24" height="24">
+                </div>
+                <ul class="dropdown-list" id="dropdownList">
+                  <li onclick="selectCategory('Инвалиды и лица с ограниченными возможностями здоровья')">Инвалиды и лица с ограниченными возможностями здоровья
+                    <img src="images\check.png" alt="Галочка" class="checkmark">
+                  </li>
+                  <li onclick="selectCategory('Одинокие и/или многодетные родители, воспитывающие несовершеннолетних детей и/или детей-инвалидов')">Одинокие и/или многодетные родители, воспитывающие несовершеннолетних детей и/или детей-инвалидов
+                    <img src="images\check.png" alt="Галочка" class="checkmark">
+                  </li>
+                  <li onclick="selectCategory('Выпускники детских домов в возрасте до двадцати трех лет')">Выпускники детских домов в возрасте до двадцати трех лет
+                    <img src="images\check.png" alt="Галочка" class="checkmark">
+                  </li>
+                  <li onclick="selectCategory('Пенсионеры и/или граждане предпенсионного возраста - до  пяти лет')">Пенсионеры и/или граждане предпенсионного возраста - до  пяти лет
+                    <img src="images\check.png" alt="Галочка" class="checkmark">
+                  </li>
+                  <li onclick="selectCategory('Лица, освобожденные из мест лишения свободы и имеющие неснятую или непогашенную судимость')">Лица, освобожденные из мест лишения свободы и имеющие неснятую или непогашенную судимость
+                    <img src="images\check.png" alt="Галочка" class="checkmark">
+                  </li>
+                  <li onclick="selectCategory('Беженцы и вынужденные переселенцы')">Беженцы и вынужденные переселенцы
+                    <img src="images\check.png" alt="Галочка" class="checkmark">
+                  </li>
+                  <li onclick="selectCategory('Малоимущие граждане')">Малоимущие граждане
+                    <img src="images\check.png" alt="Галочка" class="checkmark">
+                  </li>
+                  <li onclick="selectCategory('Лица без определенного места жительства и занятий')">Лица без определенного места жительства и занятий
+                    <img src="images\check.png" alt="Галочка" class="checkmark">
+                  </li>
+                  <li onclick="selectCategory('Граждане, признанные нуждающимися в социальном обслуживании')">Граждане, признанные нуждающимися в социальном обслуживании
+                    <img src="images\check.png" alt="Галочка" class="checkmark">
+                  </li>
+                </ul>
+            </div>
+      
+          <div class="form-container-needer-registration">
+            <section class="personal-info-needer-registration">
+              <h2 class="section-title-needer-registration">Личные данные</h2>
+              
+              <div class="form-group-needer-registration">
+                <label class="form-label-needer-registration" for="fullName">ФИО</label>
+                <input class="form-input-needer-registration" type="text" id="fullName" required/>
+              </div>
+      
+              <div class="form-group-needer-registration">
+                <label class="form-label-needer-registration" for="phone">Телефон</label>
+                <input class="form-input-needer-registration" type="tel" id="phone" required/>
+              </div>
+      
+              <div class="form-group-needer-registration">
+                <label class="form-label-needer-registration" for="email">E-mail</label>
+                <input class="form-input-needer-registration" type="email" id="email" required/>
+              </div>
+      
+              <div class="form-group-needer-registration">
+                <label class="form-label-needer-registration" for="passport">Паспортные данные</label>
+                <input class="form-input-needer-registration" type="text" id="passport" required/>
+              </div>
+      
+              <div class="form-group-needer-registration">
+                <label class="form-label-needer-registration" for="address">Почтовый адрес</label>
+                <input class="form-input-needer-registration" type="text" id="address" required/>
+              </div>
+            </section>
+      
+            <section class="documents-section">
+              <h2 class="section-title-needer-registration">Документы</h2>
+                <div class="form-group-needer-registration">
+                    <label class="form-label-needer-registration" for="passportFile">
+                      Копия паспорта гражданина Российской Федерации
+                    </label>
+                    <div class="file-upload-needer-registration">
+                      <button class="download-button" onclick="openFilePicker('passportFile')">
+                        <img src="images/FilePlus.svg" alt="Выбрать файл" class="upload-icon"/>
+                      </button>
+                      <span id="passportFileName">Файл не выбран</span>
+                      <img id="passportFileDelete" src="images\trash-button.png" alt="Удалить" class="delete-icon-reg visually-hidden" onclick="deleteFile('passportFile')" />
+                    </div>
+                    <input type="file" id="passportFile" class="visually-hidden" required onchange="handleFileSelect('passportFile')" />
+                  </div>
+                  
+                  <div class="form-group-needer-registration">
+                    <label class="form-label-needer-registration" for="documentsFile">
+                      Копии документов, подтверждающих пребывание<br/>
+                      в учреждениях социальной помощи
+                    </label>
+                    <div class="file-upload-needer-registration">
+                      <button class="download-button" onclick="openFilePicker('documentsFile')">
+                        <img src="images/FilePlus.svg" alt="Выбрать файл" class="upload-icon"/>
+                      </button>
+                      <span id="documentsFileName">Файл не выбран</span>
+                      <img id="documentsFileDelete" src="images\trash-button.png" alt="Удалить" class="delete-icon-reg visually-hidden" onclick="deleteFile('documentsFile')" />
+                    </div>
+                    <input type="file" id="documentsFile" class="visually-hidden" required onchange="handleFileSelect('documentsFile')" />
+                  </div>
+      
+          <button type="submit" class="submit-btn">Отправить</button>
+        </form>
+      </main>
+    <script>
+        function toggleDropdown() {
+  const dropdownList = document.getElementById('dropdownList');
+  const dropdownIcon = document.getElementById('dropdownIcon');
+
+  dropdownList.classList.toggle('show');
+
+  if (dropdownList.classList.contains('show')) {
+    dropdownIcon.src = 'images/up.png'; 
+  } else {
+    dropdownIcon.src = 'images/Down1.png'; 
+  }
+}
+// function selectCategory(category) {
+//   const selectedCategoryText = document.getElementById('selectedCategoryText');
+//   const dropdownList = document.getElementById('dropdownList');
+//   const dropdownIcon = document.getElementById('dropdownIcon');
+
+//   selectedCategoryText.textContent = category;
+//   dropdownList.classList.remove('show');
+//   dropdownIcon.src = 'images/Down1.png';
+// }
+
+function selectCategory(category) {
+  const selectedCategoryText = document.getElementById('selectedCategoryText');
+  const dropdownList = document.getElementById('dropdownList');
+  const dropdownIcon = document.getElementById('dropdownIcon');
+
+  const items = dropdownList.querySelectorAll('li');
+  items.forEach(item => item.classList.remove('selected'));
+
+  const selectedItem = Array.from(items).find(item => item.textContent.includes(category));
+  if (selectedItem) {
+    selectedItem.classList.add('selected');
+    
+    selectedCategoryText.textContent = category;
+    dropdownList.classList.remove('show');
+    dropdownIcon.src = 'images/Down1.png';
+  }
+}
+document.addEventListener('click', function (event) {
+  const dropdownList = document.getElementById('dropdownList');
+  const categorySelect = document.querySelector('.category-select');
+
+  if (!categorySelect.contains(event.target)) {
+    dropdownList.classList.remove('show');
+    document.getElementById('dropdownIcon').src = 'images/Down1.png';
+  }
+});
+
+
+// Открываем проводник для выбора файла
+function openFilePicker(inputId) {
+  document.getElementById(inputId).click(); // Программно кликаем на input type="file"
+}
+
+// Обрабатываем выбор файла
+function handleFileSelect(inputId) {
+  const fileInput = document.getElementById(inputId);
+  const fileNameSpan = document.getElementById(`${inputId}Name`);
+  const deleteIcon = document.getElementById(`${inputId}Delete`);
+
+  if (fileInput.files && fileInput.files[0]) {
+    const fileName = fileInput.files[0].name;
+    fileNameSpan.textContent = fileName; // Показываем имя выбранного файла
+    deleteIcon.classList.remove('visually-hidden'); // Показываем значок-корзину
+  } else {
+    fileNameSpan.textContent = 'Файл не выбран';
+    deleteIcon.classList.add('visually-hidden'); // Скрываем значок-корзину
+  }
+}
+
+// Удаляем файл
+function deleteFile(inputId) {
+  const fileInput = document.getElementById(inputId);
+  const fileNameSpan = document.getElementById(`${inputId}Name`);
+  const deleteIcon = document.getElementById(`${inputId}Delete`);
+
+  fileInput.value = ''; // Очищаем значение input type="file"
+  fileNameSpan.textContent = 'Файл не выбран'; // Возвращаем текст в исходное состояние
+  deleteIcon.classList.add('visually-hidden'); // Скрываем значок-корзину
+}
+
+
+    function handleSubmit(event) {
+  event.preventDefault(); // Отменяем стандартную отправку формы
+
+  // Собираем данные из формы
+  const formData = {
+    category: document.getElementById('selectedCategoryText').textContent,
+    fullName: document.getElementById('fullName').value,
+    phone: document.getElementById('phone').value,
+    email: document.getElementById('email').value,
+    passport: document.getElementById('passport').value,
+    address: document.getElementById('address').value,
+    passportFile: document.getElementById('passportFile').files[0],
+    documentsFile: document.getElementById('documentsFile').files[0],
+  };
+
+  // Проверяем, что все поля заполнены
+  if (
+    !formData.category ||
+    !formData.fullName ||
+    !formData.phone ||
+    !formData.email ||
+    !formData.passport ||
+    !formData.address ||
+    !formData.passportFile ||
+    !formData.documentsFile
+  ) {
+    alert('Пожалуйста, заполните все поля.');
+    return;
+  }
+
+  // Создаем FormData для отправки файлов и текстовых данных
+  const formDataToSend = new FormData();
+  for (const key in formData) {
+    formDataToSend.append(key, formData[key]);
+  }
+
+  // Отправляем данные на сервер
+  fetch('/submit', {
+    method: 'POST',
+    body: formDataToSend,
+  })
+    .then((response) => response.json())
+    .then((result) => {
+      console.log('Успех:', result);
+      alert('Данные успешно отправлены!');
+    })
+    .catch((error) => {
+      console.error('Ошибка:', error);
+      alert('Произошла ошибка при отправке данных.');
+    });
+}
+
+    </script>
+</body>
+</html>

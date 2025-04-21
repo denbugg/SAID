@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="700c4dc9-49e2-4cce-8143-ebaab849874f" name="Default Changelist" comment="Ключевая функция АПИ - майнинг">
+      <change beforePath="$PROJECT_DIR$/BlockChainAPI/123.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlockChainAPI/BlockChain - new.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlockChainAPI/BlockChain - test.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlockChainAPI/SD - BlockChain.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/BlockChainAPI/SD - PORT 2.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/SistemAID (8)/SistemAID/cart.html" beforeDir="false" afterPath="$PROJECT_DIR$/SAID/design/cart.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SistemAID (8)/SistemAID/donor-balance.html" beforeDir="false" afterPath="$PROJECT_DIR$/SAID/design/donor-balance.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SistemAID (8)/SistemAID/images/ArrowLeft.svg" beforeDir="false" afterPath="$PROJECT_DIR$/SAID/design/images/ArrowLeft.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SistemAID (8)/SistemAID/images/BellRinging.svg" beforeDir="false" afterPath="$PROJECT_DIR$/SAID/design/images/BellRinging.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SistemAID (8)/SistemAID/images/Down1.png" beforeDir="false" afterPath="$PROJECT_DIR$/SAID/design/images/Down1.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SistemAID (8)/SistemAID/images/FileArrowDown.png" beforeDir="false" afterPath="$PROJECT_DIR$/SAID/design/images/FileArrowDown.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SistemAID (8)/SistemAID/images/FilePlus.png" beforeDir="false" afterPath="$PROJECT_DIR$/SAID/design/images/FilePlus.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SistemAID (8)/SistemAID/images/FilePlus.svg" beforeDir="false" afterPath="$PROJECT_DIR$/SAID/design/images/FilePlus.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SistemAID (8)/SistemAID/images/Group 1.png" beforeDir="false" afterPath="$PROJECT_DIR$/SAID/design/images/Group 1.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SistemAID (8)/SistemAID/images/Group 12.png" beforeDir="false" afterPath="$PROJECT_DIR$/SAID/design/images/Group 12.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SistemAID (8)/SistemAID/images/Group 123.png" beforeDir="false" afterPath="$PROJECT_DIR$/SAID/design/images/Group 123.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SistemAID (8)/SistemAID/images/MagnifyingGlass.svg" beforeDir="false" afterPath="$PROJECT_DIR$/SAID/design/images/MagnifyingGlass.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SistemAID (8)/SistemAID/images/Picsart_25-01-15_13-27-56-919.svg" beforeDir="false" afterPath="$PROJECT_DIR$/SAID/design/images/Picsart_25-01-15_13-27-56-919.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SistemAID (8)/SistemAID/images/Picsart_25-01-15_13-36-09-153.svg" beforeDir="false" afterPath="$PROJECT_DIR$/SAID/design/images/Picsart_25-01-15_13-36-09-153.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SistemAID (8)/SistemAID/images/check.png" beforeDir="false" afterPath="$PROJECT_DIR$/SAID/design/images/check.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SistemAID (8)/SistemAID/images/checkmark.png" beforeDir="false" afterPath="$PROJECT_DIR$/SAID/design/images/checkmark.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SistemAID (8)/SistemAID/images/chevron-left.svg" beforeDir="false" afterPath="$PROJECT_DIR$/SAID/design/images/chevron-left.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SistemAID (8)/SistemAID/images/chevron-right.svg" beforeDir="false" afterPath="$PROJECT_DIR$/SAID/design/images/chevron-right.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SistemAID (8)/SistemAID/images/cross-icon.png" beforeDir="false" afterPath="$PROJECT_DIR$/SAID/design/images/cross-icon.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SistemAID (8)/SistemAID/images/down.png" beforeDir="false" afterPath="$PROJECT_DIR$/SAID/design/images/down.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SistemAID (8)/SistemAID/images/logo-token.svg" beforeDir="false" afterPath="$PROJECT_DIR$/SAID/design/images/logo-token.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SistemAID (8)/SistemAID/images/logo.svg" beforeDir="false" afterPath="$PROJECT_DIR$/SAID/design/images/logo.svg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SistemAID (8)/SistemAID/images/plus.png" beforeDir="false" afterPath="$PROJECT_DIR$/SAID/design/images/plus.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SistemAID (8)/SistemAID/images/trash-button.png" beforeDir="false" afterPath="$PROJECT_DIR$/SAID/design/images/trash-button.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SistemAID (8)/SistemAID/images/up.png" beforeDir="false" afterPath="$PROJECT_DIR$/SAID/design/images/up.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SistemAID (8)/SistemAID/images/консервы мясные.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/SAID/design/images/консервы мясные.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SistemAID (8)/SistemAID/images/консервы рыбные .jpg" beforeDir="false" afterPath="$PROJECT_DIR$/SAID/design/images/консервы рыбные .jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SistemAID (8)/SistemAID/images/макароны.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/SAID/design/images/макароны.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SistemAID (8)/SistemAID/images/мука.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/SAID/design/images/мука.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SistemAID (8)/SistemAID/images/паштет из печени индейки.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/SAID/design/images/паштет из печени индейки.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SistemAID (8)/SistemAID/lk-donor-individual.html" beforeDir="false" afterPath="$PROJECT_DIR$/SAID/design/lk-donor-individual.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SistemAID (8)/SistemAID/lk-donor-org.html" beforeDir="false" afterPath="$PROJECT_DIR$/SAID/design/lk-donor-org.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SistemAID (8)/SistemAID/lk-needer.html" beforeDir="false" afterPath="$PROJECT_DIR$/SAID/design/lk-needer.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SistemAID (8)/SistemAID/market.html" beforeDir="false" afterPath="$PROJECT_DIR$/SAID/design/market.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SistemAID (8)/SistemAID/needer-balance.html" beforeDir="false" afterPath="$PROJECT_DIR$/SAID/design/needer-balance.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SistemAID (8)/SistemAID/needer-help.html" beforeDir="false" afterPath="$PROJECT_DIR$/SAID/design/needer-help.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SistemAID (8)/SistemAID/needer-order.html" beforeDir="false" afterPath="$PROJECT_DIR$/SAID/design/needer-order.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SistemAID (8)/SistemAID/needer-registration.html" beforeDir="false" afterPath="$PROJECT_DIR$/SAID/design/needer-registration.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SistemAID (8)/SistemAID/registration.html" beforeDir="false" afterPath="$PROJECT_DIR$/SAID/design/registration.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SistemAID (8)/SistemAID/scripts.js" beforeDir="false" afterPath="$PROJECT_DIR$/SAID/design/scripts.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SistemAID (8)/SistemAID/styles.css" beforeDir="false" afterPath="$PROJECT_DIR$/SAID/design/styles.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SistemAID (8)/SistemAID/volunteer-delivery.html" beforeDir="false" afterPath="$PROJECT_DIR$/SAID/design/volunteer-delivery.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SistemAID (8)/SistemAID/volunteer-help.html" beforeDir="false" afterPath="$PROJECT_DIR$/SAID/design/volunteer-help.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/SistemAID (8)/SistemAID/volunteer-order.html" beforeDir="false" afterPath="$PROJECT_DIR$/SAID/design/volunteer-order.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/operator_node.py" beforeDir="false" afterPath="$PROJECT_DIR$/SAID/BlockChainAPI/operator_node.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/oracle_node.py" beforeDir="false" afterPath="$PROJECT_DIR$/SAID/BlockChainAPI/oracle_node.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/validator_node.py" beforeDir="false" afterPath="$PROJECT_DIR$/SAID/BlockChainAPI/validator_node.py" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ComposerSettings">
+    <execution />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+        <option value="JavaScript File" />
+        <option value="Python Script" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="PREVIOUS_COMMIT_AUTHORS">
+      <list>
+        <option value="avpetrin &lt;avpetrin@yandex.ru&gt;" />
+        <option value="avpetrin" />
+      </list>
+    </option>
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "denbugg"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/avpetrin/gumpom.git",
+    "accountId": "e33f0164-fff9-4fb0-ab2f-841ed14c0d5b"
+  }
+}]]></component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 2
+}</component>
+  <component name="ProjectId" id="2mKZVNLI2gueRdliVpbnkfdZ0gS" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "git-widget-placeholder": "denbug",
+    "last_opened_file_path": "C:/Users/YOGA/SAID/gumpom/SAID",
+    "settings.editor.selected.configurable": "org.jetbrains.plugins.github.ui.GithubSettingsConfigurable"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\YOGA\SAID\gumpom\SAID" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\YOGA\SAID\gumpom\SAID" />
+      <recent name="C:\Users\YOGA\SAID\gumpom\BlockChainAPI" />
+      <recent name="E:\Programming\PHP\sets\admin" />
+      <recent name="E:\Programming\PHP\sets" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="delivers.html" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://ftp.c15869.nichost.ru/gum-center/docs/delivers.html">
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-python-sdk-98f27166c754-ba05f1cad1b1-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-242.21829.153" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="SvnConfiguration">
+    <configuration>C:\Users\nightwish\AppData\Roaming\Subversion</configuration>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="700c4dc9-49e2-4cce-8143-ebaab849874f" name="Default Changelist" comment="" />
+      <created>1726827250796</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1726827250796</updated>
+      <workItem from="1726827255043" duration="262000" />
+      <workItem from="1726827521094" duration="162471000" />
+      <workItem from="1728120022959" duration="89702000" />
+      <workItem from="1729689168643" duration="39154000" />
+    </task>
+    <task id="LOCAL-00001" summary="1">
+      <created>1731008802445</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1731008802445</updated>
+    </task>
+    <task id="LOCAL-00002" summary="1">
+      <created>1731052922743</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1731052922743</updated>
+    </task>
+    <task id="LOCAL-00003" summary="1">
+      <created>1731052997183</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1731052997183</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Рыба BlockChain-API">
+      <option name="closed" value="true" />
+      <created>1737645110790</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1737645110790</updated>
+    </task>
+    <task id="LOCAL-00005" summary="new_transaction">
+      <option name="closed" value="true" />
+      <created>1737645343880</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1737645343880</updated>
+    </task>
+    <task id="LOCAL-00006" summary="new_block, hash, last_block + пояснения">
+      <option name="closed" value="true" />
+      <created>1737646830114</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1737646830114</updated>
+    </task>
+    <task id="LOCAL-00007" summary="PoW 0.1">
+      <option name="closed" value="true" />
+      <created>1737648197299</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1737648197299</updated>
+    </task>
+    <task id="LOCAL-00008" summary="API - начало">
+      <option name="closed" value="true" />
+      <created>1737652420904</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1737652420904</updated>
+    </task>
+    <task id="LOCAL-00009" summary="Создание новой транзакции">
+      <option name="closed" value="true" />
+      <created>1737658866025</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1737658866025</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Ключевая функция АПИ - майнинг">
+      <option name="closed" value="true" />
+      <created>1737659363020</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1737659363020</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="2" />
+  </component>
+  <component name="Vcs.Log.History.Properties">
+    <option name="COLUMN_ORDER">
+      <list>
+        <option value="0" />
+        <option value="2" />
+        <option value="3" />
+        <option value="1" />
+      </list>
+    </option>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="1" />
+    <MESSAGE value="Рыба BlockChain-API" />
+    <MESSAGE value="new_transaction" />
+    <MESSAGE value="new_block, hash, last_block + пояснения" />
+    <MESSAGE value="PoW 0.1" />
+    <MESSAGE value="API - начало" />
+    <MESSAGE value="Создание новой транзакции" />
+    <MESSAGE value="Ключевая функция АПИ - майнинг" />
+    <option name="LAST_COMMIT_MESSAGE" value="Ключевая функция АПИ - майнинг" />
+  </component>
+</project>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Детали заказа</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="d-flex align-items-center justify-content-between">
+                <div class="d-flex align-items-center">
+                    <img src="images\logo.svg" alt="Логотип" width="62" height="48" class="me-4">
+                    <nav class="d-flex gap-4">
+                        <a href="volunteer-delivery.html" class="nav-link active position-relative">Выдача
+                            <span id="cartBadge" class="cart-badge">0</span> 
+                        </a>
+                        <a href="help.html" class="nav-link">Справка</a>
+                    </nav>
+                </div>
+                <h1 id="user-info">Сергей Александров Михайлович</h1>
+                <div class="d-flex align-items-center gap-2">
+                    <div class="notification-container">
+                        <button class="notification-btn">
+                            <img src="images/BellRinging.svg" alt="Уведомления" class="notification-icon">
+                        </button>
+                        <div class="notification-dropdown">
+                            <button class="notification-item">
+                                <div class="notification-date">12.12.24</div>
+                                <div class="notification-text">Заказ № 1244 доставлен.</div>
+                            </button>
+                            <div class="notification-divider"></div>
+                            <button class="notification-item">
+                                <div class="notification-date">12.12.24</div>
+                                <div class="notification-text">Изменена информация в личном кабинете.</div>
+                            </button>
+                            <div class="notification-divider"></div>
+                            <button class="mark-read-btn">Прочитано</button>
+                        </div>
+                    </div>
+                    <a href="lk-volunteer.html" class="profile-btn">Личный кабинет</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container order-main-container">
+        <div class="order-header">
+            <a href="volunteer-delivery.html" class="back-link cursor-pointer duration-200 hover:scale-110 active:scale-100">
+                <img src="images/ArrowLeft.svg" alt="Назад" class="back-arrow" style="width: 32px; height: 32px;">
+            </a>
+            <h1 class="order-title">Заказ №<span id="orderNumber">12345</span></h1>
+        </div>
+
+        <div class="order-content">
+            <div class="order-items-container">
+                <div id="orderItems" class="order-items-list"></div>
+            </div>
+            <div class="confirm-container">
+                <div class="inner-container">
+                    <div class="amount-row">
+                        <span class="amount-label">Сумма</span>
+                        <div class="total-price-container">
+                            <img src="images\Group 1.png" alt="Токены" class="price-dot">
+                            <span id="totalPrice"></span>
+                        </div>
+                        </span>
+                    </div>
+
+                    <!-- Код подтверждения -->
+                    <div class="confirmation-label">Код подтверждения</div>
+                    <input type="number" class="confirmation-input" placeholder="Введите код">
+
+                    <!-- Контейнер с кнопками -->
+                    <div class="buttons-container">
+                        <button class="finish-button attach-button">
+                            <img src="images\FilePlus.png" alt="Прикрепить накладную" class="button-icon">
+                            Прикрепить накладную
+                        </button>
+                        <button class="finish-button download-button-delivery">
+                            <img src="images\FileArrowDown.png" alt="Скачать накладную" class="button-icon">
+                            Скачать накладную
+                        </button>
+                        <button class="finish-button confirm-button">
+                            Подтвердить выдачу
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const orderId = urlParams.get('id');
+            const orders = JSON.parse(localStorage.getItem('orders')) || [];
+            const order = orders.find(o => o.id === orderId);
+
+            if (order) {
+                // Заполняем основную информацию
+                document.getElementById('orderNumber').textContent = order.id;
+
+                // Рендерим товары
+                const itemsContainer = document.getElementById('orderItems');
+                let totalItems = 0;
+                let totalWeight = 0;
+                let totalPrice = 0;
+
+                order.items.forEach(item => {
+                    const itemElement = document.createElement('div');
+                    itemElement.innerHTML = `
+                        <div class="order-item">
+                            <div class="product-image">
+                                <img src="${item.image}" alt="${item.name}">
+                            </div>
+                            <div class="product-info">
+                                <h2>${item.name}</h2>
+                                <div class="product-detail">${item.quantity} шт</div>
+                                <div class="product-detail">${parseInt(item.weight) * item.quantity} г</div>
+                                <div class="product-detail">${item.expiry}</div>
+                            </div>
+                        </div>
+                    `;
+                    itemsContainer.appendChild(itemElement);
+
+                    totalItems += item.quantity;
+                    totalWeight += parseInt(item.weight) * item.quantity;
+                    totalPrice += item.price * item.quantity;
+                });
+
+                // Обновляем итоговые значения
+                document.getElementById('totalPrice').textContent = totalPrice;
+            }
+        });
+        document.addEventListener('DOMContentLoaded', () => {
+    // Обработчик для кнопки "Прикрепить накладную"
+    const attachButton = document.querySelector('.attach-button');
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.style.display = 'none';
+
+    attachButton.addEventListener('click', () => {
+        fileInput.click(); // Открываем проводник
+    });
+
+    fileInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            // Здесь можно добавить логику загрузки файла на сервер
+            console.log('Файл выбран:', file.name);
+        }
+    });
+
+    // Обработчик для кнопки "Скачать накладную"
+    const downloadButton = document.querySelector('.download-button-delivery');
+    downloadButton.addEventListener('click', () => {
+        // Создаем временную ссылку для скачивания
+        const link = document.createElement('a');
+        link.href = '/documents/order-document.pdf'; // Укажите правильный путь к файлу
+        link.download = 'Накладная.pdf';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        
+        // Устанавливаем прозрачность
+        downloadButton.style.opacity = '0.5';
+    });
+
+    // Обработчик для кнопки "Подтвердить выдачу"
+    const confirmButton = document.querySelector('.confirm-button');
+    confirmButton.addEventListener('click', () => {
+        // Устанавливаем прозрачность
+        confirmButton.style.opacity = '0.5';
+    });
+});
+    </script>
+</body>
+</html>

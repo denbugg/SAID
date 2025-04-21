@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Выдача</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="d-flex align-items-center justify-content-between">
+                <div class="d-flex align-items-center">
+                    <img src="images\logo.svg" alt="Логотип" width="62" height="48" class="me-4">
+                    <nav class="d-flex gap-4">
+                        <a href="volunteer-delivery.html" class="nav-link active position-relative">Выдача
+                            <span id="cartBadge" class="cart-badge">0</span> 
+                        </a>
+                        <a href="volunteer-help.html" class="nav-link">Справка</a>
+                    </nav>
+                </div>
+                <h1 id="user-info">Сергей Александров Михайлович</h1>
+                <div class="d-flex align-items-center gap-2">
+                    <div class="notification-container">
+                        <button class="notification-btn">
+                            <img src="images/BellRinging.svg" alt="Уведомления" class="notification-icon">
+                        </button>
+                        <div class="notification-dropdown">
+                            <button class="notification-item">
+                                <div class="notification-date">12.12.24</div>
+                                <div class="notification-text">Заказ № 1244 доставлен.</div>
+                            </button>
+                            <div class="notification-divider"></div>
+                            <button class="notification-item">
+                                <div class="notification-date">12.12.24</div>
+                                <div class="notification-text">Изменена информация в личном кабинете.</div>
+                            </button>
+                            <div class="notification-divider"></div>
+                            <button class="mark-read-btn">Прочитано</button>
+                        </div>
+                    </div>
+                    <a href="lk-volunteer.html" class="profile-btn">Личный кабинет</a>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main>
+            <div class="delivery-header">
+                <h2 class="delivers-title">Заказы</h2>
+                <button class="print-consignment">Распечатать накладные</button>
+            </div>
+            <!-- <div class="no-orders-message" id="noOrdersMessage" style="display: none;">Заказов нет.</div> -->
+            <div class="orders-table" id="ordersTable">
+                <div class="table-container" role="table" aria-label="Orders List">
+                    <div class="table-header">
+                        <div class="header-cell cell-id">№</div>
+                        <div class="header-cell cell-quantity">Количество</div>
+                        <div class="header-cell cell-weight">Вес</div>
+                        <div class="header-cell cell-price">Стоимость</div>
+                        <div class="header-cell cell-date">Дата заказа</div>
+                        <div class="header-cell cell-status">Статус</div>
+                        <div class="header-cell cell-action">Оформление</div>
+                    </div>
+                    <div id="ordersList"></div>
+                </div>
+            </div>
+        </main>
+        <script>
+
+// document.addEventListener('DOMContentLoaded', () => {
+//     const tokenCountElement = document.getElementById('tokenCount');
+//     const lastAccrualDateElement = document.getElementById('lastAccrualDate');
+//     const nextAccrualDateElement = document.getElementById('nextAccrualDate');
+
+//     // Константы
+//     const TOKEN_ACCRUAL_AMOUNT = 112; // Количество токенов для начисления
+//     const ACCRUAL_INTERVAL_DAYS = 14; // Интервал начисления в днях
+
+//     // Получаем текущие данные из localStorage
+//     let tokenCount = parseInt(localStorage.getItem('tokenCount')) || TOKEN_ACCRUAL_AMOUNT;
+//     let lastAccrualDate = localStorage.getItem('lastAccrualDate');
+//     let nextAccrualDate = localStorage.getItem('nextAccrualDate');
+
+//     // Если данные отсутствуют, инициализируем их
+//     if (!lastAccrualDate || !nextAccrualDate) {
+//         const currentDate = new Date();
+//         lastAccrualDate = currentDate.toISOString();
+//         nextAccrualDate = new Date(currentDate.setDate(currentDate.getDate() + ACCRUAL_INTERVAL_DAYS)).toISOString();
+
+//         localStorage.setItem('tokenCount', tokenCount);
+//         localStorage.setItem('lastAccrualDate', lastAccrualDate);
+//         localStorage.setItem('nextAccrualDate', nextAccrualDate);
+//     }
+
+//     // Проверяем, нужно ли обновить баланс
+//     const currentDate = new Date();
+//     const nextAccrual = new Date(nextAccrualDate);
+
+//     if (currentDate >= nextAccrual) {
+//         // Обновляем баланс: старые токены "сгорают", добавляем новые 112 токенов
+//         tokenCount = TOKEN_ACCRUAL_AMOUNT; // Обнуляем старые токены и добавляем новые
+//         localStorage.setItem('tokenCount', tokenCount);
+
+//         // Обновляем даты
+//         lastAccrualDate = nextAccrualDate;
+//         nextAccrualDate = new Date(currentDate.setDate(currentDate.getDate() + ACCRUAL_INTERVAL_DAYS)).toISOString();
+
+//         localStorage.setItem('lastAccrualDate', lastAccrualDate);
+//         localStorage.setItem('nextAccrualDate', nextAccrualDate);
+//     }
+
+//     // Обновляем интерфейс
+//     tokenCountElement.textContent = tokenCount;
+//     lastAccrualDateElement.textContent = `${TOKEN_ACCRUAL_AMOUNT} токенов ${formatDate(lastAccrualDate)}`;
+//     nextAccrualDateElement.textContent = `${TOKEN_ACCRUAL_AMOUNT} токенов ${formatDate(nextAccrualDate)}`;
+// });
+
+// // Функция для форматирования даты
+// function formatDate(dateString) {
+//     const date = new Date(dateString);
+//     const day = date.getDate().toString().padStart(2, '0');
+//     const month = (date.getMonth() + 1).toString().padStart(2, '0');
+//     const year = date.getFullYear();
+//     return `${day}.${month}.${year}`;
+// }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const orders = JSON.parse(localStorage.getItem('orders')) || [];
+        if (orders.length === 0) {
+        document.getElementById('noOrdersMessage').style.display = 'block';
+    } else {
+        document.querySelector('.table-container').classList.add('visible'); 
+        renderOrders(orders);
+    }
+});
+
+function renderOrders(orders) {
+    const ordersList = document.getElementById('ordersList');
+    
+    orders.forEach(order => {
+        const row = document.createElement('div');
+        row.className = 'table-row';
+        row.innerHTML = `
+            <div class="cell cell-id">${order.id}</div>
+            <div class="cell cell-quantity">${order.totalQuantity}</div>
+            <div class="cell cell-weight">${order.totalWeight}</div>
+            <div class="cell cell-price">
+                <img src="images/Group 1.png" class="pricedot needer-balance-order" alt="Токены">
+                ${order.totalPrice}
+            </div>
+            <div class="cell cell-date">${new Date(order.date).toLocaleDateString()}</div>
+            <div class="cell cell-status ${getStatusClass(order.status)}">${order.status}</div>
+            <div class="cell cell-action">
+                <a href="volunteer-order.html?id=${order.id}" 
+                    class="action-button delivery" 
+                    aria-label="Детали заказа ${order.id}">
+                    Перейти
+                </a>
+            </div>
+        `;
+        ordersList.appendChild(row);
+    });
+}
+
+function getStatusClass(status) {
+    const statusMap = {
+        'В сборке': 'status-in-process',
+        'В пути': 'status-in-transit',
+        'Доставлен': 'status-delivered',
+        'Выдан': 'status-completed'
+    };
+    return statusMap[status] || '';
+}
+        </script>
+</body>
+</html>

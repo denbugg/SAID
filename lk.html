@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Поставка</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="./css/styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+</head>
+<body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script
+        src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+        crossorigin="anonymous"></script>
+<script type="text/javascript" src="/js/vars.js"></script>
+<div class="modal fade" id="listModal" tabindex="-1" role="dialog" aria-labelledby="listModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle">Список заявленных доставок</h5>
+                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Закрыть">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div id="modal-list" class="row justify-content-center align-items-center">
+
+                </div>
+            </div>
+            <div class="modal-footer">
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid mt5">
+    <div class="row align-items-center justify-content-center" id="header">
+        <div class="col-2 text-center">
+            <button type="button" onclick="window.location.href = '/calendar';" class="btn btn-danger">Календарь</button>
+        </div>
+        <div class="col text-center">
+            <h4 class="text-center" style="">Личный кабинет</h4>
+            <h5 class="text-center" style="">Планируемая дата поставки: <i class="bi bi-arrow-left-square" onclick="changeDay(-1)"></i><span class="border-text" id="date"></span><i class="bi bi-arrow-right-square" onclick="changeDay(1)"></i></h5>
+        </div>
+        <div id='cabinet' class="col-2 text-center">
+            <h5 id="name"></h5>
+            <h5 id="user_type"></h5>
+            <button type="button" id="btnLogout" class="btn btn-danger">Выйти</button>
+        </div>
+        <div id="login" class="col-2 text-center hide">
+            <button type="button" onclick="window.location.href = '/login?back=lk';" class="btn btn-danger">Авторизоваться</button>
+        </div>
+    </div>
+    <div class="row justify-content-center mt-5 hide" id="warehouses">
+        <div class="col-4 text-center">
+            <div class="row align-items-end">
+                <div class="col">
+                    <label class="form-label text-center"><h4>Поставщик</h4></label>
+                    <select class="form-control" name="sltWarehouse" id="sltWarehouse">
+                    </select>
+                </div>
+                <div class="col-2">
+                    <button class="btn" id="btnAddShow" onclick="$('#addWarehouse').removeClass('hide');">+</button>
+                </div>
+            </div>
+        </div>
+        <div class="w-100"></div>
+        <div class="col-4 mt-4 hide" id="addWarehouse">
+            <div class="row text-center">
+                <div class="col">
+                    <input type="text" class="form-control notes note" id="txtWarehouseName" placeholder="Введите наименование Поставщика">
+                </div>
+                <div class="col-2">
+                    <button class="btn" id="btnAdd" onclick="addWarehouse();"><i class="bi bi-check-circle"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center mt-5 mb-2" id="product-table-header">
+        <div class="col-3 d-flex flex-column justify-content-center">
+            <div class="col d-flex flex-column justify-content-center lk-table-header" style="padding-left:10px">Продуктовый набор</div>
+        </div>
+        <div class="col d-flex flex-column justify-content-center">
+            <div class="col d-flex flex-column justify-content-center text-center lk-table-header zero-left-padding">Поставка</div>
+        </div>
+        <div class="col d-flex flex-column justify-content-center">
+            <div class="col d-flex flex-column justify-content-center text-center lk-table-header zero-left-padding">Штук в паллете</div>
+        </div>
+        <div class="col d-flex flex-column justify-content-center">
+            <div class="col d-flex flex-column justify-content-center text-center lk-table-header zero-left-padding">Паллет</div>
+        </div>
+        <div class="col d-flex flex-column justify-content-center">
+            <div class="col d-flex flex-column justify-content-center text-center lk-table-header zero-left-padding">Газелей</div>
+        </div>
+        <div class="col d-flex flex-column justify-content-center">
+            <div class="col d-flex flex-column justify-content-center text-center lk-table-header zero-left-padding">Фур</div>
+        </div>
+        <div class="col d-flex flex-column justify-content-center">
+            <div class="col d-flex flex-column justify-content-center text-center lk-table-header zero-left-padding">Потребность на ближайшие 7 дней от даты поставки</div>
+        </div>
+        <div class="col d-flex flex-column justify-content-center">
+            <div class="col d-flex flex-column justify-content-center text-center lk-table-header zero-left-padding">С учетом поставки</div>
+        </div>
+    </div>
+    <div id="product-table">
+
+    </div>
+    <div class="row justify-content-center mt-4 mb-2" id="gigiena-table-header">
+        <div class="col-3 d-flex flex-column justify-content-center">
+            <div class="col d-flex flex-column justify-content-center lk-table-header" style="padding-left:10px">Гигиенический набор</div>
+        </div>
+        <div class="col d-flex flex-column justify-content-center">
+            <div class="col d-flex flex-column justify-content-center text-center lk-table-header zero-left-padding">Поставка</div>
+        </div>
+        <div class="col d-flex flex-column justify-content-center">
+            <div class="col d-flex flex-column justify-content-center text-center lk-table-header zero-left-padding">Штук в паллете</div>
+        </div>
+        <div class="col d-flex flex-column justify-content-center">
+            <div class="col d-flex flex-column justify-content-center text-center lk-table-header zero-left-padding">Паллет</div>
+        </div>
+        <div class="col d-flex flex-column justify-content-center">
+            <div class="col d-flex flex-column justify-content-center text-center lk-table-header zero-left-padding">Газелей</div>
+        </div>
+        <div class="col d-flex flex-column justify-content-center">
+            <div class="col d-flex flex-column justify-content-center text-center lk-table-header zero-left-padding">Фур</div>
+        </div>
+        <div class="col d-flex flex-column justify-content-center">
+            <div class="col d-flex flex-column justify-content-center text-center lk-table-header zero-left-padding">Потребность на ближайшие 7 дней от даты поставки</div>
+        </div>
+        <div class="col d-flex flex-column justify-content-center">
+            <div class="col d-flex flex-column justify-content-center text-center lk-table-header zero-left-padding">С учетом поставки</div>
+        </div>
+    </div>
+    <div id="gigiena-table">
+
+    </div>
+    <div class="row justify-content-start">
+        <div class="col-1">
+        </div>
+        <div class="col-4">
+            <h5>Итого паллет в поставке: <span id="num-pallets"></span></h5>
+            <h6>в газелях: <span id="num-gazelles"></span></h6>
+            <h6>в фурах: <span id="num-trucks"></span></h6>
+            <button type="button" onclick="showList()" id="list-button" class="btn btn-warning hide">Список</button>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-6 mb-3">
+            <label for="txtComment" class="form-label"><h5>Примечание</h5></label>
+            <textarea class="form-control notes" rows="4" id="txtComment"></textarea>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-1">
+            <button type="button" id="btnForm" class="btn btn-success mb-4">Оформить</button>
+        </div>
+    </div>
+</div>
+<script>
+
+    var list_deliver = new Map([]);
+
+   /*const product = new Map([
+        ['flour', 'Мука'],
+        ['meat', 'Конcервы мясные'],
+        ['fish', 'Конcервы рыбные'],
+        ['sweet', 'Консервы сладкие'],
+        ['vegetable', 'Конcервы овощные'],
+        ['groats', 'Крупы'],
+        ['sugar', 'Сахар'],
+        ['pasta', 'Макароны'],
+        ['candy', 'Кондитерка'],
+        ['fastfood', 'Быстрое питание'],
+        ['tea', 'Чай'],
+        ['oil', 'Масло растительное']
+    ]);
+
+    var product_need = new Map([
+        ['flour', 21000],
+        ['meat', 84000],
+        ['fish', 63000],
+        ['sweet', 21000],
+        ['vegetable', 21000],
+        ['groats', 42000],
+        ['sugar', 21000],
+        ['pasta', 42000],
+        ['candy', 21000],
+        ['fastfood', 84000],
+        ['tea', 21000],
+        ['oil', 21000]
+    ])
+
+    var num_in_pallet = new Map([
+        //product
+        ['flour', 360],
+        ['meat', 1632],
+        ['fish', 1632],
+        ['sweet', 2240],
+        ['vegetable', 1728],
+        ['groats', 420],
+        ['sugar', 800],
+        ['pasta', 420],
+        ['candy', 288],
+        ['fastfood', 576],
+        ['tea', 2295],
+        ['oil', 675],
+        //gigiena
+        ['soap', 4320],
+        ['shampoo', 1728],
+        ['wipe', 720],
+        ['toothpaste', 576],
+        ['toothbrush', 1728],
+        ['toilet', 256],
+        ['napkins', 360],
+        ['razor', 420],
+    ])
+
+    const gigiena = new Map([
+        ['toilet', 'Туалетная бумага'],
+        ['toothbrush', 'Зубная щетка'],
+        ['wipe', 'Влажные салфетки'],
+        ['napkins', 'Средства женской гигиены'],
+        ['shampoo', 'Шампуни/гели'],
+        ['toothpaste', 'Зубная паста'],
+        ['soap', 'Мыло кусковое'],
+        ['razor', 'Бритвенные станки'],
+    ]);
+
+    gigiena_need = new Map([
+        ['soap', 15750],
+        ['shampoo', 7875],
+        ['wipe', 15750],
+        ['toothpaste', 7875],
+        ['toothbrush', 7875],
+        ['toilet', 31500],
+        ['napkins', 7875],
+        ['razor', 7875],
+    ]);
+
+    const types = new Map([
+        ['product', product],
+        ['gigiena', gigiena]
+    ]);
+
+    var need_types = new Map([
+        ['product', product_need],
+        ['gigiena', gigiena_need]
+    ]);*/
+
+    var params = window
+        .location
+        .search
+        .replace('?','')
+        .split('&')
+        .reduce(
+            function(p,e){
+                var a = e.split('=');
+                p[ decodeURIComponent(a[0])] = decodeURIComponent(a[1]);
+                return p;
+            },
+            {}
+        );
+    console.log(params);
+    let day = new Date(params['date']);
+
+    window.addEventListener("load", function(){
+        //getRemains();
+
+        operator_check().then((x) => {
+            if(x) {
+                $('#user_type').append('Оператор');
+                getDonors();
+            } else {
+                $('#user_type').append('Благотворитель');
+            }
+        });
+        openDay();
+        $.ajax({
+            type: "POST",
+            url: "/api/sets-api.php",
+            data: {
+                api:"user", act:"auth_check",
+            },
+            xhrFields: {
+                withCredentials: true
+            },
+        }).done(function( result )
+        {
+            console.log(result);
+            if(result.status=="ok") {
+                $('#cabinet').removeClass('hide');
+                $('#login').addClass('hide');
+                $.ajax({
+                    type: "POST",
+                    url: "/api/sets-api.php",
+                    data: {
+                        api: "user", act: "get_info", userid:result.message
+                    },
+                    xhrFields: {
+                        withCredentials: true
+                    },
+                }).done(function (result) {
+                    //console.log(result);
+                    $('#name').empty();
+                    var name;
+                    if(result.data.response.shortname) {
+                        name = result.data.response.shortname;
+                    } else {
+                        name = result.data.response.contactFio;
+                    }
+                    $('#name').append(name);
+                });
+            } else {
+                $('#cabinet').addClass('hide');
+                $('#login').removeClass('hide');
+            }
+        });
+    });
+
+    document.getElementById("btnLogout").addEventListener('click', e=>{
+        $.ajax({
+            type: "POST",
+            url: "/api/sets-api.php",
+            xhrFields: {
+                withCredentials: true
+            },
+            data: {
+                api:"user", act:"logout"
+            }
+        }).done(function( result )
+        {
+            console.log(result);
+            if(result.status==="ok") {
+                document.location.href="/login?back=lk";
+            } else {
+                alert(result.message);
+            }
+        });
+
+    })
+
+    document.getElementById("btnForm").addEventListener('click', e=>{
+        const comment = document.getElementById('txtComment').value;
+        const options = document.getElementById('sltWarehouse').options;
+        let warehouse = null;
+        if(options.selectedIndex>0) {
+            warehouse = options[options.selectedIndex].id;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/api/sets-api.php",
+            xhrFields: {
+                withCredentials: true
+            },
+            data: {
+                api:"donor", act:"form_deliver", list_deliver:JSON.stringify(list_deliver, replacer), comment:comment, userid:warehouse, date:params['date']
+            }
+        }).done(function( result )
+        {
+            console.log(result);
+            if(result.status=="ok") {
+                alert('Спасибо! Заявка принята.');
+                list_deliver.clear();
+                openDay();
+            } else {
+                alert('Произошла ошибка.');
+            }
+        });
+    })
+
+    function formatDate(date) {
+        var d = new Date(date),
+            month = '' + (d.getMonth() + 1),
+            day = '' + d.getDate(),
+            year = d.getFullYear();
+
+        if (month.length < 2)
+            month = '0' + month;
+        if (day.length < 2)
+            day = '0' + day;
+
+        return [year, month, day].join('-');
+    }
+
+    function fillSet(id, name, table, num, in_pallet, week_need) {
+        var html = `
+        <div class="row align-items-center justify-content-center text-left">
+            <div class="col-3">
+                <div class="note lk-notes" style="margin-bottom:6px;" id="div`+ id +`">`+ num + name +`
+                </div>
+            </div>
+            <div class="col">
+                <input type="number" oninput="numChange(this)" class="form-control note lk-notes text-center" id="`+ id + `">
+            </div>
+            <div class="col">
+                <input type="number" class="form-control note lk-notes text-center " value=`+ in_pallet +` id="num-in-pallet`+ id + `">
+            </div>
+            <div class="col">
+                <input type="number" disabled class="form-control note lk-notes text-center" id="pallets`+ id + `">
+            </div>
+            <div class="col">
+                <input type="number" disabled class="form-control note lk-notes text-center" id="gazelles`+ id + `">
+            </div>
+            <div class="col">
+                <input type="number" disabled class="form-control note lk-notes text-center" id="trucks`+ id + `">
+            </div>
+            <div class="col">
+                <input type="number" disabled class="form-control note lk-notes text-center" value=`+ week_need +` id="need`+ id + `">
+            </div>
+            <div class="col">
+                <input type="number" disabled class="form-control note lk-notes text-center" value='' id="remain`+ id + `">
+            </div>
+        </div>`;
+        $('#' + table + '-table').append(html);
+    }
+
+    function numChange(el) {
+        let need = $('#need' + el.id).val();
+        $('#remain' + el.id).val(need - el.value);
+        /*if(product_need.has(el.id)) {
+            $('#remain' + el.id).val(product_need.get(el.id) - el.value);
+        } else {
+            $('#remain' + el.id).val(gigiena_need.get(el.id) - el.value);
+        }*/
+        $('#pallets' + el.id).val((el.value / $('#num-in-pallet' + el.id).val()).toFixed(3));
+        $('#gazelles' + el.id).val(($('#pallets' + el.id).val() / 4).toFixed(3));
+        $('#trucks' + el.id).val(($('#pallets' + el.id).val() / 33).toFixed(3));
+        var table = document.querySelectorAll('#product-table, #gigiena-table');
+        list_deliver.set(params['date'], new Map([]));
+        for (var i = 0, len = table.length; i < len; i++) {
+            let id = table[i].id.replace('-table', "");
+            var inputs = table[i].querySelectorAll('input[type="number"]:not([disabled]):not([id*="num-in-pallet"])');
+            //console.log(inputs);
+            list_deliver.get(params['date']).set(id, new Map([]));
+            for (var j = 0, inp_len = inputs.length; j < inp_len; j++) {
+                //console.log(inputs[i].value);
+                if (Number(inputs[j].value)) {
+                    list_deliver.get(params['date']).get(id).set(inputs[j].id, inputs[j].value);
+                }
+            }
+        }
+        console.log(list_deliver);
+        let summ = 0;
+        list_deliver.forEach(function(value_deliver, key_deliver) {
+            //console.log(value_deliver);
+            value_deliver.forEach(function(value_date, key_date) {
+                value_date.forEach(function(value_item,key_item) {
+                    //console.log(value_item);
+                    summ += Number(value_item);
+                });
+            });
+        });
+
+        calculate('pallets');
+        calculate('gazelles');
+        calculate('trucks');
+
+        if(summ>0) {
+            $('#list-button').removeClass('hide');
+        } else {
+            $('#list-button').addClass('hide');
+        }
+
+    }
+
+    function changeDay(num) {
+        list_deliver.clear();
+        var open_day = new Date(params['date']);
+        params['date']=addDays(open_day, num).toISOString().split('T')[0];
+        openDay();
+        console.log(params['date']);
+    }
+
+    function addDays(date, days) {
+        var result = new Date(date);
+        result.setDate(result.getDate() + days);
+        return result;
+    }
+
+    function openDay() {
+        /*if(types.get(params['type'])) {
+            $('#table').empty();
+            types.get(params['type']).forEach(function(value,key) {
+                //console.log(value + "-" + key);
+                fillSet(key, value);
+            });
+
+        }
+        product_need.clear();
+        gigiena_need.clear();
+        need_types.clear();
+
+        product_need = new Map([
+            ['flour', 21000],
+            ['meat', 84000],
+            ['fish', 63000],
+            ['sweet', 21000],
+            ['vegetable', 21000],
+            ['groats', 42000],
+            ['sugar', 21000],
+            ['pasta', 42000],
+            ['candy', 21000],
+            ['fastfood', 84000],
+            ['tea', 21000],
+            ['oil', 21000]
+        ])
+
+        gigiena_need = new Map([
+            ['soap', 15750],
+            ['shampoo', 7875],
+            ['wipe', 15750],
+            ['toothpaste', 7875],
+            ['toothbrush', 7875],
+            ['toilet', 31500],
+            ['napkins', 7875],
+            ['razor', 7875],
+        ]);
+
+        need_types = new Map([
+            ['product', product_need],
+            ['gigiena', gigiena_need]
+        ]);*/
+
+        $('#num-pallets').empty();
+        $('#num-gazelles').empty();
+        $('#num-trucks').empty();
+
+        $('#product-table').empty();
+        $('#gigiena-table').empty();
+
+        if(params['date']) {
+            var day = new Date(params['date']);
+        } else {
+            var day = new Date();
+        }
+        var day_str = day.toISOString().split('T')[0];
+        $.ajax({
+            type: "POST",
+            url: "/api/sets-api.php",
+            xhrFields: {
+                withCredentials: true
+            },
+            data: {
+                api:"donor", act:"get_remains", date:day_str
+            }
+        }).done(function( result )
+        {
+            console.log(result);
+            if(result.status=="ok") {
+                let remains = result.data.response;
+
+                let prev_type ='';
+                let num = "";
+                let k = 1;
+                remains.forEach((el) => {
+                    if (prev_type!==el.need_type) {
+                        k = 1;
+                    }
+                    if (k > 9) {
+                        num = k + ".&nbsp &nbsp";
+                    } else {
+                        num = k + ".&nbsp &nbsp &nbsp";
+                    }
+                    fillSet(el.type, types.get(el.need_type).get(el.type), el.need_type, num, el.in_pallet, el.week_need);
+                    k++;
+                    prev_type = el.need_type;
+                });
+            }
+            if(!params['date']) {
+                var today = new Date;
+                params['date'] = today.toISOString().split('T')[0];
+            }
+
+            $('#date').empty();
+            $('#date').append(' ' + params['date'] + ' ');
+            $('#txtComment').val();
+
+            var table = document.querySelectorAll('#product-table, #gigiena-table');
+            for (var i = 0, len = table.length; i < len; i++) {
+                let id = table[i].id.replace('-table', "");
+                //console.log(id);
+                var inputs = table[i].querySelectorAll('input[type="number"]:not([disabled]):not([id*="num-in-pallet"])');
+                //console.log(inputs);
+                for (var j = 0, inp_len = inputs.length; j < inp_len; j++) {
+                    inputs[j].value = "";
+                    if(list_deliver.has(params['date'])) {
+                        if(list_deliver.get(params['date']).has(id)) {
+                            if(list_deliver.get(params['date']).get(id).has(inputs[j].id)) {
+                                inputs[j].value = list_deliver.get(params['date']).get(id).get(inputs[j].id);
+                            }
+                        }
+                    }
+                }
+            }
+
+            // заполнение инпутов при входящих параметрах
+            keys = Object.keys(params);
+            keys.forEach((key, index) => {
+                if(key.includes('value')) {
+                    let id = key.replace('value', "");
+                    $('#' + params[key]).val(params['quant' + id]);
+                    let el = document.getElementById(params[key]);
+                    numChange(el);
+                }
+            });
+
+        });
+
+    }
+
+    function showList() {
+        var listModal = document.getElementById('listModal');
+        var modal = bootstrap.Modal.getOrCreateInstance(listModal);
+        $('#modal-list').empty();
+        list_deliver.forEach(function(value_date, key_date) {
+            $('#modal-list').append('<div class="col-12"><h4>' + key_date + '</h4></div>');
+            value_date.forEach(function(value_type, key_type) {
+                value_type.forEach(function(value_item,key_item) {
+                    $('#modal-list').append('<div class="col-12"><h5>' + types.get(key_type).get(key_item) + " - " + value_item + '</h5></div>');
+                });
+            });
+        });
+        modal.show();
+    }
+
+    function calculate(id) {
+        let sum = 0;
+        var inputs = document.querySelectorAll('input[id][type="number"][id*="'+ id +'"]:not([id*="num-in-pallet"])');
+        for (var j = 0, inp_len = inputs.length; j < inp_len; j++) {
+            sum += Number(inputs[j].value);
+        }
+        $('#num-' + id).html(sum.toFixed(3));
+        //console.log(inputs);
+    }
+
+    const operator_promise = new Promise((resolve, reject) => {
+        $.ajax({
+            type: "POST",
+            url: "./api/sets-api.php",
+            data: {
+                api:"operator", act:"is_operator"
+            },
+            xhrFields: {
+                withCredentials: true
+            },
+        }).done(function( result )
+        {
+            console.log(result);
+            //console.log(result['status']==='ok');
+            if(result['status']==='ok') {
+                resolve(result.data.response);
+            } else {
+                resolve(false);
+            }
+        });
+    });
+
+    async function operator_check() {
+        value = await operator_promise;
+        return value;
+    }
+
+    function addWarehouse() {
+        const name = document.getElementById('txtWarehouseName').value;
+        if(name!=='') {
+            $.ajax({
+                type: "POST",
+                url: "./api/sets-api.php",
+                xhrFields: {
+                    withCredentials: true
+                },
+                data: {
+                    api:"operator", act:"add_warehouse", name:name
+                }
+            }).done(function( result ) {
+                console.log(result);
+                if (result.status == "ok") {
+                    alert('Поставщик успешно добавлен!');
+                    document.getElementById('txtWarehouseName').value = "";
+                    $('#addWarehouse').addClass('hide');
+                    getDonors();
+                } else {
+                    alert(result.message);
+                }
+            });
+        } else {
+            alert('Введите наименование Поставщика!');
+        }
+    }
+
+    function getDonors() {
+        $.ajax({
+            type: "POST",
+            url: "/api/sets-api.php",
+            data: {
+                //api:"operator", act:"get_warehouses"
+                api:"operator", act:"get_donors"
+            },
+            xhrFields: {
+                withCredentials: true
+            },
+        }).done(function( result )
+        {
+            if(result.status==="ok") {
+                warehouses = result.data.response;
+                //console.log(warehouses);
+                $('#sltWarehouse').empty();
+                $('#sltWarehouse').append('<option>-</option>');
+                warehouses.forEach(function(value) {
+                    $('#sltWarehouse').append('<option id="' + value.userid + '">' + value.shortname + '</option>');
+                });
+                $('#warehouses').removeClass('hide');
+            }
+        });
+    }
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Корзина</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="d-flex align-items-center justify-content-between">
+                <div class="d-flex align-items-center">
+                    <img src="images\logo.svg" alt="Логотип" width="62" height="48" class="me-4">
+                    <nav class="d-flex gap-4">
+                        <a href="market.html" class="nav-link">Маркет</a>
+                        <a href="cart.html" class="nav-link active position-relative">Корзина
+                            <span id="cartBadge" class="cart-badge">0</span> 
+                        </a>
+                        <a href="help.html" class="nav-link">Справка</a>
+                    </nav>
+                </div>
+                <h1 id="user-info">Иван Иванов Иванович</h1>
+                <div class="d-flex align-items-center gap-3">
+                    <div class="notification-container">
+                        <button class="notification-btn">
+                            <img src="images/BellRinging.svg" alt="Уведомления" class="notification-icon">
+                        </button>
+                        <div class="notification-dropdown">
+                            <button class="notification-item">
+                                <div class="notification-date">12.12.24</div>
+                                <div class="notification-text">Заказ № 1244 доставлен.</div>
+                            </button>
+                            <div class="notification-divider"></div>
+                            <button class="notification-item">
+                                <div class="notification-date">12.12.24</div>
+                                <div class="notification-text">Изменена информация в личном кабинете.</div>
+                            </button>
+                            <div class="notification-divider"></div>
+                            <button class="mark-read-btn">Прочитано</button>
+                        </div>
+                    </div>
+                    <a href="needer-balance.html" class="cart-indicator">
+                        <div class="price-dot cart" alt="Logo-token"></div>
+                        <span id="token-count">112</span>
+                    </a>
+                    <a href="lk-needer.html" class="profile-btn">Личный кабинет</a>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main>
+        <section class="empty-cart" aria-label="Empty Shopping Cart">
+            <h2 class="empty-cart-message">
+              Корзина пуста.<br>
+              Воспользуйтесь поиском,<br>
+              чтобы найти всё необходимое.
+            </h2>
+            <a href="market.html" class="shop-button">За покупками</a>
+          </section>
+          <h2 class="cart-title" id="cartTitle" style="display: none; font-weight: bold; margin-left: 115px; margin-top: 25px; 
+          margin-bottom: 15px;">Корзина</h2>
+          <div class="cart-items"></div> 
+          <div class="payment-container">
+            <div class="payment-box">
+                <h3>Ваша Корзина</h3>
+                <div class="payment-details">
+                    <div class="payment-row">
+                        <span>Товары</span>
+                        <span id="totalItems">0</span>
+                    </div>
+                    <div class="payment-row">
+                        <span>Вес</span>
+                        <span id="totalWeight">0 г</span>
+                    </div>
+                    <hr>
+                    <div class="payment-row">
+                        <span class="sum-label">Сумма</span>
+                        <div class="total-price-container">
+                            <img src="images\Group 1.png" alt="Logo-token" class="price-dot">
+                            <span id="totalPrice">0</span>
+                        </div>
+                    </div>
+                    <button class="pay-button" id="payButton">Оплатить</button>
+                </div>
+            </div>
+        </div>
+        <div id="paymentSuccessMessage" class="payment-success-message" style="display: none;">
+            <span>Заказ успешно оплачен</span>
+            <img src="images\checkmark.png" alt="Checkmark" width="25" height="25">
+        </div>
+    </main>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+    // Блок 1: Инициализация переменных и загрузка данных
+    const cartItemsContainer = document.querySelector('.cart-items');
+    const emptyCartSection = document.querySelector('.empty-cart');
+    const paymentContainer = document.querySelector('.payment-container');
+    const totalItems = document.getElementById('totalItems');
+    const totalWeight = document.getElementById('totalWeight');
+    const totalPrice = document.getElementById('totalPrice');
+    const cartBadge = document.getElementById('cartBadge');
+    const cartTitle = document.getElementById('cartTitle');
+    let cartCount = parseInt(localStorage.getItem('cartCount')) || 0;
+
+
+    updateCartBadge(cartCount);
+
+    const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+
+    // Блок 2: Отображение товаров в корзине
+    if (cartItems.length > 0) {
+
+        emptyCartSection.style.display = 'none';
+        paymentContainer.style.display = 'block';
+        cartTitle.style.display = 'block';
+
+        renderCartItems(cartItems);
+    } else {
+        emptyCartSection.style.display = 'flex';
+        paymentContainer.style.display = 'none'; 
+        cartTitle.style.display = 'none';
+    }
+
+    // Блок 3: Изменение количества товара
+    function changeQuantity(button, change, index) {
+        const input = button.parentElement.querySelector('.numeric');
+        let value = parseInt(input.textContent, 10);
+        value += change;
+
+        if (value < 1) value = 1; 
+        input.textContent = value;
+
+        const minusBtn = button.parentElement.querySelector('.minus');
+        minusBtn.disabled = value === 1;
+
+        cartItems[index].quantity = value;
+        localStorage.setItem('cartItems', JSON.stringify(cartItems));
+
+        cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+        localStorage.setItem('cartCount', cartCount);
+
+        updateCartUI();
+        updateCartBadge(cartCount);
+    }
+
+    // Блок 4: Удаление товара из корзины
+    function removeFromCart(index) {
+        cartItems.splice(index, 1);
+        localStorage.setItem('cartItems', JSON.stringify(cartItems));
+        cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+        localStorage.setItem('cartCount', cartCount);
+
+        updateCartUI();
+        updateCartBadge(cartCount);
+    }
+
+    // Блок 5: Обновление интерфейса корзины
+    function updateCartUI() {
+        cartItemsContainer.innerHTML = ''; 
+
+        if (cartItems.length > 0) {
+            emptyCartSection.style.display = 'none';
+            paymentContainer.style.display = 'block';
+            cartTitle.style.display = 'block';
+            renderCartItems(cartItems);
+        } else {
+            emptyCartSection.style.display = 'flex';
+            paymentContainer.style.display = 'none';
+            cartTitle.style.display = 'none';
+        }
+    }
+
+    // Блок 6: Рендер товаров в корзине
+    function renderCartItems(items) {
+        let totalItemsCount = 0;
+        let totalWeightCount = 0;
+        let totalPriceCount = 0;
+
+        items.forEach((item, index) => {
+            const cartItem = document.createElement('div');
+            cartItem.classList.add('cart-item');
+            cartItem.innerHTML = `
+            <div class="product-image">
+                <img src="${item.image}" alt="${item.name}">
+            </div>
+                <div class="product-details">
+                    <h2>${item.name}</h2>
+                    <div class="d-flex gap-2 text-secondary">
+                        <span>${item.weight}</span>
+                        <span class="divider">|</span>
+                        <span>${item.expiry}</span>
+                    </div>
+                    <button class="delete-btn">Удалить</button>
+                </div>
+                <div class="price-column">
+                    <img src="images/Group 1.png" alt="Logo-token" class="price-dot">
+                    <span class="price">${item.price}</span>
+                </div>
+                <div class="quantity-column">
+                    <button class="act-btn minus" ${item.quantity === 1 ? 'disabled' : ''}>-</button>
+                    <div class="numeric">${item.quantity}</div>
+                    <button class="act-btn plus">+</button>
+                </div>
+            `;
+            cartItemsContainer.appendChild(cartItem);
+
+            const deleteBtn = cartItem.querySelector('.delete-btn');
+            deleteBtn.addEventListener('click', () => removeFromCart(index));
+
+            const minusBtn = cartItem.querySelector('.minus');
+            minusBtn.addEventListener('click', () => changeQuantity(minusBtn, -1, index));
+
+            const plusBtn = cartItem.querySelector('.plus');
+            plusBtn.addEventListener('click', () => changeQuantity(plusBtn, 1, index));
+
+            totalItemsCount += item.quantity;
+            totalWeightCount += item.quantity * parseInt(item.weight); 
+            totalPriceCount += item.quantity * parseFloat(item.price);
+        });
+
+        totalItems.textContent = totalItemsCount;
+        totalWeight.textContent = `${totalWeightCount} г`;
+        totalPrice.textContent = `${Math.round(totalPriceCount)}`;
+    }
+
+    // Блок 7: Обновление индикатора корзины
+    function updateCartBadge(count) {
+        if (cartBadge) {
+            if (count > 0) {
+                cartBadge.textContent = count;
+                cartBadge.classList.add('visible');
+            } else {
+                cartBadge.textContent = 0;
+                cartBadge.classList.remove('visible');
+            }
+        }
+    }
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+    const payButton = document.getElementById('payButton');
+    const tokenCountElement = document.getElementById('token-count');
+    const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+    const orders = JSON.parse(localStorage.getItem('orders')) || [];
+    const paymentSuccessMessage = document.getElementById('paymentSuccessMessage');
+    const emptyCartSection = document.querySelector('.empty-cart');
+    const paymentContainer = document.querySelector('.payment-container');
+    const cartItemsContainer = document.querySelector('.cart-items');
+
+    payButton.addEventListener('click', () => {
+        const totalPrice = cartItems.reduce((acc, item) => acc + (item.price * item.quantity), 0);
+        const currentTokens = parseInt(tokenCountElement.textContent, 10);
+
+        if (currentTokens >= totalPrice) {
+            const newTokenCount = currentTokens - totalPrice;
+            tokenCountElement.textContent = newTokenCount;
+            localStorage.setItem('tokenCount', newTokenCount);
+
+            const donorTokenCount = parseInt(localStorage.getItem('donorTokenCount')) || 0;
+            const newDonorTokenCount = donorTokenCount + totalPrice;
+            localStorage.setItem('donorTokenCount', newDonorTokenCount);
+
+            const orderId = generateOrderId();
+            const order = {
+                id: generateOrderId(),
+                items: cartItems, 
+                totalQuantity: cartItems.reduce((acc, item) => acc + item.quantity, 0),
+                totalWeight: cartItems.reduce((acc, item) => acc + (parseInt(item.weight) * item.quantity), 0) + ' г',
+                totalPrice: totalPrice,
+                date: new Date().toISOString(),
+                status: 'В сборке',
+                pickupAddress: 'ул. Примерная, 15' 
+            };
+
+            orders.push(order);
+            localStorage.setItem('orders', JSON.stringify(orders));
+
+            localStorage.removeItem('cartItems');
+            localStorage.removeItem('cartCount');
+
+            showPaymentSuccessMessage();
+
+            setTimeout(() => {
+                paymentSuccessMessage.style.display = 'none';
+                emptyCartSection.style.display = 'flex';
+                paymentContainer.style.display = 'none';
+                cartItemsContainer.innerHTML = '';
+            }, 3000);
+        } else {
+            alert('Недостаточно токенов для оплаты');
+        }
+    });
+
+    function generateOrderId() {
+        const userId = '1234567'; 
+        const randomPart = Math.floor(1000 + Math.random() * 9000); 
+        return `${userId}-${randomPart}`;
+    }
+
+    function showPaymentSuccessMessage() {
+        emptyCartSection.style.display = 'none';
+        paymentContainer.style.display = 'none';
+        cartTitle.style.display = 'none';
+        cartItemsContainer.innerHTML = '';
+        paymentSuccessMessage.style.display = 'flex';
+    }
+});
+function updateTokenCount() {
+    const tokenCount = parseInt(localStorage.getItem('tokenCount')) || 200;
+    document.querySelectorAll('#token-count, #token-count-hovered, .token-count').forEach(element => {
+        element.textContent = tokenCount;
+    });
+}
+document.addEventListener('DOMContentLoaded', updateTokenCount);
+</script>
+</body>
+</html>

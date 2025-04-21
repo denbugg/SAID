@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Верификация благотворителя</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="./css/styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+</head>
+<body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script
+        src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+        crossorigin="anonymous"></script>
+<div class="container-fluid">
+    <form class="form" id="signUpForm" role="form">
+        <div id="signup" class="form-group row justify-content-center">
+            <div class="col-12 col-md-10 col-lg-8 col-xl-6">
+                <h3 class="text-center">Верификация Благотворителя</h3>
+                <div id="type" class="row justify-content-center">
+                    <div class="col-8">
+                        <div class="select-header text-center">
+                            <span class="align-middle"><label class="label-header" for="sltForm"><h5 class="text-center">Организационно-правовая форма</h5></label></span>
+                        </div>
+                        <select class="form-control select-list" name="sltForm" onchange="selectChange(this)" id="sltForm">
+                            <option class="select-list">Орган власти или местного СМУ</option>
+                            <option class="select-list">Подведомственное учреждение</option>
+                            <option class="select-list">Коммерческая организация</option>
+                            <option class="select-list">Некоммерческая организация</option>
+                            <option class="select-list">ИП</option>
+                            <option class="select-list">Физическое лицо</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="mb-3 text-center">
+                    <label for="txtDetails" class="form-label"><h4>Реквизиты</h4></label>
+
+                    <textarea class="form-control notes hide" id="txtDetails" rows="15"></textarea>
+                </div>
+                <div class="row">
+                    <div id="organizationDetails">
+                        <div class="col-12">
+                            <div class="mb-3">
+                                <label for="txtFullName" class="form-label"><h5>Полное наименование</h5></label>
+                                <input type="email" class="form-control notes note" id="txtFullName">
+                            </div>
+                            <div class="mb-3">
+                                <label for="txtShortName" class="form-label"><h5>Сокращенное наименование:</h5></label>
+                                <input type="text" class="form-control notes note" id="txtShortName">
+                            </div>
+                            <div class="mb-3">
+                                <label for="txtAdress" class="form-label"><h5>Юридический адрес:</h5></label>
+                                <input type="text" class="form-control notes note" id="txtAdress">
+                            </div>
+                            <div class="mb-3">
+                                <label for="txtMail" class="form-label"><h5>Почтовый адрес:</h5></label>
+                                <input type="text" class="form-control notes note" id="txtMail">
+                            </div>
+                            <div class="row mb-3 align-items-end g-0">
+                                <div class="col-2 align-items-end">
+                                    <label for="txtPhone" class=""><h5 class="h-input">Телефон:</h5></label>
+                                </div>
+                                <div class="col">
+                                    <input type="text" class="form-control notes note" id="txtPhone">
+                                </div>
+                            </div>
+                            <div class="row mb-3 align-items-end g-0">
+                                <div class="col-2 align-items-end">
+                                    <label for="txtEmail" class=""><h5 class="h-input">E-mail:</h5></label>
+                                </div>
+                                <div class="col">
+                                    <input type="text" class="form-control notes note" id="txtEmail">
+                                </div>
+                            </div>
+                            <div class="row mb-3 align-items-end g-0">
+                                <div class="col-2 align-items-end">
+                                    <label for="txtInn" class="form-label"><h5>ИНН:</h5></label>
+                                </div>
+                                <div class="col">
+                                    <input type="text" class="form-control notes note" id="txtInn">
+                                </div>
+                            </div>
+                            <div class="row mb-3 align-items-end g-0">
+                                <div class="col-2 align-items-end">
+                                    <label for="txtKpp" class="form-label"><h5>КПП:</h5></label>
+                                </div>
+                                <div class="col">
+                                    <input type="text" class="form-control notes note" id="txtKpp">
+                                </div>
+                            </div>
+                            <div class="row mb-3 align-items-end g-0">
+                                <div class="col-2 align-items-end">
+                                    <label for="txtOgrn" class="form-label"><h5>ОГРН:</h5></label>
+                                </div>
+                                <div class="col">
+                                    <input type="text" class="form-control notes note" id="txtOgrn">
+                                </div>
+                            </div>
+                            <div class="row mb-3 align-items-end g-0">
+                                <div class="col-2 align-items-end">
+                                    <label for="txtOkpo" class="form-label"><h5>ОКПО:</h5></label>
+                                </div>
+                                <div class="col">
+                                    <input type="text" class="form-control notes note" id="txtOkpo">
+                                </div>
+                            </div>
+                            <div class="row mb-3 align-items-end g-0">
+                                <div class="col-2 align-items-end">
+                                    <label for="txtOkved" class="form-label"><h5>ОКВЭД:</h5></label>
+                                </div>
+                                <div class="col">
+                                    <input type="text" class="form-control notes note" id="txtOkved">
+                                </div>
+                            </div>
+                            <div class="row mb-3 align-items-end g-0">
+                                <div class="col-2 align-items-end">
+                                    <label for="txtBank" class="form-label"><h5>Банк:</h5></label>
+                                </div>
+                                <div class="col">
+                                    <input type="text" class="form-control notes note" id="txtBank">
+                                </div>
+                            </div>
+                            <div class="row mb-3 align-items-end g-0">
+                                <div class="col-2 align-items-end">
+                                    <label for="txtAccount" class="form-label"><h5>р/с:</h5></label>
+                                </div>
+                                <div class="col">
+                                    <input type="text" class="form-control notes note" id="txtAccount">
+                                </div>
+                            </div>
+                            <div class="row mb-3 align-items-end g-0">
+                                <div class="col-2 align-items-end">
+                                    <label for="txtBik" class="form-label"><h5>БИК:</h5></label>
+                                </div>
+                                <div class="col">
+                                    <input type="text" class="form-control notes note" id="txtBik">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12" id="head">
+                        <div class="mb-3">
+                            <label for="txtHeadFio" class="form-label"><h4>ФИО Руководителя</h4></label>
+                            <input type="text" class="form-control notes note" id="txtHeadFio">
+                        </div>
+                        <div class="mb-3">
+                            <label for="txtHeadPhone" class="form-label"><h5>Телефон</h5></label>
+                            <input type="text" class="form-control notes note" id="txtHeadPhone">
+                        </div>
+                        <div class="mb-3">
+                            <label for="txtHeadEmail" class="form-label"><h5>E-mail</h5></label>
+                            <input type="email" class="form-control notes note" id="txtHeadEmail">
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="mb-3" id="contactFio">
+                            <label id="lblContactFio" for="txtContactFio" class="form-label"><h4>ФИО Контактного лица</h4></label>
+                            <input type="text" class="form-control notes note" id="txtContactFio">
+                        </div>
+                        <div class="mb-3">
+                            <label for="txtContactPhone" class="form-label"><h5>Телефон</h5></label>
+                            <input type="text" class="form-control notes note" id="txtContactPhone">
+                        </div>
+                        <div class="mb-3">
+                            <label for="txtContactEmail" class="form-label"><h5>E-mail</h5></label>
+                            <input type="email" class="form-control notes note" id="txtContactEmail">
+                        </div>
+                    </div>
+                </div>
+                <div class="row" id="personDetails">
+                    <div class="col-12">
+                        <div class="mb-3">
+                            <label for="txtPassport" class="form-label"><h5>Паспортные данные</h5></label>
+                            <input type="text" class="form-control notes note" id="txtPassport">
+                        </div>
+                        <div class="mb-3">
+                            <label for="txtPersonMail" class="form-label"><h5>Почтовый адрес</h5></label>
+                            <input type="text" class="form-control notes note" id="txtPersonMail">
+                        </div>
+                    </div>
+                </div>
+                <div class="row" id="documents">
+                    <div class="row">
+                        <div class="col">
+                            <h4>Документы</h4>
+                        </div>
+                    </div>
+                    <div class="row align-items-center">
+                        <div class="col-12 text-left">
+                            <div class="row">
+                                <div class="col hide">
+                                    <input type="file" class="filestyle" id="fileArticles" name="fileArticles" data-buttonName="btn" data-buttonBefore="true" data-buttonText="Выбрать файл" hidden>
+                                </div>
+                                <div class="col-3">
+                                    <h5>Устав</h5>
+                                </div>
+                                <div class="col-1">
+                                    <label class="form-label orange add-file" for="fileArticles"><h4><i class="bi bi-file-earmark-plus"></i></h4></label>
+                                </div>
+                                <div class="col">
+                                    <div class="file-input text-left notes note" id="articles-file-chosen">
+                                        Файл не выбран
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row align-items-center">
+                        <div class="col-12 text-left">
+                            <div class="row align-items-lg-center">
+                                <div class="col hide">
+                                    <input type="file" class="filestyle" id="fileDecision" name="fileDecision" data-buttonName="btn" data-buttonBefore="true" data-buttonText="Выбрать файл" hidden>
+                                </div>
+                                <div class="col-3">
+                                    <h5>Решение о назначении руководителя</h5>
+                                </div>
+                                <div class="col-1">
+                                    <label class="form-label orange add-file" for="fileDecision"><h4><i class="bi bi-file-earmark-plus"></i></h4></label>
+                                </div>
+                                <div class="col">
+                                    <div class="file-input text-left notes note" id="decision-file-chosen">
+                                        Файл не выбран
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row align-items-center">
+                        <div class="col-12 text-left">
+                            <div class="row align-items-lg-center">
+                                <div class="col hide">
+                                    <input type="file" class="filestyle" id="fileEgrul" name="fileEgrul" data-buttonName="btn" data-buttonBefore="true" data-buttonText="Выбрать файл" hidden>
+                                </div>
+                                <div class="col-3">
+                                    <h5>Выписка из ЕГРЮЛ/ЕГРИП</h5>
+                                </div>
+                                <div class="col-1">
+                                    <label class="form-label orange add-file" for="fileEgrul"><h4><i class="bi bi-file-earmark-plus"></i></h4></label>
+                                </div>
+                                <div class="col">
+                                    <div class="file-input text-left notes note" id="egrul-file-chosen">
+                                        Файл не выбран
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div id="fail" class="col-12 hide">
+                        <div class="alert alert-danger" role="alert">
+                            <span id="fail-message">Ошибка. Проверьте заполнение формы и загрузку всех необходимых файлов.</span>
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <button type="button" id="btnSend" class="btn btn-success">Отправить</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <div id="success" class="row justify-content-center hide">
+        <div class="alert alert-success" role="alert">
+            <span id="success-message">Информация передана на модерацию. Ответ придет на e-mail контактного лица.</span>
+        </div>
+    </div>
+</div>
+<script>
+
+    window.addEventListener("load", function() {
+        fillDetails();
+    });
+
+    document.getElementById("btnSend").addEventListener('click', e=>{
+        var file_articles = $('#fileArticles').prop('files')[0];
+        var file_decision = $('#fileDecision').prop('files')[0];
+        var file_egrul = $('#fileEgrul').prop('files')[0];
+        var form_data = new FormData();
+        const form = document.getElementById("sltForm").value;
+        const fullname = document.getElementById("txtFullName").value;
+        const shortname = document.getElementById("txtShortName").value;
+        const adress = document.getElementById("txtAdress").value;
+        var mail;
+        var passport;
+        if(form=="Физическое лицо") {
+            mail = document.getElementById("txtPersonMail").value;
+            passport = document.getElementById("txtPassport").value;
+        } else {
+            mail = document.getElementById("txtMail").value;
+        }
+        const phone = document.getElementById("txtPhone").value;
+        const email = document.getElementById("txtEmail").value;
+        const inn = document.getElementById("txtInn").value;
+        const kpp = document.getElementById("txtKpp").value;
+        const ogrn = document.getElementById("txtOgrn").value;
+        const okpo = document.getElementById("txtOkpo").value;
+        const okved = document.getElementById("txtOkved").value;
+        const bank = document.getElementById("txtBank").value;
+        const account = document.getElementById("txtAccount").value;
+        const bik = document.getElementById("txtBik").value;
+
+        const headFio = document.getElementById("txtHeadFio").value;
+        const headPhone = document.getElementById("txtHeadPhone").value;
+        const headEmail = document.getElementById("txtHeadEmail").value;
+        const contactFio = document.getElementById("txtContactFio").value;
+        const contactPhone = document.getElementById("txtContactPhone").value;
+        const contactEmail = document.getElementById("txtContactEmail").value;
+
+        form_data.append('articles', file_articles);
+        form_data.append('decision', file_decision);
+        form_data.append('egrul', file_egrul);
+        form_data.append('api', 'donor');
+        form_data.append('act', 'send_to_base');
+        form_data.append('form', form);
+        form_data.append('fullname', fullname);
+        form_data.append('shortname', shortname);
+        form_data.append('adress', adress);
+        form_data.append('mail', mail);
+        form_data.append('passport', passport);
+        form_data.append('phone', phone);
+        form_data.append('email', email);
+        form_data.append('inn', inn);
+        form_data.append('kpp', kpp);
+        form_data.append('ogrn', ogrn);
+        form_data.append('okpo', okpo);
+        form_data.append('okved', okved);
+        form_data.append('bank', bank);
+        form_data.append('account', account);
+        form_data.append('bik', bik);
+
+        form_data.append('headFio', headFio);
+        form_data.append('headPhone', headPhone);
+        form_data.append('headEmail', headEmail);
+        form_data.append('contactFio', contactFio);
+        form_data.append('contactPhone', contactPhone);
+        form_data.append('contactEmail', contactEmail);
+        console.log(form_data);
+        //alert(form_data);
+        if(contactEmail) {
+            $.ajax({
+                url: './api/sets-api.php',
+                dataType: 'text',
+                cache: false,
+                contentType: false,
+                processData: false,
+                data: form_data,
+                type: 'post',
+                success: function (php_script_response) {
+                    console.log(php_script_response);
+                    let result = JSON.parse(php_script_response);
+                    if (result['status'] === "ok") {
+                        $('#success').removeClass('hide');
+                        $('#fail').addClass('hide');
+                        $('#signUpForm').addClass('hide');
+                        /*$.ajax({
+                            type: "POST",
+                            url: "./api/sets-api.php",
+                            data: {
+                                act: "register", api: "user", email: contactEmail, phone: contactPhone
+                            },
+                            xhrFields: {
+                                withCredentials: true
+                            }
+                        }).done(function (result) {
+                            console.log(result);
+                            if (result.status === "ok") {
+                                $('#success-message').html('Верификация успешно пройдена, проверьте контактный email, ' +
+                                    'на него отправлен пароль для входа. <a href="/login">Авторизоваться</a>');
+                            } else {
+                                $('#fail').removeClass('hide');
+                                $('#fail-message').html('Произошла ошибка верификации: ' + result.message);
+                            }
+                        });*/
+                    } else {
+                        $('#fail').removeClass('hide');
+                        if (result.message) {
+                            $('#fail-message').html('Произошла ошибка верификации: ' + result.message);
+                        }
+                    }
+                }
+            });
+        } else {
+            $('#fail').removeClass('hide');
+            $('#fail-message').html('Произошла ошибка верификации: заполните контактный e-mail');
+        }
+    })
+
+    $('#fileArticles').change(function() {
+        var filepath = this.value;
+        var m = filepath.match(/([^\/\\]+)$/);
+        var filename = m[1];
+        $('#articles-file-chosen').html(filename);
+    });
+
+    $('#fileDecision').change(function() {
+        var filepath = this.value;
+        var m = filepath.match(/([^\/\\]+)$/);
+        var filename = m[1];
+        $('#decision-file-chosen').html(filename);
+    });
+
+    $('#fileEgrul').change(function() {
+        var filepath = this.value;
+        var m = filepath.match(/([^\/\\]+)$/);
+        var filename = m[1];
+        $('#egrul-file-chosen').html(filename);
+    });
+
+    function fillDetails(person = false) {
+        if(!person) {
+            /*var html = "Полное наименование:&nbsp;&#13;&#10;&nbsp;&nbsp;сокращенное наименование&nbsp;&#13;&#10;Юридический адрес:&nbsp;&#13;&#10;"
+            html += "&nbsp;&nbsp;почтовый индекс&nbsp;&#13;&#10;&nbsp;&nbsp;населенный пункт&nbsp;&#13;&#10;&nbsp;&nbsp;улица (ул.)&nbsp;&#13;&#10;";
+            html += "&nbsp;&nbsp;телефон&nbsp;&#13;&#10;&nbsp;&nbsp;e-mail&nbsp;&#13;&#10;ИНН&nbsp;&#13;&#10;КПП&nbsp;&#13;&#10;";
+            html += "&nbsp;&nbsp;ОГРН&nbsp;&#13;&#10;ОКПО&nbsp;&#13;&#10;ОКВЭД&nbsp;&#13;&#10;&nbsp;&nbsp;р/с&nbsp;&#13;&#10;&nbsp;&nbsp;БИК&nbsp;";
+            $('#txtDetails').attr('rows', 15);*/
+            $('#head').removeClass('hide');
+            $('#lblContactFio').html('<h4>ФИО Контактного лица</h4>');
+            $('#documents').removeClass('hide');
+            $('#organizationDetails').removeClass('hide');
+            $('#personDetails').addClass('hide');
+        } else {
+            /*ar html = "ФИО: &#13;&#10;&#13;&#10;Паспортные данные: &#13;&#10;&#13;&#10;Почтовый адрес: &#13;&#10;"
+            $('#txtDetails').attr('rows', 8);*/
+            $('#head').addClass('hide');
+            $('#lblContactFio').html('<h5>ФИО</h5>');
+            $('#documents').addClass('hide');
+            $('#organizationDetails').addClass('hide');
+            $('#personDetails').removeClass('hide');
+        }
+        //$('#txtDetails').val();
+        //$('#txtDetails').html(html);
+    }
+
+    function selectChange(el) {
+        if(el.value=="Физическое лицо") {
+            fillDetails(true)
+        } else {
+            fillDetails();
+        }
+    }
+
+</script>
+</body>
+</html>

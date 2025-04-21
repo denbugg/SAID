@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Администрирование</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="../css/styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+</head>
+<body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script
+        src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+        crossorigin="anonymous"></script>
+<script type="text/javascript" src="/js/admin.js"></script>
+<div class="container-fluid mt-4 hide" id="admin">
+    <div id="metrics-dashboard" class="row justify-content-center align-items-center text-center">
+    </div>
+</div>
+<script>
+
+    window.addEventListener("load", function(){
+        admin_check().then((x) => {
+            //if(x) {
+                $('#admin').removeClass('hide');
+                getList();
+            /*} else {
+                alert('Раздел предназначен только для администраторов');
+                document.location.href = "/login";
+            }*/
+        });
+    });
+
+    function getList() {
+        $.ajax({
+            type: "POST",
+            url: "/api/sets-api.php",
+            xhrFields: {
+                withCredentials: true
+            },
+            data: {
+                api: "admin", act: "get_metrics_dashboard",
+            }
+        }).done(function (result) {
+            console.log(result);
+            if (result.status === "ok") {
+                $('#metrics-dashboard').empty();
+                $('#metrics-dashboard').append('<div class="col-8 mb-4"><h4>Метрики</h4></div><div class="w-100"></div>')
+                $('#metrics-dashboard').append('<div class="col-4 col-xl-4"><h5>Название показателя</h5></div>');
+                $('#metrics-dashboard').append('<div class="col-2 col-xl-1"><h5>Единица измерения</h5></div>');
+                $('#metrics-dashboard').append('<div class="col-2 col-xl-1"><h5>Значение</h5></div>');
+                $('#metrics-dashboard').append('<div class="col-2 col-xl-1"><h5>Целевое значение</h5></div>');
+                $('#metrics-dashboard').append('<div class="col-2 col-xl-1"><h5>Монитор</h5></div>');
+                $('#metrics-dashboard').append('<div class="w-100 mb-4"></div>');
+                result.data.response.forEach((el) => {
+                    $('#metrics-dashboard').append('<div class="col-4 col-xl-4"><h5>'+ el.name + '</h5></div>');
+                    $('#metrics-dashboard').append('<div class="col-2 col-xl-1"><h5>'+ el.unit + '</h5></div>');
+                    $('#metrics-dashboard').append('<div class="col-2 col-xl-1"><h5>'+ el.value + '</h5></div>');
+                    $('#metrics-dashboard').append('<div class="col-2 col-xl-1"><h5>'+ el.target + '</h5></div>');
+                    $('#metrics-dashboard').append('<div class="col-2 col-xl-1"><h5><img width="50px" src="/images/'+ el.color + '.png"></h5></div>');
+                    $('#metrics-dashboard').append('<div class="w-100"></div>');
+                });
+            } else {
+                alert(result.message);
+            }
+        });
+    }
+
+</script>
+
+</body>
+</html>

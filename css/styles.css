@@ -1,0 +1,163 @@
+body {
+    background-color:#D1DFE2;
+}
+.hide{
+    display: none;
+}
+.container-fluid{
+    margin-top: 20px;
+}
+.select-header {
+    background-color: #FF4D29;
+    color: white;
+    margin-bottom: 0.2rem;
+    margin-top: 1rem;
+}
+.select-list {
+    background-color: #FF482E;
+    color: white;
+    margin-bottom:1rem;
+}
+.select-list:focus {
+    background-color: #FF482E;
+    color: white;
+}
+.label-header {
+    margin-top: .2rem;
+    margin-bottom: .2rem;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+.btn {
+    background-color: #FF4D29;
+    color: white;
+    border-color: #FF4D29;
+}
+.btn-green {
+    background-color: green;
+    color: white;
+    border-color: green;
+}
+.notes, .lk-notes {
+    background-attachment: local;
+    background-image:
+            linear-gradient(to right, #DEE9EB 10px, transparent 10px),
+            linear-gradient(to left, #DEE9EB 10px, transparent 10px),
+            repeating-linear-gradient(#DEE9EB, #DEE9EB 30px, #76AAA8 30px, #76AAA8 33px, #DEE9EB 33px);
+    line-height: 33px;
+    padding: 30px 10px;
+    padding-top: 0px;
+}
+.note {
+    padding-bottom: 0;
+}
+.input-notes {
+    background-attachment: local;
+    background-image:
+            linear-gradient(to left, #DEE9EB 10px, transparent 10px),
+            repeating-linear-gradient(#DEE9EB, #DEE9EB 30px, #76AAA8 30px, #76AAA8 33px, #DEE9EB 33px);
+    line-height: 33px;
+    border-left: 0px;
+}
+.input-text-notes {
+    background-attachment: local;
+    background-image:
+            linear-gradient(to right, #DEE9EB 10px, transparent 10px),
+            repeating-linear-gradient(#DEE9EB, #DEE9EB 30px, #76AAA8 30px, #76AAA8 33px, #DEE9EB 33px);
+    line-height: 33px;
+    border-right: 0px;
+}
+
+.lk-notes {
+    background-image:
+            /*linear-gradient(to right, #D1DFE2 10px, transparent 10px),
+            linear-gradient(to left, #D1DFE2 10px, transparent 10px),*/
+            repeating-linear-gradient(#D1DFE2, #D1DFE2 30px, #76AAA8 30px, #76AAA8 33px, #D1DFE2 33px);
+    border: 0px;
+    margin-bottom: 5px;
+}
+
+.file-label {
+    padding: 4px;
+    font-size: 16px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    color: #FFFFFF;
+    border: 4px solid #FFFFFF;
+    background-color: #ec608a;
+    border-radius: 30px;
+    -moz-border-radius: 30px;
+    -webkit-border-radius: 30px;
+    margin-bottom: 0;
+    width:100%;
+}
+/*.file-input{
+    padding:0.5em;
+    white-space: nowrap;
+    overflow:hidden;
+    background:#E9ECEF;
+    font-size:16px;
+    border: 1px solid #CED4DA;
+    border-radius: 5px;
+    padding-top: 0.3em;
+    padding-bottom: 0.3em;
+}*/
+.file-button{
+    padding-left: 0;
+}
+.orange {
+    color: #FF4C2B;
+}
+.add-file {
+    cursor: pointer;
+}
+.table-header, .lk-table-header{
+    background-color: #9BC4CA;
+    color:white;
+    padding-right: 0;
+}
+.high-header {
+    min-height: 5rem;
+}
+#product-table-header {
+    min-height: 5rem;
+}
+#gigiena-table-header {
+    min-height: 5rem;
+}
+.zero-left-padding{
+    padding-left: 0;
+}
+.table-buttons{
+    padding-left: 0;
+}
+.border-text {
+    border-bottom: 2px #76AAA8 solid;
+}
+.small-text {
+    font-size: 14px;
+}
+.h-input {
+    margin-bottom: 0.45rem;
+}
+.header-alert {
+    background-color: #6AA8B3;
+    color: white;
+    border: 0px;
+}
+.header-alert h3{
+    margin-bottom: 0px;
+}
+.check-list {
+    background-color: #DEE9EB;
+}
+.btn-success:hover, .btn-success.active, .btn-success:active, .btn-success.focus, .btn-success:focus, .btn-success:active:focus, .btn-success:visited {
+    background-color: dodgerblue;
+}
+i {
+    cursor: pointer;
+}

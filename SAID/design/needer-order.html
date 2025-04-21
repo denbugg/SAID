@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Детали заказа</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="d-flex align-items-center justify-content-between">
+                <div class="d-flex align-items-center">
+                    <img src="images\logo.svg" alt="Логотип" width="62" height="48" class="me-4">
+                    <nav class="d-flex gap-4">
+                        <a href="market.html" class="nav-link">Маркет</a>
+                        <a href="cart.html" class="nav-link">Корзина
+                            <span id="cartBadge" class="cart-badge">0</span> 
+                        </a>
+                        <a href="help.html" class="nav-link">Справка</a>
+                    </nav>
+                </div>
+                <h1 id="user-info">Иван Иванов Иванович</h1>
+                <div class="d-flex align-items-center gap-3">
+                    <div class="notification-container">
+                        <button class="notification-btn">
+                            <img src="images/BellRinging.svg" alt="Уведомления" class="notification-icon">
+                        </button>
+                        <div class="notification-dropdown">
+                            <button class="notification-item">
+                                <div class="notification-date">12.12.24</div>
+                                <div class="notification-text">Заказ № 1244 доставлен.</div>
+                            </button>
+                            <div class="notification-divider"></div>
+                            <button class="notification-item">
+                                <div class="notification-date">12.12.24</div>
+                                <div class="notification-text">Изменена информация в личном кабинете.</div>
+                            </button>
+                            <div class="notification-divider"></div>
+                            <button class="mark-read-btn">Прочитано</button>
+                        </div>
+                    </div>
+                    <a href="needer-balance.html" class="cart-indicator hovered">
+                        <div class="price-dot hovered" alt="Logo-token"></div>
+                        <span id="token-count-hovered"></span>
+                    </a>
+                    <a href="lk-needer.html" class="profile-btn">Личный кабинет</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container order-main-container">
+        <div class="order-header">
+            <a href="needer-balance.html" class="back-link cursor-pointer duration-200 hover:scale-110 active:scale-100">
+                <img src="images/ArrowLeft.svg" alt="Назад" class="back-arrow" style="width: 32px; height: 32px;">
+            </a>
+            <h1 class="order-title">Заказ №<span id="orderNumber">12345</span></h1>
+        </div>
+
+        <div class="order-content">
+            <div class="order-items-container">
+                <div id="orderItems" class="order-items-list"></div>
+            </div>
+
+            <div class="data-container">
+                <div class="data-box">
+                    <div class="data-details">
+                        <div class="data-row">
+                            <span>Товары</span>
+                            <span id="totalItemsCount">0</span>
+                        </div>
+                        <div class="data-row">
+                            <span>Вес</span>
+                            <span id="totalWeight">0 г</span>
+                        </div>
+                        <hr class="data-divider">
+                        <div class="data-row">
+                            <span>Пункт выдачи</span>
+                            <span id="pickupAddress">Адрес</span>
+                        </div>
+                        <hr class="data-divider">
+                        <div class="data-row">
+                            <span class="sum-label">Сумма</span>
+                            <div class="total-price-container">
+                                <img src="images\Group 1.png" alt="Токены" class="price-dot">
+                                <span id="totalPrice"></span>
+                            </div>
+                        </div>
+                        <button class="document-button" onclick="downloadDocument()">
+                            <img src="images\FilePlus.svg" alt="Документ" class="document-icon">
+                            <span>Документ о выдаче</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function downloadDocument() {
+            const link = document.createElement('a');
+            link.href = '/documents/order-12345.pdf'; 
+            link.download = 'Документ о выдаче заказа.pdf';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            const btn = document.querySelector('.document-button');
+            btn.style.opacity = '0.7';
+            setTimeout(() => btn.style.opacity = '1', 200);
+        }
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const orderId = urlParams.get('id');
+            const orders = JSON.parse(localStorage.getItem('orders')) || [];
+            const order = orders.find(o => o.id === orderId);
+
+            if (order) {
+                // Заполняем основную информацию
+                document.getElementById('orderNumber').textContent = order.id;
+
+                // Рендерим товары
+                const itemsContainer = document.getElementById('orderItems');
+                let totalItems = 0;
+                let totalWeight = 0;
+                let totalPrice = 0;
+
+                order.items.forEach(item => {
+                    const itemElement = document.createElement('div');
+                    itemElement.className = 'order-item';
+                    itemElement.innerHTML = `
+                        <div class="order-item">
+                            <div class="product-image">
+                                <img src="${item.image}" alt="${item.name}">
+                            </div>
+                            <div class="product-info">
+                                <h2>${item.name}</h2>
+                                <div class="product-detail">${item.quantity} шт</div>
+                                <div class="product-detail">${parseInt(item.weight) * item.quantity} г</div>
+                                <div class="product-detail">${item.expiry}</div>
+                            </div>
+                        </div>
+                    `;
+                    itemsContainer.appendChild(itemElement);
+
+                    totalItems += item.quantity;
+                    totalWeight += parseInt(item.weight) * item.quantity;
+                    totalPrice += item.price * item.quantity;
+                });
+
+                // Обновляем итоговые значения
+                document.getElementById('totalItemsCount').textContent = totalItems;
+                document.getElementById('totalWeight').textContent = `${totalWeight} г`;
+                document.getElementById('totalPrice').textContent = totalPrice;
+            }
+        });
+        function updateTokenCount() {
+    const tokenCount = parseInt(localStorage.getItem('tokenCount')) || 112;
+    document.querySelectorAll('#token-count, #token-count-hovered, .token-count').forEach(element => {
+        element.textContent = tokenCount;
+    });
+}
+
+// Вызываем при загрузке любой страницы
+document.addEventListener('DOMContentLoaded', updateTokenCount);
+    </script>
+</body>
+</html>

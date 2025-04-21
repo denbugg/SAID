@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Баланс</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="d-flex align-items-center justify-content-between">
+                <div class="d-flex align-items-center">
+                    <img src="images\logo.svg" alt="Логотип" width="62" height="48" class="me-4">
+                    <nav class="d-flex gap-4">
+                        <a href="market.html" class="nav-link">Маркет</a>
+                        <a href="cart.html" class="nav-link">Корзина
+                            <span id="cartBadge" class="cart-badge">0</span> 
+                        </a>
+                        <a href="help.html" class="nav-link">Справка</a>
+                    </nav>
+                </div>
+                <h1 id="user-info">Александр Глушков Николаевич</h1>
+                <div class="d-flex align-items-center gap-3">
+                    <div class="notification-container">
+                        <button class="notification-btn">
+                            <img src="images/BellRinging.svg" alt="Уведомления" class="notification-icon">
+                        </button>
+                        <div class="notification-dropdown">
+                            <button class="notification-item">
+                                <div class="notification-date">12.12.24</div>
+                                <div class="notification-text">Заказ № 1244 доставлен.</div>
+                            </button>
+                            <div class="notification-divider"></div>
+                            <button class="notification-item">
+                                <div class="notification-date">12.12.24</div>
+                                <div class="notification-text">Изменена информация в личном кабинете.</div>
+                            </button>
+                            <div class="notification-divider"></div>
+                            <button class="mark-read-btn">Прочитано</button>
+                        </div>
+                    </div>
+                    <a href="donor-balance.html" class="cart-indicator hovered">
+                        <div class="price-dot hovered" alt="Logo-token"></div>
+                        <span id="token-count-hovered">112</span>
+                    </a>
+                    <a href="lk-donor.html" class="profile-btn">Личный кабинет</a>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main>
+        <h1 class="needer-title">Баланс</h1>
+        <section class="profile-container" aria-label="User Profile">
+            <div class="profile-header">
+                <img src="images\Group 1.png" class="pricedot">
+                <div class="token-count">112</div>
+            </div>
+            <div class="separator"></div>
+            <div class="token-info">
+                <div class="planned-tokens">
+                    <span class="token-label">Планируемое начисление:</span>
+                    <br />
+                    <span class="token-value">N токенов 12.12.24</span>
+                </div>
+            </div>
+            <div class="separator"></div>
+            <div class="help-button-container">
+                <a href="needer-help.html" class="help-button" tabindex="0">Справка</a>
+            </div>
+            </div>
+        </section>
+        <main>
+            <h2 class="historydelivers-title">История поступлений</h2>
+            <!-- <div class="no-orders-message" id="noOrdersMessage" style="display: none;">Поставок нет.</div> -->
+            <div class="orders-table" id="ordersTable">
+                <div class="table-container donor" role="table" aria-label="Orders List">
+                    <div class="table-header">
+                        <div class="header-cell cell-id">№ Поступления</div>
+                        <div class="header-cell cell-supply">№ Поставки</div>
+                        <div class="header-cell cell-position">Позиция</div>
+                        <div class="header-cell cell-quantity">Количество</div>
+                        <div class="header-cell cell-date">Дата заказа</div>
+                        <div class="header-cell cell-accrual">Вознаграждение</div>
+                    </div>
+                    <div id="ordersList"></div>
+                </div>
+            </div>
+        </main>
+        <script>
+//             document.addEventListener('DOMContentLoaded', () => {
+//     // Обновляем индикатор корзины
+//     updateCartBadge();
+
+//     // Функция для обновления индикатора корзины
+//     function updateCartBadge() {
+//         const cartBadge = document.getElementById('cartBadge');
+//         const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+//         const cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+
+//         if (cartBadge) {
+//             if (cartCount > 0) {
+//                 cartBadge.textContent = cartCount;
+//                 cartBadge.classList.add('visible');
+//             } else {
+//                 cartBadge.textContent = 0;
+//                 cartBadge.classList.remove('visible');
+//             }
+//         }
+//     }
+// });
+// // Скрипты для индикатора корзины
+// function addToCart(product) {
+//     const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+//     const existingItem = cartItems.find(item => item.id === product.id);
+
+//     if (existingItem) {
+//         existingItem.quantity += 1; 
+//     } else {
+//         cartItems.push({ ...product, quantity: 1 }); 
+//     }
+
+//     localStorage.setItem('cartItems', JSON.stringify(cartItems));
+//     updateCartBadge(); 
+// }
+
+// function updateCartBadge() {
+//     const cartBadge = document.getElementById('cartBadge');
+//     const cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+//     const cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+
+//     if (cartBadge) {
+//         if (cartCount > 0) {
+//             cartBadge.textContent = cartCount;
+//             cartBadge.classList.add('visible');
+//         } else {
+//             cartBadge.textContent = 0;
+//             cartBadge.classList.remove('visible');
+//         }
+//     }
+// }
+// document.addEventListener('DOMContentLoaded', updateCartBadge);
+
+
+document.addEventListener('DOMContentLoaded', () => {
+        // Получаем заказы из localStorage
+        const orders = JSON.parse(localStorage.getItem('orders')) || [];
+        
+        // Обновляем отображение баланса
+        const donorTokenCount = parseInt(localStorage.getItem('donorTokenCount')) || 0;
+        document.querySelector('.token-count').textContent = donorTokenCount;
+        
+        // Отображаем заказы
+        renderOrders(orders);
+    });
+
+    function renderOrders(orders) {
+        const ordersList = document.getElementById('ordersList');
+        ordersList.innerHTML = ''; // Очищаем список
+
+        if (orders.length === 0) {
+            document.getElementById('noOrdersMessage').style.display = 'block';
+            return;
+        }
+
+        // Проходим по всем заказам
+    orders.forEach(order => {
+        order.items.forEach(item => {
+            const row = document.createElement('div');
+            row.className = 'table-row';
+            
+            row.innerHTML = `
+                <div class="cell cell-id">${order.id}</div>
+                <div class="cell cell-supply">${order.id}</div>
+                <div class="cell cell-position">${item.name}</div>
+                <div class="cell cell-quantity">${item.quantity}</div>
+                <div class="cell cell-date">${new Date(order.date).toLocaleDateString()}</div>
+                <div class="cell cell-accrual">
+                    <img src="images/Group 1.png" class="pricedot donor" alt="Токены">
+                    ${item.price * item.quantity}
+                </div>
+            `;
+            
+            ordersList.appendChild(row);
+        });
+    });
+}
+
+    // Функция для форматирования даты
+    function formatDate(isoString) {
+        const date = new Date(isoString);
+        const day = date.getDate().toString().padStart(2, '0');
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const year = date.getFullYear();
+        return `${day}.${month}.${year}`;
+    }
+document.addEventListener('DOMContentLoaded', () => {
+    const tokenCount = parseInt(localStorage.getItem('tokenCount'), 10) || 112;
+    document.querySelectorAll('#token-count, #token-count-hovered').forEach(element => {
+        element.textContent = tokenCount;
+    });
+});
+function updateTokenCount() {
+    const tokenCount = parseInt(localStorage.getItem('tokenCount')) || 112;
+    document.querySelectorAll('#token-count, #token-count-hovered, .token-count').forEach(element => {
+        element.textContent = tokenCount;
+    });
+}
+
+// Вызываем при загрузке любой страницы
+document.addEventListener('DOMContentLoaded', updateTokenCount);
+
+document.addEventListener('DOMContentLoaded', () => {
+    const tokenCount = parseInt(localStorage.getItem('donorTokenCount'), 10) || 0;
+    document.querySelectorAll('#token-count, #token-count-hovered, .token-count').forEach(element => {
+        element.textContent = tokenCount;
+    });
+});
+        </script>
+</body>
+</html>

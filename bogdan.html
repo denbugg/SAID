@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Поставка</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="./css/styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+</head>
+<body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script
+        src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+        crossorigin="anonymous"></script>
+<script type="text/javascript" src="/js/vars.js"></script>
+<div class="container-fluid mt-5">
+    <div class="row justify-content-center mb-2" id="product-table-header">
+        <div class="col-3 d-flex flex-column justify-content-center">
+            <div class="col d-flex flex-column justify-content-center lk-table-header" style="padding-left:10px">Продуктовый набор</div>
+        </div>
+        <div class="col-2 d-flex flex-column justify-content-center">
+            <div class="col d-flex flex-column justify-content-center text-center lk-table-header zero-left-padding">Остаток</div>
+        </div>
+        <div class="col-auto" id="product-header-gap">
+        </div>
+    </div>
+    <div id="product-table">
+
+    </div>
+    <div class="row justify-content-center mt-4 mb-2" id="gigiena-table-header">
+        <div class="col-3 d-flex flex-column justify-content-center">
+            <div class="col d-flex flex-column justify-content-center lk-table-header" style="padding-left:10px">Гигиенический набор</div>
+        </div>
+        <div class="col-2 d-flex flex-column justify-content-center">
+            <div class="col d-flex flex-column justify-content-center text-center lk-table-header zero-left-padding">Остаток</div>
+        </div>
+        <div class="col-auto d-flex flex-row justify-content-center align-items-center text-center" id="gigiena-header-gap">
+            <button class="btn" onclick="discardSets('product');" id="btnProductPallet">Паллет (30 продуктовых наборов)</button>
+        </div>
+    </div>
+    <div class="mb-4" id="gigiena-table">
+
+    </div>
+    <div class="row justify-content-center mt-4 mb-4 align-items-center">
+        <div class="col-5 text-center">
+            <button class="btn" onclick="saveRemains();" id="btnSave">Сохранить</button>
+        </div>
+        <div class="col-auto text-center" id="gigiena-footer-gap">
+            <button class="btn" onclick="discardSets('gigiena');" id="btnGigienaPallet">Паллет (50 гигиенических наборов)</button>
+        </div>
+    </div>
+    <div class="row justify-content-center mt-4 mb-2" id="done-sets">
+        <div class="col-5 text-center mb-4">
+            <h4>Готовая продукция:</h4>
+        </div>
+        <div class="w-100"></div>
+        <div class="col-2 text-center">
+        </div>
+        <div class="col-3">
+            <div class="row mb-4">
+                <div class="col-7 align-items-end">
+                    <label for="txtProductDone" class=""><h5 class="h-input">Продуктовых наборов:</h5></label>
+                </div>
+                <div class="col-5">
+                    <input type="number" class="form-control notes note" id="txtProductDone">
+                </div>
+            </div>
+        </div>
+        <div class="col-auto text-center">
+            <button class="btn btn-green" onclick="saveDoneSets(1000, 'product');">+1000</button>
+            <button class="btn btn-green" onclick="saveDoneSets(100, 'product');">+100</button>
+            <button class="btn btn-green" onclick="saveDoneSets(10, 'product');">+10</button>
+            <button class="btn btn-green" onclick="saveDoneSets(1, 'product');">+1</button>
+            <button class="btn" onclick="saveDoneSets(-1, 'product');">-1</button>
+            <button class="btn" onclick="saveDoneSets(-10, 'product');">-10</button>
+            <button class="btn" onclick="saveDoneSets(-100, 'product');">-100</button>
+            <button class="btn" onclick="saveDoneSets(-1000, 'product');">-1000</button>
+        </div>
+        <div class="w-100"></div>
+        <div class="col-2 text-center">
+        </div>
+        <div class="col-3">
+            <div class="row mb-4">
+                <div class="col-7 align-items-end">
+                    <label for="txtGigienaDone" class=""><h5 class="h-input">Гигиенических наборов:</h5></label>
+                </div>
+                <div class="col-5">
+                    <input type="number" class="form-control notes note" id="txtGigienaDone">
+                </div>
+            </div>
+            <div class="row mb-4">
+                <div class="col-8 text-center">
+                    <button class="btn" onclick="saveDoneSets();" id="btnSaveDone">Сохранить</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-auto text-center">
+            <button class="btn btn-green" onclick="saveDoneSets(1000, 'gigiena');">+1000</button>
+            <button class="btn btn-green" onclick="saveDoneSets(100, 'gigiena');">+100</button>
+            <button class="btn btn-green" onclick="saveDoneSets(10, 'gigiena');">+10</button>
+            <button class="btn btn-green" onclick="saveDoneSets(1, 'gigiena');">+1</button>
+            <button class="btn" onclick="saveDoneSets(-1, 'gigiena');">-1</button>
+            <button class="btn" onclick="saveDoneSets(-10, 'gigiena');">-10</button>
+            <button class="btn" onclick="saveDoneSets(-100, 'gigiena');">-100</button>
+            <button class="btn" onclick="saveDoneSets(-1000, 'gigiena');">-1000</button>
+        </div>
+    </div>
+</div>
+<script>
+
+    const product_koef = 30;
+    const gigiena_koef = 50;
+
+    const product_set = new Map([
+        ['flour', 1],
+        ['meat', 3],
+        ['fish', 3],
+        ['sweet', 1],
+        ['vegetable', 1],
+        ['groats', 2],
+        ['sugar', 1],
+        ['pasta', 2],
+        ['candy', 1],
+        ['fastfood', 4],
+        ['tea', 1],
+        ['oil', 1],
+    ]);
+
+    const gigiena_set = new Map([
+        ['soap', 2],
+        ['shampoo', 1],
+        ['wipe', 2],
+        ['toothpaste', 1],
+        ['toothbrush', 1],
+        ['toilet', 4],
+        ['napkins', 1],
+        ['razor', 1],
+    ]);
+
+    const set_types = new Map([
+        ['product', product_set],
+        ['gigiena', gigiena_set]
+    ]);
+
+    const set_koef = new Map([
+        ['product', product_koef],
+        ['gigiena', gigiena_koef]
+    ]);
+
+    window.addEventListener("load", function() {
+        getRemains();
+        getDoneSets();
+    });
+
+    function fillSet(id, name, table, num, remain) {
+        var html = `
+        <div class="row align-items-center justify-content-center text-left">
+            <div class="col-3">
+                <div class="note lk-notes" style="margin-bottom:6px;" id="div`+ id +`">`+ num + name +`
+                </div>
+            </div>
+            <div class="col-2">
+                <input type="number" class="form-control note lk-notes text-center" value="`+ remain +`" id="`+ id + `">
+            </div>
+            <div class="col-auto" style="padding-bottom:8px;" id="` + id + `_buttons">
+                <button class="btn btn-green" onclick="saveRemains(1000, '` + id + `');">+1000</button>
+                <button class="btn btn-green" onclick="saveRemains(100, '` + id + `');">+100</button>
+                <button class="btn btn-green" onclick="saveRemains(10, '` + id + `');">+10</button>
+                <button class="btn btn-green" onclick="saveRemains(1, '` + id + `');">+1</button>
+                <button class="btn" onclick="saveRemains(-1, '` + id + `');">-1</button>
+                <button class="btn" onclick="saveRemains(-10, '` + id + `');">-10</button>
+                <button class="btn" onclick="saveRemains(-100, '` + id + `');">-100</button>
+                <button class="btn" onclick="saveRemains(-1000, '` + id + `');">-1000</button>
+            </div>
+        </div>`;
+        $('#' + table + '-table').append(html);
+    }
+
+    function getRemains() {
+        /*$('#product-table').empty();
+        $('#gigiena-table').empty();*/
+        $.ajax({
+            type: "POST",
+            url: "/api/sets-api.php",
+            xhrFields: {
+                withCredentials: true
+            },
+            data: {
+                api:"donor", act:"get_real_remains"
+            }
+        }).done(function( result ) {
+            console.log(result);
+            if (result.status == "ok") {
+                let remains = result.data.response;
+                for (let type of types.keys()) {
+                    let num = "";
+                    let k = 1;
+                    for (let value of types.get(type).keys()) {
+                        if (k > 9) {
+                            num = k + ".&nbsp &nbsp";
+                        } else {
+                            num = k + ".&nbsp &nbsp &nbsp";
+                        }
+                        if(!$('#' + value).length) {
+                            fillSet(value, types.get(type).get(value), type, num, remains[value]);
+                        } else {
+                            $('#' + value).val(remains[value]);
+                        }
+                        k++;
+                    }
+                }
+                let col_width = document.getElementById('flour_buttons').offsetWidth;
+                $('#product-header-gap').css('min-width', col_width);
+                $('#gigiena-header-gap').css('min-width', col_width);
+                $('#gigiena-footer-gap').css('min-width', col_width);
+            }
+
+        });
+    }
+
+    function saveRemains(value, id) {
+        let remains = new Map([]);
+        if(!value) {
+            var inputs = document.querySelectorAll('input[type="number"]:not([id*="Done"])');
+            //console.log(inputs);
+            for (var j = 0, inp_len = inputs.length; j < inp_len; j++) {
+                if (inputs[j].value === "") {
+                    inputs[j].value = 0;
+                }
+                remains.set(inputs[j].id, inputs[j].value);
+            }
+        } else {
+            const changed_remain = Number(document.getElementById(id).value);
+            let remain_value = (changed_remain + value < 0) ? 0 : changed_remain + value;
+            remains.set(id, remain_value);
+        }
+        console.log(remains);
+
+        $.ajax({
+            type: "POST",
+            url: "/api/sets-api.php",
+            xhrFields: {
+                withCredentials: true
+            },
+            data: {
+                api:"donor", act:"save_real_remains", remains:JSON.stringify(remains, replacer)
+            }
+        }).done(function( result )
+        {
+            console.log(result);
+            if(result.status=="ok") {
+                console.log('Успешно');
+                getRemains();
+            } else {
+                alert('Произошла ошибка.');
+            }
+        });
+
+    }
+
+    function discardSets(type) {
+        let remains = new Map([]);
+        var inputs = document.querySelectorAll('input[type="number"]:not([id*="Done"])');
+        //console.log(inputs);
+        for (var j = 0, inp_len = inputs.length; j < inp_len; j++) {
+            if (inputs[j].value === "") {
+                inputs[j].value = 0;
+            }
+            remains.set(inputs[j].id, inputs[j].value);
+        }
+        //console.log(remains);
+        for (let value of set_types.get(type)) {
+            remains.set(value[0], remains.get(value[0]) - value[1] * set_koef.get(type));
+        }
+        //console.log(remains);
+        const min_remains = Math.min(...remains.values());
+        //console.log(min_remains);
+        if (min_remains>=0) {
+            for (let remain of remains.keys()) {
+                $('#' + remain).val(remains.get(remain));
+            }
+            let id = '#txt' + type.charAt(0).toUpperCase() + type.slice(1) + 'Done';
+            //$(id).val(Number($(id).val()) + set_koef.get(type));
+            saveRemains();
+            saveDoneSets(set_koef.get(type), type);
+        } else {
+            alert('Не хватает остатков для списания наборов');
+        }
+    }
+
+    function getDoneSets() {
+        $.ajax({
+            type: "POST",
+            url: "/api/sets-api.php",
+            xhrFields: {
+                withCredentials: true
+            },
+            data: {
+                api:"donor", act:"get_done_sets"
+            }
+        }).done(function( result ) {
+            console.log(result);
+            if (result.status == "ok") {
+                let done_sets = result.data.response;
+                $('#txtProductDone').val(done_sets['product']);
+                $('#txtGigienaDone').val(done_sets['gigiena']);
+            }
+
+        });
+    }
+
+    function saveDoneSets(value, type) {
+        let product_set;
+        let gigiena_set;
+        if(!value) {
+            product_set = document.getElementById('txtProductDone').value;
+            gigiena_set = document.getElementById('txtGigienaDone').value;
+        } else {
+            switch(type) {
+                case 'product':
+                    product_set = (Number(document.getElementById('txtProductDone').value) + value > 0)
+                        ? Number(document.getElementById('txtProductDone').value) + value : 0;
+                    gigiena_set = document.getElementById('txtGigienaDone').value;
+                    break;
+                case 'gigiena':
+                    gigiena_set = (Number(document.getElementById('txtGigienaDone').value) + value > 0)
+                        ? Number(document.getElementById('txtGigienaDone').value) + value : 0;
+                    product_set = document.getElementById('txtProductDone').value;
+                    break;
+            }
+        }
+        $.ajax({
+            type: "POST",
+            url: "/api/sets-api.php",
+            xhrFields: {
+                withCredentials: true
+            },
+            data: {
+                api:"donor", act:"save_done_sets", product: product_set, gigiena: gigiena_set
+            }
+        }).done(function( result ) {
+            console.log(result);
+            if (result.status == "ok") {
+                console.log('Успешно');
+                getDoneSets();
+            } else {
+                alert('Произошла ошибка.');
+            }
+
+        });
+    }
+
+</script>
+</body>
+</html>

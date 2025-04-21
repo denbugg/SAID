@@ -1,0 +1,101 @@
+Index: Telebot - crytest.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import logging\r\nimport sqlite3\r\nimport json\r\nfrom web3 import Web3\r\nfrom datetime import datetime\r\nfrom aiogram import Bot, Dispatcher, types\r\nfrom aiogram.utils import executor\r\nfrom aiogram.contrib.middlewares.logging import LoggingMiddleware\r\n\r\n# Замените на ваш токен бота\r\nTOKEN = '7766815546:AAHilv5biwBWjz4VA7vW1WTZ1xCk660Nwcg'\r\n\r\n# Замените на ваш URL Ganache\r\nGANACHE_URL = 'http://127.0.0.1:7545'\r\n\r\n# Замените на адрес вашего смарт-контракта\r\nCONTRACT_ADDRESS = 'YOUR_CONTRACT_ADDRESS'\r\n\r\n# Замените на ABI вашего смарт-контракта\r\nCONTRACT_ABI = json.loads('''[\r\n    {\"inputs\":[{\"internalType\":\"address[3]\",\"name\":\"_owners\",\"type\":\"address[3]\"}],\r\n     \"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},\r\n    {\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"sender\",\"type\":\"address\"},\r\n     {\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"},\r\n     {\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"balance\",\"type\":\"uint256\"}],\r\n     \"name\":\"Deposit\",\"type\":\"event\"},\r\n    {\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\"},\r\n     {\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\r\n     \"name\":\"SubmitTransaction\",\"type\":\"event\"},\r\n    {\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\"}],\r\n     \"name\":\"ConfirmTransaction\",\"type\":\"event\"},\r\n    {\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\"},\r\n     {\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\r\n     \"name\":\"ExecuteTransaction\",\"type\":\"event\"},\r\n    {\"inputs\":[],\"name\":\"confirmationCount\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\r\n     \"stateMutability\":\"view\",\"type\":\"function\"},\r\n    {\"inputs\":[],\"name\":\"confirmTransaction\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},\r\n    {\"inputs\":[{\"internalType\":\"address\",\"name\":\"_to\",\"type\":\"address\"}],\r\n     \"name\":\"executeTransaction\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}\r\n]''')\r\n\r\n# Инициализация бота и диспетчера\r\nbot = Bot(token=TOKEN)\r\ndp = Dispatcher(bot)\r\n\r\n# Подключение к Ganache\r\nw3 = Web3(Web3.HTTPProvider(GANACHE_URL))\r\ncontract = w3.eth.contract(address=CONTRACT_ADDRESS, abi=CONTRACT_ABI)\r\n\r\n# Словарь для хранения состояния подтверждений\r\nconfirmations = {}\r\n\r\n# Настройка логгера\r\nlogger = logging.getLogger('db_logger')\r\nlogger.setLevel(logging.INFO)\r\n\r\n# Создание обработчика для записи в базу данных\r\nclass SQLiteHandler(logging.Handler):\r\n    def __init__(self, db_path):\r\n        super().__init__()\r\n        self.db_path = db_path\r\n\r\n    def emit(self, record):\r\n        log_entry = self.format(record)\r\n        timestamp = datetime.now().isoformat()\r\n        conn = sqlite3.connect(self.db_path)\r\n        cursor = conn.cursor()\r\n        cursor.execute('INSERT INTO logs (timestamp, message) VALUES (?, ?)', (timestamp, log_entry))\r\n        conn.commit()\r\n        conn.close()\r\n\r\n# Добавление обработчика к логгеру\r\nsqlite_handler = SQLiteHandler('users.db')\r\nlogger.addHandler(sqlite_handler)\r\n\r\n# Обработчик команды /start\r\n@dp.message_handler(commands=['start'])\r\nasync def send_welcome(message: types.Message):\r\n    await message.reply(\"Привет! Я бот для подтверждения транзакций в блокчейне Ganache.\")\r\n    logger.info(f\"User {message.from_user.id} started the bot.\")\r\n\r\n# Обработчик команды /confirm\r\n@dp.message_handler(commands=['confirm'])\r\nasync def confirm_transaction(message: types.Message):\r\n    user_id = message.from_user.id\r\n    conn = sqlite3.connect('users.db')\r\n    cursor = conn.cursor()\r\n    cursor.execute('SELECT wallet_address, private_key FROM users WHERE telegram_id = ?', (user_id,))\r\n    user_data = cursor.fetchone()\r\n    conn.close()\r\n\r\n    if user_data:\r\n        wallet_address, private_key = user_data\r\n        if user_id not in confirmations:\r\n            confirmations[user_id] = True\r\n            await message.reply(\"Транзакция подтверждена.\")\r\n            logger.info(f\"User {user_id} confirmed the transaction.\")\r\n\r\n            # Подпись транзакции\r\n            nonce = w3.eth.get_transaction_count(wallet_address)\r\n            txn = contract.functions.confirmTransaction().build_transaction({\r\n                'chainId': 1337,\r\n                'gas': 1000000,\r\n                'gasPrice': w3.to_wei('1', 'gwei'),\r\n                'nonce': nonce,\r\n            })\r\n            signed_txn = w3.eth.account.sign_transaction(txn, private_key=private_key)\r\n            txn_hash = w3.eth.send_raw_transaction(signed_txn.rawTransaction)\r\n            await message.reply(f\"Транзакция отправлена в блокчейн. Хэш: {txn_hash.hex()}\")\r\n            logger.info(f\"Transaction sent to blockchain. Hash: {txn_hash.hex()}\")\r\n\r\n            # Проверка, если все три пользователя подтвердили\r\n            if len(confirmations) == 3:\r\n                await message.reply(\"Все пользователи подтвердили транзакцию.\")\r\n                logger.info(\"All users confirmed the transaction.\")\r\n                # Выполнение транзакции\r\n                nonce = w3.eth.get_transaction_count(wallet_address)\r\n                txn = contract.functions.executeTransaction(w3.to_checksum_address('0x789...')).build_transaction({\r\n                    'chainId': 1337,\r\n                    'gas': 1000000,\r\n                    'gasPrice': w3.to_wei('1', 'gwei'),\r\n                    'nonce': nonce,\r\n                })\r\n                signed_txn = w3.eth.account.sign_transaction(txn, private_key=private_key)\r\n                txn_hash = w3.eth.send_raw_transaction(signed_txn.rawTransaction)\r\n                await message.reply(f\"Транзакция выполнена. Хэш: {txn_hash.hex()}\")\r\n                logger.info(f\"Transaction executed. Hash: {txn_hash.hex()}\")\r\n                await message.reply(\"1 ETH списан у пользователя 1. 1 ETH начислен пользователю 3.\")\r\n                logger.info(\"1 ETH deducted from user 1. 1 ETH credited to user 3.\")\r\n                confirmations.clear()\r\n        else:\r\n            await message.reply(\"Вы уже подтвердили транзакцию.\")\r\n            logger.info(f\"User {user_id} tried to confirm the transaction again.\")\r\n    else:\r\n        await message.reply(\"Вы не авторизованы.\")\r\n        logger.info(f\"Unauthorized user {user_id} tried to confirm the transaction.\")\r\n\r\n# Запуск бота\r\nif __name__ == '__main__':\r\n    executor.start_polling(dp, skip_updates=True)
+===================================================================
+diff --git a/Telebot - crytest.py b/Telebot - crytest.py
+--- a/Telebot - crytest.py	(revision f13dcf1f2dc1c3fc1bfd08c49871516c7bff3bda)
++++ b/Telebot - crytest.py	(date 1730380767075)
+@@ -3,9 +3,7 @@
+ import json
+ from web3 import Web3
+ from datetime import datetime
+-from aiogram import Bot, Dispatcher, types
+-from aiogram.utils import executor
+-from aiogram.contrib.middlewares.logging import LoggingMiddleware
++import telebot
+ 
+ # Замените на ваш токен бота
+ TOKEN = '7766815546:AAHilv5biwBWjz4VA7vW1WTZ1xCk660Nwcg'
+@@ -39,9 +37,8 @@
+      "name":"executeTransaction","outputs":[],"stateMutability":"nonpayable","type":"function"}
+ ]''')
+ 
+-# Инициализация бота и диспетчера
+-bot = Bot(token=TOKEN)
+-dp = Dispatcher(bot)
++# Инициализация бота
++bot = telebot.TeleBot(TOKEN)
+ 
+ # Подключение к Ganache
+ w3 = Web3(Web3.HTTPProvider(GANACHE_URL))
+@@ -74,14 +71,14 @@
+ logger.addHandler(sqlite_handler)
+ 
+ # Обработчик команды /start
+-@dp.message_handler(commands=['start'])
+-async def send_welcome(message: types.Message):
+-    await message.reply("Привет! Я бот для подтверждения транзакций в блокчейне Ganache.")
++@bot.message_handler(commands=['start'])
++def send_welcome(message):
++    bot.reply_to(message, "Привет! Я бот для подтверждения транзакций в блокчейне Ganache.")
+     logger.info(f"User {message.from_user.id} started the bot.")
+ 
+ # Обработчик команды /confirm
+-@dp.message_handler(commands=['confirm'])
+-async def confirm_transaction(message: types.Message):
++@bot.message_handler(commands=['confirm'])
++def confirm_transaction(message):
+     user_id = message.from_user.id
+     conn = sqlite3.connect('users.db')
+     cursor = conn.cursor()
+@@ -93,7 +90,7 @@
+         wallet_address, private_key = user_data
+         if user_id not in confirmations:
+             confirmations[user_id] = True
+-            await message.reply("Транзакция подтверждена.")
++            bot.reply_to(message, "Транзакция подтверждена.")
+             logger.info(f"User {user_id} confirmed the transaction.")
+ 
+             # Подпись транзакции
+@@ -106,12 +103,12 @@
+             })
+             signed_txn = w3.eth.account.sign_transaction(txn, private_key=private_key)
+             txn_hash = w3.eth.send_raw_transaction(signed_txn.rawTransaction)
+-            await message.reply(f"Транзакция отправлена в блокчейн. Хэш: {txn_hash.hex()}")
++            bot.reply_to(message, f"Транзакция отправлена в блокчейн. Хэш: {txn_hash.hex()}")
+             logger.info(f"Transaction sent to blockchain. Hash: {txn_hash.hex()}")
+ 
+             # Проверка, если все три пользователя подтвердили
+             if len(confirmations) == 3:
+-                await message.reply("Все пользователи подтвердили транзакцию.")
++                bot.reply_to(message, "Все пользователи подтвердили транзакцию.")
+                 logger.info("All users confirmed the transaction.")
+                 # Выполнение транзакции
+                 nonce = w3.eth.get_transaction_count(wallet_address)
+@@ -123,18 +120,18 @@
+                 })
+                 signed_txn = w3.eth.account.sign_transaction(txn, private_key=private_key)
+                 txn_hash = w3.eth.send_raw_transaction(signed_txn.rawTransaction)
+-                await message.reply(f"Транзакция выполнена. Хэш: {txn_hash.hex()}")
++                bot.reply_to(message, f"Транзакция выполнена. Хэш: {txn_hash.hex()}")
+                 logger.info(f"Transaction executed. Hash: {txn_hash.hex()}")
+-                await message.reply("1 ETH списан у пользователя 1. 1 ETH начислен пользователю 3.")
++                bot.reply_to(message, "1 ETH списан у пользователя 1. 1 ETH начислен пользователю 3.")
+                 logger.info("1 ETH deducted from user 1. 1 ETH credited to user 3.")
+                 confirmations.clear()
+         else:
+-            await message.reply("Вы уже подтвердили транзакцию.")
++            bot.reply_to(message, "Вы уже подтвердили транзакцию.")
+             logger.info(f"User {user_id} tried to confirm the transaction again.")
+     else:
+-        await message.reply("Вы не авторизованы.")
++        bot.reply_to(message, "Вы не авторизованы.")
+         logger.info(f"Unauthorized user {user_id} tried to confirm the transaction.")
+ 
+ # Запуск бота
+ if __name__ == '__main__':
+-    executor.start_polling(dp, skip_updates=True)
+\ No newline at end of file
++    bot.polling(none_stop=True)
+\ No newline at end of file

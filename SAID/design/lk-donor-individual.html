@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marketplace</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="d-flex align-items-center justify-content-between">
+                <div class="d-flex align-items-center">
+                    <img src="images\logo.svg" alt="Логотип" width="62" height="48" class="me-4">
+                    <nav class="d-flex gap-4">
+                        <a href="market.html" class="nav-link">Маркет</a>
+                        <a href="cart.html" class="nav-link">Корзина
+                            <span id="cartBadge" class="cart-badge">0</span> 
+                        </a>
+                        <a href="help.html" class="nav-link">Справка</a>
+                    </nav>
+                </div>
+                <h1 id="user-info">Иван Иванов Иванович</h1>
+                <div class="d-flex align-items-center gap-3">
+                    <div class="notification-container">
+                        <button class="notification-btn">
+                            <img src="images/BellRinging.svg" alt="Уведомления" class="notification-icon">
+                        </button>
+                        <div class="notification-dropdown">
+                            <button class="notification-item">
+                                <div class="notification-date">12.12.24</div>
+                                <div class="notification-text">Заказ № 1244 доставлен.</div>
+                            </button>
+                            <div class="notification-divider"></div>
+                            <button class="notification-item">
+                                <div class="notification-date">12.12.24</div>
+                                <div class="notification-text">Изменена информация в личном кабинете.</div>
+                            </button>
+                            <div class="notification-divider"></div>
+                            <button class="mark-read-btn">Прочитано</button>
+                        </div>
+                    </div>
+                    <a href="donor-balance.html" class="cart-indicator hovered">
+                        <div class="price-dot hovered" alt="Logo-token"></div>
+                        <span id="token-count-hovered">112</span>
+                    </a>
+                    <a href="lk-donor-individual.html" class="profile-btn hovered">Личный кабинет</a>
+                </div>
+            </div>
+        </div>
+    </header>
+    <section class="main-content-indiv">
+        <h2 class="page-title-indiv">Личный кабинет</h2>
+        <form class="form-section-indiv">
+            <div class="form-container-indiv">
+                <div class="form-content-indiv">
+                    <h3 class="section-title-indiv">Физическое лицо</h3>
+    
+                    <div class="form-group-indiv">
+                        <label for="fullNameIndiv" class="form-label-indiv">ФИО</label>
+                        <input type="text" id="fullNameIndiv" class="form-input-indiv" value="" />
+                    </div>
+    
+                    <div class="form-group-indiv">
+                        <label for="phoneIndiv" class="form-label-indiv">Телефон</label>
+                        <input type="tel" id="phoneIndiv" class="form-input-indiv" value="" />
+                    </div>
+    
+                    <div class="form-group-indiv">
+                        <label for="emailIndiv" class="form-label-indiv">E-mail</label>
+                        <input type="email" id="emailIndiv" class="form-input-indiv" value="" />
+                    </div>
+    
+                    <div class="form-group-indiv">
+                        <label for="passportIndiv" class="form-label-indiv">Паспортные данные</label>
+                        <input type="text" id="passportIndiv" class="form-input-indiv" value="" />
+                    </div>
+    
+                    <div class="form-group-indiv">
+                        <label for="addressIndiv" class="form-label-indiv">Почтовый адрес</label>
+                        <input type="text" id="addressIndiv" class="form-input-indiv" value="" />
+                    </div>
+                </div>
+            </div>
+        </form>
+    </section>
+    </main>
+    <script>
+        function updateTokenCount() {
+    const tokenCount = parseInt(localStorage.getItem('tokenCount')) || 112;
+    document.querySelectorAll('#token-count, #token-count-hovered, .token-count').forEach(element => {
+        element.textContent = tokenCount;
+    });
+}
+
+// Вызываем при загрузке любой страницы
+document.addEventListener('DOMContentLoaded', updateTokenCount);
+
+document.addEventListener('DOMContentLoaded', () => {
+    const tokenCount = parseInt(localStorage.getItem('donorTokenCount'), 10) || 0;
+    document.querySelectorAll('#token-count, #token-count-hovered, .token-count').forEach(element => {
+        element.textContent = tokenCount;
+    });
+});
+    </script>
+</body>
+</html>

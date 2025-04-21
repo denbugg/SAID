@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Маркет</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <div class="container">
+            <div class="d-flex align-items-center justify-content-between">
+                <div class="d-flex align-items-center">
+                    <img src="images\logo.svg" alt="Логотип" width="62" height="48" class="me-4">
+                    <nav class="d-flex gap-4">
+                        <a href="market.html" class="nav-link active position-relative">Маркет</a>
+                        <a href="cart.html" class="nav-link">Корзина
+                            <span id="cartBadge" class="cart-badge">0</span> 
+                        </a>
+                        <a href="help.html" class="nav-link">Справка</a>
+                    </nav>
+                </div>
+                <h1 id="user-info">Иван Иванов Иванович</h1>
+                <div class="d-flex align-items-center gap-3">
+                    <div class="notification-container">
+                        <button class="notification-btn">
+                            <img src="images/BellRinging.svg" alt="Уведомления" class="notification-icon">
+                        </button>
+                        <div class="notification-dropdown">
+                            <button class="notification-item">
+                                <div class="notification-date">12.12.24</div>
+                                <div class="notification-text">Заказ № 1244 доставлен.</div>
+                            </button>
+                            <div class="notification-divider"></div>
+                            <button class="notification-item">
+                                <div class="notification-date">12.12.24</div>
+                                <div class="notification-text">Изменена информация в личном кабинете.</div>
+                            </button>
+                            <div class="notification-divider"></div>
+                            <button class="mark-read-btn">Прочитано</button>
+                        </div>
+                    </div>
+                    <a href="needer-balance.html" class="cart-indicator">
+                        <div class="price-dot cart" alt="Logo-token"></div>
+                        <span id="token-count">200</span>
+                    </a>
+                    <a href="lk-needer.html" class="profile-btn">Личный кабинет</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container py-4">
+        <div class="d-flex gap-3 flex-wrap">
+            <div class="search-box d-flex align-items-center">
+                <img src="images\MagnifyingGlass.svg" alt="" width="24" height="24" class="me-2">
+                <input type="search" id="searchInput" placeholder="Поиск..." aria-label="Поиск по товарам">
+            </div>
+
+            <div class="dropdown-custom-wrapper">
+                <button class="dropdown-custom d-flex align-items-center justify-content-between" style="width: 230px;" onclick="toggleDropdown('freshnessDropdown')">
+                    <span id="selectedFreshnessText">Свежесть</span>
+                    <img id="freshnessDropdownIcon" src="images\Down1.png" alt="" width="24" height="24">
+                </button>
+                <div class="dropdown-content" id="freshnessDropdown">
+                    <button class="dropdown-item" onclick="selectOption('freshnessDropdown', 'Срок 1-2 дня', 'selectedFreshnessText', 'freshnessDropdownIcon')">Срок 1-2 дня</button>
+                    <button class="dropdown-item" onclick="selectOption('freshnessDropdown', 'Срок 3-4 дня', 'selectedFreshnessText', 'freshnessDropdownIcon')">Срок 3-4 дня</button>
+                </div>
+            </div>
+
+            <div class="dropdown-custom-wrapper">
+                <button class="dropdown-custom d-flex align-items-center justify-content-between" style="width: 230px;" onclick="toggleDropdown('priceDropdown')">
+                    <span id="selectedPriceText">Цена</span>
+                    <img id="priceDropdownIcon" src="images\Down1.png" alt="" width="24" height="24">
+                </button>
+                <div class="dropdown-content" id="priceDropdown">
+                    <button class="dropdown-item" onclick="selectOption('priceDropdown', 'По возрастанию', 'selectedPriceText', 'priceDropdownIcon')">По возрастанию</button>
+                    <button class="dropdown-item" onclick="selectOption('priceDropdown', 'По убыванию', 'selectedPriceText', 'priceDropdownIcon')">По убыванию</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="product-grid">
+            <div class="product-row">
+                <article class="product-card">
+                    <img src="images\консервы мясные.jpg"  class="product-image" alt="Консервы мясные">
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <img src="images\Group 1.png" alt="Logo-token" class="price-dot-market">
+                        <span class="fw-500">20</span>
+                    </div>
+                    <h2 class="h6 mb-2">Консервы мясные</h2>
+                    <div class="d-flex gap-2 text-secondary mb-3">
+                        <span class="weight">250г</span>
+                        <span class="divider">|</span> 
+                        <span class="expiry-date">Годен до 15.02.2025</span>
+                    </div>
+                    <button class="add-to-cart">В корзину</button>
+                    <div class="quantity-controls">
+                        <button class="quantity-btn minus" aria-label="Уменьшить количество">-</button>
+                        <span class="text-white">1</span>
+                        <button class="quantity-btn plus" aria-label="Увеличить количество">+</button>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <img src="images\консервы рыбные .jpg"  class="product-image" alt="Консервы рыбные">
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <img src="images\Group 1.png" alt="Logo-token" class="price-dot-market">
+                        <span class="fw-500">25</span>
+                    </div>
+                    <h2 class="h6 mb-2">Консервы рыбные</h2>
+                    <div class="d-flex gap-2 text-secondary mb-3">
+                        <span class="weight">250г</span>
+                        <span class="divider">|</span> 
+                        <span class="expiry-date">Годен до 15.02.2025</span>
+                    </div>
+                    <button class="add-to-cart">В корзину</button>
+                    <div class="quantity-controls">
+                        <button class="quantity-btn minus" aria-label="Уменьшить количество">-</button>
+                        <span class="text-white">1</span>
+                        <button class="quantity-btn plus" aria-label="Увеличить количество">+</button>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <img src="images\паштет из печени индейки.jpg"  class="product-image" alt="Паштет из печени индейки">
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <img src="images\Group 1.png" alt="Logo-token" class="price-dot-market">
+                        <span class="fw-500">30</span>
+                    </div>
+                    <h2 class="h6 mb-2">Паштет из индейки</h2>
+                    <div class="d-flex gap-2 text-secondary mb-3">
+                        <span class="weight">250г</span>
+                        <span class="divider">|</span> 
+                        <span class="expiry-date">Годен до 15.02.2025</span>
+                    </div>
+                    <button class="add-to-cart">В корзину</button>
+                    <div class="quantity-controls">
+                        <button class="quantity-btn minus" aria-label="Уменьшить количество">-</button>
+                        <span class="text-white">1</span>
+                        <button class="quantity-btn plus" aria-label="Увеличить количество">+</button>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <img src="images\макароны.jpg"  class="product-image" alt="Макароны Makfa">
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <img src="images\Group 1.png" alt="Logo-token" class="price-dot-market">
+                        <span class="fw-500">35</span>
+                    </div>
+                    <h2 class="h6 mb-2">Макароны Makfa</h2>
+                    <div class="d-flex gap-2 text-secondary mb-3">
+                        <span class="weight">500г</span>
+                        <span class="divider">|</span> 
+                        <span class="expiry-date">Годен до 15.02.2025</span>
+                    </div>
+                    <button class="add-to-cart">В корзину</button>
+                    <div class="quantity-controls">
+                        <button class="quantity-btn minus" aria-label="Уменьшить количество">-</button>
+                        <span class="text-white">1</span>
+                        <button class="quantity-btn plus" aria-label="Увеличить количество">+</button>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <img src="images\мука.jpg"  class="product-image" alt="Мука">
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <img src="images\Group 1.png" alt="Logo-token" class="price-dot-market">
+                        <span class="fw-500">40</span>
+                    </div>
+                    <h2 class="h6 mb-2">Мука</h2>
+                    <div class="d-flex gap-2 text-secondary mb-3">
+                        <span class="weight">1000г</span>
+                        <span class="divider">|</span> 
+                        <span class="expiry-date">Годен до 15.02.2025</span>
+                    </div>
+                    <button class="add-to-cart">В корзину</button>
+                    <div class="quantity-controls">
+                        <button class="quantity-btn minus" aria-label="Уменьшить количество">-</button>
+                        <span class="text-white">1</span>
+                        <button class="quantity-btn plus" aria-label="Увеличить количество">+</button>
+                    </div>
+                </article>  
+            </div>
+    
+            <div class="product-row">
+                <article class="product-card">
+                    <div class="product-image" role="img" aria-label="Изображение товара"></div>
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <img src="images\Group 1.png" alt="Logo-token" class="price-dot-market">
+                        <span class="fw-500">6</span>
+                    </div>
+                    <h2 class="h6 mb-2">Консервы</h2>
+                    <div class="d-flex gap-2 text-secondary mb-3">
+                        <span class="weight">30г</span>
+                        <span class="divider">|</span> 
+                        <span class="expiry-date">Годен до 12.12.2024</span>
+                    </div>
+                    <button class="add-to-cart">В корзину</button>
+                    <div class="quantity-controls">
+                        <button class="quantity-btn minus" aria-label="Уменьшить количество">-</button>
+                        <span class="text-white">1</span>
+                        <button class="quantity-btn plus" aria-label="Увеличить количество">+</button>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <div class="product-image" role="img" aria-label="Изображение товара"></div>
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <img src="images\Group 1.png" alt="Logo-token" class="price-dot-market">
+                        <span class="fw-500">7</span>
+                    </div>
+                    <h2 class="h6 mb-2">Консервы</h2>
+                    <div class="d-flex gap-2 text-secondary mb-3">
+                        <span class="weight">30г</span>
+                        <span class="divider">|</span> 
+                        <span class="expiry-date">Годен до 12.12.2024</span>
+                    </div>
+                    <button class="add-to-cart">В корзину</button>
+                    <div class="quantity-controls">
+                        <button class="quantity-btn minus" aria-label="Уменьшить количество">-</button>
+                        <span class="text-white">1</span>
+                        <button class="quantity-btn plus" aria-label="Увеличить количество">+</button>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <div class="product-image" role="img" aria-label="Изображение товара"></div>
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <img src="images\Group 1.png" alt="Logo-token" class="price-dot-market">
+                        <span class="fw-500">8</span>
+                    </div>
+                    <h2 class="h6 mb-2">Консервы</h2>
+                    <div class="d-flex gap-2 text-secondary mb-3">
+                        <span class="weight">30г</span>
+                        <span class="divider">|</span> 
+                        <span class="expiry-date">Годен до 12.12.2024</span>
+                    </div>
+                    <button class="add-to-cart">В корзину</button>
+                    <div class="quantity-controls">
+                        <button class="quantity-btn minus" aria-label="Уменьшить количество">-</button>
+                        <span class="text-white">1</span>
+                        <button class="quantity-btn plus" aria-label="Увеличить количество">+</button>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <div class="product-image" role="img" aria-label="Изображение товара"></div>
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <img src="images\Group 1.png" alt="Logo-token" class="price-dot-market">
+                        <span class="fw-500">9</span>
+                    </div>
+                    <h2 class="h6 mb-2">Консервы</h2>
+                    <div class="d-flex gap-2 text-secondary mb-3">
+                        <span class="weight">30г</span>
+                        <span class="divider">|</span> 
+                        <span class="expiry-date">Годен до 12.12.2024</span>
+                    </div>
+                    <button class="add-to-cart">В корзину</button>
+                    <div class="quantity-controls">
+                        <button class="quantity-btn minus" aria-label="Уменьшить количество">-</button>
+                        <span class="text-white">1</span>
+                        <button class="quantity-btn plus" aria-label="Увеличить количество">+</button>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <div class="product-image" role="img" aria-label="Изображение товара"></div>
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <img src="images\Group 1.png" alt="Logo-token" class="price-dot-market">
+                        <span class="fw-500">10</span>
+                    </div>
+                    <h2 class="h6 mb-2">Консервы</h2>
+                    <div class="d-flex gap-2 text-secondary mb-3">
+                        <span class="weight">30г</span>
+                        <span class="divider">|</span> 
+                        <span class="expiry-date">Годен до 12.12.2024</span>
+                    </div>
+                    <button class="add-to-cart">В корзину</button>
+                    <div class="quantity-controls">
+                        <button class="quantity-btn minus" aria-label="Уменьшить количество">-</button>
+                        <span class="text-white">1</span>
+                        <button class="quantity-btn plus" aria-label="Увеличить количество">+</button>
+                    </div>
+                </article>  
+            </div>
+    
+            <div class="product-row">
+                <article class="product-card">
+                    <div class="product-image" role="img" aria-label="Изображение товара"></div>
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <img src="images\Group 1.png" alt="Logo-token" class="price-dot-market">
+                        <span class="fw-500">11</span>
+                    </div>
+                    <h2 class="h6 mb-2">Консервы</h2>
+                    <div class="d-flex gap-2 text-secondary mb-3">
+                        <span class="weight">30г</span>
+                        <span class="divider">|</span> 
+                        <span class="expiry-date">Годен до 12.12.2024</span>
+                    </div>
+                    <button class="add-to-cart">В корзину</button>
+                    <div class="quantity-controls">
+                        <button class="quantity-btn minus" aria-label="Уменьшить количество">-</button>
+                        <span class="text-white">1</span>
+                        <button class="quantity-btn plus" aria-label="Увеличить количество">+</button>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <div class="product-image" role="img" aria-label="Изображение товара"></div>
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <img src="images\Group 1.png" alt="Logo-token" class="price-dot-market">
+                        <span class="fw-500">12</span>
+                    </div>
+                    <h2 class="h6 mb-2">Длииииииинное названиееееееееееее</h2>
+                    <div class="d-flex gap-2 text-secondary mb-3">
+                        <span class="weight">30г</span>
+                        <span class="divider">|</span> 
+                        <span class="expiry-date">Годен до 12.12.2024</span>
+                    </div>
+                    <button class="add-to-cart">В корзину</button>
+                    <div class="quantity-controls">
+                        <button class="quantity-btn minus" aria-label="Уменьшить количество">-</button>
+                        <span class="text-white">1</span>
+                        <button class="quantity-btn plus" aria-label="Увеличить количество">+</button>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <div class="product-image" role="img" aria-label="Изображение товара"></div>
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <img src="images\Group 1.png" alt="Logo-token" class="price-dot-market">
+                        <span class="fw-500">13</span>
+                    </div>
+                    <h2 class="h6 mb-2">Длииииииинное названиееееееееееее</h2>
+                    <div class="d-flex gap-2 text-secondary mb-3">
+                        <span class="weight">30г</span>
+                        <span class="divider">|</span> 
+                        <span class="expiry-date">Годен до 12.12.2024</span>
+                    </div>
+                    <button class="add-to-cart">В корзину</button>
+                    <div class="quantity-controls">
+                        <button class="quantity-btn minus" aria-label="Уменьшить количество">-</button>
+                        <span class="text-white">1</span>
+                        <button class="quantity-btn plus" aria-label="Увеличить количество">+</button>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <div class="product-image" role="img" aria-label="Изображение товара"></div>
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <img src="images\Group 1.png" alt="Logo-token" class="price-dot-market">
+                        <span class="fw-500">14</span>
+                    </div>
+                    <h2 class="h6 mb-2">Длииииииинное названиееееееееееее</h2>
+                    <div class="d-flex gap-2 text-secondary mb-3">
+                        <span class="weight">30г</span>
+                        <span class="divider">|</span> 
+                        <span class="expiry-date">Годен до 12.12.2024</span>
+                    </div>
+                    <button class="add-to-cart">В корзину</button>
+                    <div class="quantity-controls">
+                        <button class="quantity-btn minus" aria-label="Уменьшить количество">-</button>
+                        <span class="text-white">1</span>
+                        <button class="quantity-btn plus" aria-label="Увеличить количество">+</button>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <div class="product-image" role="img" aria-label="Изображение товара"></div>
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <img src="images\Group 1.png" alt="Logo-token" class="price-dot-market">
+                        <span class="fw-500">15</span>
+                    </div>
+                    <h2 class="h6 mb-2">Длииииииинное названиееееееееееее</h2>
+                    <div class="d-flex gap-2 text-secondary mb-3">
+                        <span class="weight">30г</span>
+                        <span class="divider">|</span> 
+                        <span class="expiry-date">Годен до 12.12.2024</span>
+                    </div>
+                    <button class="add-to-cart">В корзину</button>
+                    <div class="quantity-controls">
+                        <button class="quantity-btn minus" aria-label="Уменьшить количество">-</button>
+                        <span class="text-white">1</span>
+                        <button class="quantity-btn plus" aria-label="Увеличить количество">+</button>
+                    </div>
+                </article>  
+            </div>
+    
+            <div class="product-row">
+                <article class="product-card">
+                    <div class="product-image" role="img" aria-label="Изображение товара"></div>
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <img src="images\Group 1.png" alt="Logo-token" class="price-dot-market">
+                        <span class="fw-500">16</span>
+                    </div>
+                    <h2 class="h6 mb-2">Длииииииинное названиееееееееееее</h2>
+                    <div class="d-flex gap-2 text-secondary mb-3">
+                        <span class="weight">30г</span>
+                        <span class="divider">|</span> 
+                        <span class="expiry-date">Годен до 12.12.2024</span>
+                    </div>
+                    <button class="add-to-cart">В корзину</button>
+                    <div class="quantity-controls">
+                        <button class="quantity-btn minus" aria-label="Уменьшить количество">-</button>
+                        <span class="text-white">1</span>
+                        <button class="quantity-btn plus" aria-label="Увеличить количество">+</button>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <div class="product-image" role="img" aria-label="Изображение товара"></div>
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <img src="images\Group 1.png" alt="Logo-token" class="price-dot-market">
+                        <span class="fw-500">17</span>
+                    </div>
+                    <h2 class="h6 mb-2">Длииииииинное названиееееееееееее</h2>
+                    <div class="d-flex gap-2 text-secondary mb-3">
+                        <span class="weight">30г</span>
+                        <span class="divider">|</span> 
+                        <span class="expiry-date">Годен до 12.12.2024</span>
+                    </div>
+                    <button class="add-to-cart">В корзину</button>
+                    <div class="quantity-controls">
+                        <button class="quantity-btn minus" aria-label="Уменьшить количество">-</button>
+                        <span class="text-white">1</span>
+                        <button class="quantity-btn plus" aria-label="Увеличить количество">+</button>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <div class="product-image" role="img" aria-label="Изображение товара"></div>
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <img src="images\Group 1.png" alt="Logo-token" class="price-dot-market">
+                        <span class="fw-500">18</span>
+                    </div>
+                    <h2 class="h6 mb-2">Длииииииинное названиееееееееееее</h2>
+                    <div class="d-flex gap-2 text-secondary mb-3">
+                        <span class="weight">30г</span>
+                        <span class="divider">|</span> 
+                        <span class="expiry-date">Годен до 12.12.2024</span>
+                    </div>
+                    <button class="add-to-cart">В корзину</button>
+                    <div class="quantity-controls">
+                        <button class="quantity-btn minus" aria-label="Уменьшить количество">-</button>
+                        <span class="text-white">1</span>
+                        <button class="quantity-btn plus" aria-label="Увеличить количество">+</button>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <div class="product-image" role="img" aria-label="Изображение товара"></div>
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <img src="images\Group 1.png" alt="Logo-token" class="price-dot-market">
+                        <span class="fw-500">19</span>
+                    </div>
+                    <h2 class="h6 mb-2">Длииииииинное названиееееееееееее</h2>
+                    <div class="d-flex gap-2 text-secondary mb-3">
+                        <span class="weight">30г</span>
+                        <span class="divider">|</span> 
+                        <span class="expiry-date">Годен до 12.12.2024</span>
+                    </div>
+                    <button class="add-to-cart">В корзину</button>
+                    <div class="quantity-controls">
+                        <button class="quantity-btn minus" aria-label="Уменьшить количество">-</button>
+                        <span class="text-white">1</span>
+                        <button class="quantity-btn plus" aria-label="Увеличить количество">+</button>
+                    </div>
+                </article>
+                <article class="product-card">
+                    <div class="product-image" role="img" aria-label="Изображение товара"></div>
+                    <div class="d-flex align-items-center gap-2 mb-2">
+                        <img src="images\Group 1.png" alt="Logo-token" class="price-dot-market">
+                        <span class="fw-500">20</span>
+                    </div>
+                    <h2 class="h6 mb-2">Длииииииинное названиееееееееееее</h2>
+                    <div class="d-flex gap-2 text-secondary mb-3">
+                        <span class="weight">30г</span>
+                        <span class="divider">|</span> 
+                        <span class="expiry-date">Годен до 12.12.2024</span>
+                    </div>
+                    <button class="add-to-cart">В корзину</button>
+                    <div class="quantity-controls">
+                        <button class="quantity-btn minus" aria-label="Уменьшить количество">-</button>
+                        <span class="text-white">1</span>
+                        <button class="quantity-btn plus" aria-label="Увеличить количество">+</button>
+                    </div>
+                </article>  
+            </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Функция для фильтрации товаров
+function filterProducts(searchText) {
+    const productCards = document.querySelectorAll('.product-card');
+    const searchTextLower = searchText.toLowerCase(); 
+
+    productCards.forEach(card => {
+        const productName = card.querySelector('h2').textContent.toLowerCase(); 
+
+        if (productName.includes(searchTextLower)) {
+            card.style.display = 'block'; 
+        } else {
+            card.style.display = 'none'; 
+        }
+    });
+}
+
+// Обработчик события для поля поиска
+document.addEventListener('DOMContentLoaded', () => {
+    const searchInput = document.getElementById('searchInput');
+
+    if (searchInput) {
+        searchInput.addEventListener('input', (event) => {
+            const searchText = event.target.value.trim(); 
+            filterProducts(searchText); 
+        });
+    }
+});
+
+
+    // Функция выпадающих списков
+    function toggleDropdown(dropdownId) {
+    const dropdownList = document.getElementById(dropdownId);
+    const dropdownIcon = document.getElementById(`${dropdownId}Icon`);
+
+    dropdownList.classList.toggle('show');
+
+    if (dropdownList.classList.contains('show')) {
+        dropdownIcon.src = 'images/up.png'; 
+    } else {
+        dropdownIcon.src = 'images/Down1.png'; 
+    }
+}
+
+function selectOption(dropdownId, optionText, selectedTextId, dropdownIconId) {
+    const selectedText = document.getElementById(selectedTextId);
+    const dropdownList = document.getElementById(dropdownId);
+    const dropdownIcon = document.getElementById(dropdownIconId);
+
+    selectedText.textContent = optionText; 
+    dropdownList.classList.remove('show'); 
+    dropdownIcon.src = 'images/Down1.png'; 
+}
+
+document.addEventListener('click', function (event) {
+    const dropdowns = document.querySelectorAll('.dropdown-content');
+    dropdowns.forEach(dropdown => {
+        if (!dropdown.parentElement.contains(event.target)) {
+            dropdown.classList.remove('show');
+            const dropdownIcon = dropdown.parentElement.querySelector('img');
+            if (dropdownIcon) {
+                dropdownIcon.src = 'images/Down1.png';
+            }
+        }
+    });
+});
+
+
+let originalProductOrder = [];
+
+document.addEventListener('DOMContentLoaded', () => {
+    const productCards = Array.from(document.querySelectorAll('.product-card'));
+    originalProductOrder = productCards.map(card => card.cloneNode(true)); 
+
+    const priceAscBtn = document.querySelector('[onclick*="По возрастанию"]');
+    const priceDescBtn = document.querySelector('[onclick*="По убыванию"]');
+    const resetSortBtn = document.getElementById('resetSort');
+
+    if (priceAscBtn) {
+        priceAscBtn.addEventListener('click', () => {
+            sortProductsByPrice('asc'); 
+        });
+    }
+
+    if (priceDescBtn) {
+        priceDescBtn.addEventListener('click', () => {
+            sortProductsByPrice('desc'); 
+        });
+    }
+
+    if (resetSortBtn) {
+        resetSortBtn.addEventListener('click', () => {
+            resetSort(); 
+        });
+    }
+});
+
+function sortProductsByPrice(order) {
+    const productGrid = document.querySelector('.product-grid');
+    const productRows = document.querySelectorAll('.product-row');
+    const allProductCards = Array.from(document.querySelectorAll('.product-card'));
+
+    allProductCards.sort((a, b) => {
+        const priceA = parseInt(a.querySelector('.fw-500').textContent, 10); 
+        const priceB = parseInt(b.querySelector('.fw-500').textContent, 10); 
+
+        if (order === 'asc') {
+            return priceA - priceB; 
+        } else {
+            return priceB - priceA; 
+        }
+    });
+
+    productRows.forEach(row => {
+        row.innerHTML = '';
+    });
+
+    let currentRowIndex = 0;
+    allProductCards.forEach((card, index) => {
+        const row = productRows[currentRowIndex];
+        row.appendChild(card);
+
+        if ((index + 1) % 5 === 0) { 
+            currentRowIndex++;
+        }
+    });
+}
+
+function resetSort() {
+    const productGrid = document.querySelector('.product-grid');
+    const productRows = document.querySelectorAll('.product-row');
+
+    productRows.forEach(row => {
+        row.innerHTML = '';
+    });
+
+    let currentRowIndex = 0;
+    originalProductOrder.forEach((card, index) => {
+        const row = productRows[currentRowIndex];
+        row.appendChild(card.cloneNode(true)); 
+
+        if ((index + 1) % 5 === 0) { 
+            currentRowIndex++;
+        }
+    });
+}
+
+
+    // Основные функции для товаров
+   document.addEventListener('DOMContentLoaded', () => {
+    const productCards = document.querySelectorAll('.product-card');
+    const cartBadge = document.getElementById('cartBadge');
+
+    // Инициализация корзины
+    let cartItems = JSON.parse(localStorage.getItem('cartItems')) || [];
+    let cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
+
+    // Обновляем индикатор корзины
+    updateCartBadge(cartCount);
+
+    productCards.forEach((card) => {
+        const addToCartBtn = card.querySelector('.add-to-cart');
+        const quantityControls = card.querySelector('.quantity-controls');
+        const minusBtn = card.querySelector('.minus');
+        const plusBtn = card.querySelector('.plus');
+        const quantitySpan = quantityControls.querySelector('span');
+
+        let quantity = 1;
+
+        const productName = card.querySelector('h2').textContent;
+        const productWeight = card.querySelector('.text-secondary span.weight').textContent;
+        const productExpiry = card.querySelector('.text-secondary span.expiry-date').textContent;
+        const productPrice = card.querySelector('.fw-500').textContent;
+        const productImage = card.querySelector('.product-image').src;
+
+        const productId = `${productName}-${productWeight}-${productExpiry}-${productPrice}-${productImage}`;
+
+        // Проверяем, есть ли товар в корзине
+        const productInCart = cartItems.find(item => item.id === productId);
+
+        if (productInCart) {
+            // Если товар в корзине, скрываем кнопку "В корзину" и показываем количество
+            addToCartBtn.style.display = 'none';
+            quantityControls.classList.add('active');
+            quantitySpan.textContent = productInCart.quantity;
+            quantity = productInCart.quantity;
+        } else {
+            // Если товара нет в корзине, показываем кнопку "В корзину"
+            addToCartBtn.style.display = 'block';
+            quantityControls.classList.remove('active');
+            quantitySpan.textContent = '1';
+        }
+
+        // Обработчик для кнопки "В корзину"
+        addToCartBtn.addEventListener('click', () => {
+            addToCartBtn.style.display = 'none';
+            quantityControls.classList.add('active');
+            cartCount += quantity;
+
+           
+            const product = {
+                id: productId, 
+                name: productName,
+                weight: productWeight,
+                expiry: productExpiry,
+                price: productPrice,
+                quantity: quantity,
+                image: productImage
+            };
+
+            cartItems.push(product);
+            localStorage.setItem('cartItems', JSON.stringify(cartItems));
+            localStorage.setItem('cartCount', cartCount);
+
+            updateCartBadge(cartCount); 
+        });
+
+        // Обработчик для кнопки "-"
+        minusBtn.addEventListener('click', () => {
+            if (quantity > 1) {
+                quantity--;
+                quantitySpan.textContent = quantity;
+                cartCount -= 1;
+
+                // Обновляем количество товара в корзине
+                const productIndex = cartItems.findIndex(item => item.id === productId);
+                if (productIndex !== -1) {
+                    cartItems[productIndex].quantity = quantity;
+                    localStorage.setItem('cartItems', JSON.stringify(cartItems));
+                    localStorage.setItem('cartCount', cartCount);
+                }
+            } else {
+                // Если количество равно 1, удаляем товар из корзины
+                quantityControls.classList.remove('active');
+                addToCartBtn.style.display = 'block';
+                cartCount -= 1;
+
+                // Удаляем товар из корзины
+                cartItems = cartItems.filter(item => item.id !== productId);
+                localStorage.setItem('cartItems', JSON.stringify(cartItems));
+                localStorage.setItem('cartCount', cartCount);
+            }
+
+            updateCartBadge(cartCount); // Обновляем индикатор
+        });
+
+        // Обработчик для кнопки "+"
+        plusBtn.addEventListener('click', () => {
+            quantity++;
+            quantitySpan.textContent = quantity;
+            cartCount += 1;
+
+            // Обновляем количество товара в корзине
+            const productIndex = cartItems.findIndex(item => item.id === productId);
+            if (productIndex !== -1) {
+                cartItems[productIndex].quantity = quantity;
+                localStorage.setItem('cartItems', JSON.stringify(cartItems));
+                localStorage.setItem('cartCount', cartCount);
+            }
+
+            updateCartBadge(cartCount); // Обновляем индикатор
+        });
+    });
+
+    // Функция для обновления индикатора корзины
+    function updateCartBadge(count) {
+        if (cartBadge) {
+            if (count > 0) {
+                cartBadge.textContent = count;
+                cartBadge.classList.add('visible');
+            } else {
+                cartBadge.textContent = 0;
+                cartBadge.classList.remove('visible');
+            }
+        }
+    }
+});
+function updateTokenCount() {
+    const tokenCount = parseInt(localStorage.getItem('tokenCount')) || 200;
+    document.querySelectorAll('#token-count, #token-count-hovered, .token-count').forEach(element => {
+        element.textContent = tokenCount;
+    });
+}
+
+// Вызываем при загрузке любой страницы
+document.addEventListener('DOMContentLoaded', updateTokenCount);
+</script>
+</body>
+</html>
