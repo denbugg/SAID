@@ -1,10 +1,10 @@
-# routers/calendar.py
+# backend/routers/calendar.py
 
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from backend.schemas import schemas
-from backend.models import models
-from backend.db import SessionLocal
+from schemas import schemas
+from models import models
+from db import SessionLocal
 import datetime
 
 router = APIRouter(

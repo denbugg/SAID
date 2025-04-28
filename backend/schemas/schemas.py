@@ -1,12 +1,8 @@
-# schemas.py
+# backend/schemas/schemas.py
 
 from pydantic import BaseModel
 from typing import Optional, List
 import datetime
-
-# ------------------------------
-# Схемы для пользователя
-# ------------------------------
 
 class UserBase(BaseModel):
     name: str
@@ -28,13 +24,9 @@ class UserOut(UserBase):
     class Config:
         orm_mode = True
 
-# ------------------------------
-# Схемы для категорий и типов продуктов
-# ------------------------------
-
 class CategoryBase(BaseModel):
     name: str
-    type: str  # humanitarian или hygiene
+    type: str
 
 class CategoryOut(CategoryBase):
     id: int
@@ -53,10 +45,6 @@ class ProductTypeOut(ProductTypeBase):
     class Config:
         orm_mode = True
 
-# ------------------------------
-# Схемы для продуктов
-# ------------------------------
-
 class ProductBase(BaseModel):
     uid: str
     product_type_id: int
@@ -72,10 +60,6 @@ class ProductOut(ProductBase):
     class Config:
         orm_mode = True
 
-# ------------------------------
-# Схемы для потребностей
-# ------------------------------
-
 class DemandBase(BaseModel):
     humanitarian_quantity: int
     hygiene_quantity: int
@@ -90,10 +74,6 @@ class DemandOut(DemandBase):
 
     class Config:
         orm_mode = True
-
-# ------------------------------
-# Схемы для заказов и заказанных товаров
-# ------------------------------
 
 class OrderItemBase(BaseModel):
     product_type_id: int
@@ -121,10 +101,6 @@ class OrderOut(OrderBase):
     class Config:
         orm_mode = True
 
-# ------------------------------
-# Схемы для задач склада
-# ------------------------------
-
 class TaskBase(BaseModel):
     warehouse_id: int
     delivery_point_id: int
@@ -136,10 +112,6 @@ class TaskOut(TaskBase):
 
     class Config:
         orm_mode = True
-
-# ------------------------------
-# Схемы для блокчейн транзакций
-# ------------------------------
 
 class BlockchainTransactionBase(BaseModel):
     action: str

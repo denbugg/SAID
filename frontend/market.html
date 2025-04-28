@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Маркетплейс SAID-DONE</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="market-container">
+        <h2>Выберите продукты для заказа</h2>
+        <div id="productList"></div>
+
+        <button onclick="submitOrder()" style="margin-top:20px;">Оформить заказ</button>
+        <div id="result" style="margin-top:20px;"></div>
+    </div>
+
+    <script>
+        let selectedProducts = [];
+
+        async function loadProducts() {
+            const response = await fetch("/api/products/list");
+            if (response.ok) {
+                const products = await response.json();
+                const container = document.getElementById("productList");
+                container.innerHTML = "";
+
+                products.forEach(product => {
+                    const checkbox = document.createElement("input");
+                    checkbox.type = "checkbox";
+                    checkbox.id = product.uid;
+                    checkbox.value = product.product_type_id;
+
+                    const label = document.createElement("label");
+                    label.htmlFor = product.uid;
+                    label.innerText = `UID: ${product.uid}`;
+
+                    const br = document.createElement("br");
+
+                    container.appendChild(checkbox);
+                    container.appendChild(label);
+                    container.appendChild(br);
+                });
+            } else {
+                document.getElementById("productList").innerText = "Ошибка загрузки продуктов.";
+            }
+        }
+
+        async function submitOrder() {
+            const checkboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+            const items = [];
+
+            checkboxes.forEach(checkbox => {
+                items.push({
+                    product_type_id: parseInt(checkbox.value),
+                    quantity_requested: 1
+                });
+            });
+
+            const user_id = localStorage.getItem("user_id");
+
+            const response = await fetch("/api/orders/create", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    user_id: parseInt(user_id),
+                    items: items
+                }),
+            });
+
+            if (response.ok) {
+                document.getElementById("result").innerText = "Заказ успешно оформлен!";
+            } else {
+                const errorData = await response.json();
+                document.getElementById("result").innerText = "Ошибка: " + errorData.detail;
+            }
+        }
+
+        // Загрузка продуктов при открытии страницы
+        loadProducts();
+    </script>
+</body>
+</html>

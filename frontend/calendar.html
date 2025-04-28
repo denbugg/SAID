@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Календарь поставок SAID-DONE</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+
+<div class="container-fluid">
+    <div class="row justify-content-center align-items-center">
+        <div class="col-12 col-lg-10">
+            <div class="row justify-content-center">
+                <h4 class="text-center mb-4">Регулярные поставки:</h4>
+            </div>
+
+            <div class="row align-items-center justify-content-start" id="header">
+                <div class="col-2">
+                    <h4>Вид набора</h4>
+                </div>
+                <div class="col text-center">
+                    <h4 class="text-center">
+                        <i class="bi bi-chevron-double-left" onclick="changeDay(-7)"></i>
+                        <i class="bi bi-chevron-left" onclick="changeDay(-1)"></i>
+                        <span id="months"></span>
+                        <i class="bi bi-chevron-right" onclick="changeDay(+1)"></i>
+                        <i class="bi bi-chevron-double-right" onclick="changeDay(+7)"></i>
+                    </h4>
+                </div>
+                <div class="col-2 text-center">
+                    <button type="button" onclick="logout()" class="btn btn-danger">Выйти</button>
+                </div>
+            </div>
+
+            <div class="row mt-4">
+                <div class="col-3 d-flex flex-column justify-content-center table-header">
+                    <h5>Продуктовый набор</h5>
+                </div>
+                <div class="col table-buttons" id="product"></div>
+            </div>
+
+            <div class="row">
+                <div class="col-3 d-flex flex-column justify-content-center table-header">
+                    <h5>Гигиенический набор</h5>
+                </div>
+                <div class="col table-buttons" id="hygiene"></div>
+            </div>
+
+            <div class="row align-items-start justify-content-start mt-4 mb-4">
+                <div class="col-4">
+                    <div id="needs-list"></div>
+
+                    <div id="match-deliver-block" class="col-12 mt-4" style="display: none;">
+                        <div class="col-12 mb-4">
+                            <button class="btn btn-primary" onclick="showMatch()">Подобрать поставку</button>
+                        </div>
+
+                        <div class="col-12" id="match-deliver" style="display: none;">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="rdbType" id="rdbCost" value="cost" checked>
+                                <label class="form-check-label" for="rdbCost">По сумме (токены)</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="rdbType" id="rdbTruck" value="truck">
+                                <label class="form-check-label" for="rdbTruck">По количеству паллет</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="rdbType" id="rdbGazzeles" value="gazzel">
+                                <label class="form-check-label" for="rdbGazzeles">По количеству газелей</label>
+                            </div>
+                            <div class="col-6 mt-2 mb-3">
+                                <input type="number" class="form-control" id="txtQuantity" placeholder="Введите количество">
+                            </div>
+                            <div class="col-12">
+                                <button class="btn btn-success" onclick="matchDeliver()">Рассчитать</button>
+                            </div>
+                            <div id="match-result" class="col-12 mt-4"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-4" id="delivers-list"></div>
+                <div class="col-4" id="donors-list"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.min.js"></script>
+<script src="/static/calendar.js"></script>
+
+</body>
+</html>

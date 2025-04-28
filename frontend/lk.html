@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Оформление поставки SAID-DONE</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="lk-container">
+        <h2>Оформить поставку на дату: <span id="selectedDate"></span></h2>
+
+        <form id="supplyForm">
+            <label>Гуманитарная помощь (кол-во единиц):</label><br>
+            <input type="number" id="humanitarian_quantity" min="0" value="0"><br><br>
+
+            <label>Гигиеническая помощь (кол-во единиц):</label><br>
+            <input type="number" id="hygiene_quantity" min="0" value="0"><br><br>
+
+            <button type="submit">Подтвердить поставку</button>
+        </form>
+
+        <div id="result" style="margin-top:20px;"></div>
+    </div>
+
+    <script>
+        document.getElementById("selectedDate").innerText = localStorage.getItem("selected_date");
+
+        document.getElementById("supplyForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const humanitarian_quantity = document.getElementById("humanitarian_quantity").value;
+            const hygiene_quantity = document.getElementById("hygiene_quantity").value;
+
+            const response = await fetch("/api/calendar/create", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    humanitarian_quantity: parseInt(humanitarian_quantity),
+                    hygiene_quantity: parseInt(hygiene_quantity)
+                }),
+            });
+
+            if (response.ok) {
+                document.getElementById("result").innerText = "Поставка успешно оформлена!";
+            } else {
+                const errorData = await response.json();
+                document.getElementById("result").innerText = "Ошибка: " + errorData.detail;
+            }
+        });
+    </script>
+</body>
+</html>

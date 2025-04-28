@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Приемка накладной SAID-DONE</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="accept-container">
+        <h2>Приемка товаров на склад</h2>
+
+        <textarea id="productsData" rows="10" cols="50" placeholder="Вставьте JSON-данные продуктов"></textarea><br><br>
+        <button onclick="submitProducts()">Подтвердить приемку</button>
+
+        <div id="result" style="margin-top:20px;"></div>
+    </div>
+
+    <script>
+        async function submitProducts() {
+            const rawData = document.getElementById("productsData").value;
+
+            let products = [];
+            try {
+                products = JSON.parse(rawData);
+            } catch (err) {
+                document.getElementById("result").innerText = "Ошибка разбора JSON";
+                return;
+            }
+
+            const response = await fetch("/api/products/intake", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(products),
+            });
+
+            if (response.ok) {
+                document.getElementById("result").innerText = "Товары успешно приняты!";
+            } else {
+                const errorData = await response.json();
+                document.getElementById("result").innerText = "Ошибка: " + errorData.detail;
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Подтверждение отгрузки — SAID-DONE</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h2>🚛 Отгрузка на пункт выдачи</h2>
+
+        <div id="task-details">
+            <!-- Здесь будут детали задания -->
+        </div>
+
+        <div id="confirm-section" style="margin-top: 20px;">
+            <h4>📄 Введите или отсканируйте QR-код накладной:</h4>
+            <input type="text" id="qrInput" placeholder="Введите код или сканируйте">
+            <button onclick="confirmShipment()">✅ Подтвердить отгрузку</button>
+        </div>
+    </div>
+
+    <script>
+        async function loadTaskDetails() {
+            const taskId = localStorage.getItem("selected_task_id");
+            if (!taskId) {
+                document.getElementById('task-details').innerHTML = "<p>Ошибка: не выбрано задание.</p>";
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/warehouse/task/${taskId}`);
+                if (!response.ok) {
+                    throw new Error("Ошибка загрузки задания");
+                }
+                const task = await response.json();
+                renderTask(task);
+            } catch (error) {
+                console.error(error);
+                document.getElementById('task-details').innerText = "Ошибка загрузки данных.";
+            }
+        }
+
+        function renderTask(task) {
+            const div = document.getElementById('task-details');
+            div.innerHTML = `
+                <h3>Пункт выдачи: ${task.pickup_point}</h3>
+                <p>Количество заказов: ${task.order_count}</p>
+                <p>Позиции: ${task.items.map(item => `${item.name} — ${item.quantity} шт.`).join("<br>")}</p>
+            `;
+        }
+
+        async function confirmShipment() {
+            const taskId = localStorage.getItem("selected_task_id");
+            const qrCode = document.getElementById("qrInput").value.trim();
+
+            if (!qrCode) {
+                alert("Введите QR-код накладной!");
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/warehouse/confirm`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ task_id: taskId, qr_code: qrCode })
+                });
+
+                if (response.ok) {
+                    alert("Отгрузка подтверждена!");
+                    window.location.href = "/frontend/warehouse_tasks.html";
+                } else {
+                    alert("Ошибка подтверждения отгрузки.");
+                }
+            } catch (error) {
+                console.error(error);
+                alert("Ошибка сервера.");
+            }
+        }
+
+        loadTaskDetails();
+    </script>
+</body>
+</html>

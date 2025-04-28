@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Приём отгрузки на пункте выдачи — SAID-DONE</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h2>📦 Приём отгрузки на пункте выдачи</h2>
+
+        <div id="delivery-info">
+            <!-- Информация о доставке -->
+        </div>
+
+        <div id="confirm-section" style="margin-top:20px;">
+            <h4>📄 Введите или сканируйте QR-код накладной:</h4>
+            <input type="text" id="qrInput" placeholder="Введите QR-код">
+            <button onclick="confirmDelivery()">✅ Принять отгрузку</button>
+        </div>
+    </div>
+
+    <script>
+        async function loadDelivery() {
+            const deliveryId = localStorage.getItem("selected_delivery_id");
+
+            if (!deliveryId) {
+                document.getElementById('delivery-info').innerHTML = "<p>Ошибка: не выбрана доставка.</p>";
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/volunteer/delivery/${deliveryId}`);
+                if (!response.ok) {
+                    throw new Error("Ошибка загрузки доставки");
+                }
+                const delivery = await response.json();
+                renderDelivery(delivery);
+            } catch (error) {
+                console.error(error);
+                document.getElementById('delivery-info').innerText = "Ошибка загрузки данных.";
+            }
+        }
+
+        function renderDelivery(delivery) {
+            const div = document.getElementById('delivery-info');
+            div.innerHTML = `
+                <h3>Номер доставки: ${delivery.id}</h3>
+                <p>Список позиций:<br>${delivery.items.map(item => `${item.name} — ${item.quantity} шт.`).join("<br>")}</p>
+            `;
+        }
+
+        async function confirmDelivery() {
+            const deliveryId = localStorage.getItem("selected_delivery_id");
+            const qrCode = document.getElementById("qrInput").value.trim();
+
+            if (!qrCode) {
+                alert("Введите QR-код накладной!");
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/volunteer/confirm`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({ delivery_id: deliveryId, qr_code: qrCode })
+                });
+
+                if (response.ok) {
+                    alert("Доставка успешно принята!");
+                    window.location.href = "/frontend/volunteer_delivery.html";
+                } else {
+                    alert("Ошибка подтверждения доставки.");
+                }
+            } catch (error) {
+                console.error(error);
+                alert("Ошибка сервера.");
+            }
+        }
+
+        loadDelivery();
+    </script>
+</body>
+</html>

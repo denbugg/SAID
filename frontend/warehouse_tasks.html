@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Задания склада на отгрузку — SAID-DONE</title>
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h2>📦 Задания на отгрузку со склада</h2>
+
+        <div id="tasks-list">
+            <!-- Сюда подгружаются задания -->
+        </div>
+    </div>
+
+    <script>
+        async function loadTasks() {
+            try {
+                const response = await fetch("/api/warehouse/tasks");
+                if (!response.ok) {
+                    throw new Error("Ошибка загрузки заданий");
+                }
+                const tasks = await response.json();
+                renderTasks(tasks);
+            } catch (error) {
+                console.error(error);
+                document.getElementById('tasks-list').innerText = "Ошибка загрузки данных.";
+            }
+        }
+
+        function renderTasks(tasks) {
+            const list = document.getElementById('tasks-list');
+            list.innerHTML = "";
+
+            if (tasks.length === 0) {
+                list.innerHTML = "<p>Нет текущих заданий на отгрузку.</p>";
+                return;
+            }
+
+            tasks.forEach(task => {
+                const div = document.createElement("div");
+                div.classList.add("task-item");
+                div.innerHTML = `
+                    <h3>Пункт выдачи: ${task.pickup_point}</h3>
+                    <p>Количество заказов: ${task.order_count}</p>
+                    <p>Количество позиций: ${task.item_count}</p>
+                    <button onclick="startIssue(${task.id})">🔄 Начать отгрузку</button>
+                `;
+                list.appendChild(div);
+            });
+        }
+
+        function startIssue(taskId) {
+            localStorage.setItem("selected_task_id", taskId);
+            window.location.href = "/frontend/warehouse_issue.html";
+        }
+
+        loadTasks();
+    </script>
+</body>
+</html>
